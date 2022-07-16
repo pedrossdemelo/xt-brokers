@@ -1,16 +1,16 @@
 import { Label, TextInput, Button } from "flowbite-react";
 import { MailIcon, KeyIcon } from "@heroicons/react/solid";
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function useHome() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    history.push("/dashboard");
+    navigate("/dashboard");
   }
 
   return {
