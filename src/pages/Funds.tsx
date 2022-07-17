@@ -1,12 +1,54 @@
-import useUserData from 'hooks/useUserData';
-import React from 'react'
+import { Button, TextInput } from "flowbite-react";
+import useUserData from "hooks/useUserData";
+import React from "react";
 
-type Props = {}
+type Props = {};
+
+function useFunds() {
+  const { funds, setFunds, userPapers } = useUserData();
+
+  const [amount, setAmount] = React.useState(0);
+
+  const portfolio = React.useMemo(
+    () =>
+      userPapers.reduce((acc, paper) => {
+        return acc + paper.Valor * paper.QteAtivo;
+      }, 0),
+    [userPapers]
+  );
+
+  function addFunds() {
+    setFunds(funds + amount);
+  }
+
+  function removeFunds() {
+    setFunds(funds - amount);
+  }
+
+  return {
+    funds,
+    addFunds,
+    removeFunds,
+    portfolio,
+    amount,
+    setAmount: (e: React.ChangeEvent<HTMLInputElement>) =>
+      setAmount(Math.max(0, +e.target.value)),
+  };
+}
 
 export default function Funds({}: Props) {
-  const { funds } = useUserData();
+  const { funds, amount, setAmount, addFunds, removeFunds, portfolio } =
+    useFunds();
 
   return (
-    <div>Funds: {funds}</div>
-  )
+    <>
+      <div>Funds: {funds.toFixed(2)}</div>
+      <div>Portfolio: {portfolio.toFixed(2)}</div>
+
+      <TextInput type="number" value={amount} onChange={setAmount} />
+
+      <Button onClick={addFunds}>Add Funds</Button>
+      <Button onClick={removeFunds} disabled={funds < amount}>Remove Funds</Button>
+    </>
+  );
 }
