@@ -1,3 +1,5 @@
+import AllPapers from "components/AllPapers";
+import UserPapers from "components/UserPapers";
 import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
@@ -15,6 +17,8 @@ export default function Dashboard() {
   return (
     <>
       <div>Dashboard</div>
+      <UserPapers />
+      <AllPapers />
       <Outlet />
     </>
   );
