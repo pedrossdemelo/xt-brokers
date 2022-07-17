@@ -1,19 +1,16 @@
-import { PaperProvider } from "context/PaperContext";
-import { UserProvider } from "context/UserContext";
+import { UserProvider } from "context/Context";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 
-ReactDOM.createRoot(document.getElementsByTagName("body")[0]).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <PaperProvider>
-      <UserProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </UserProvider>
-    </PaperProvider>
+    <UserProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </UserProvider>
   </React.StrictMode>
 );
