@@ -11,6 +11,7 @@ type UserContextValue = {
   setUserPapers: (paper: typeof papers) => void;
   user: string;
   setUser: (user: string) => void;
+  loggedAt: Date;
 };
 
 const UserContext = React.createContext<UserContextValue>({
@@ -18,6 +19,7 @@ const UserContext = React.createContext<UserContextValue>({
   setUserPapers: () => {},
   user: "",
   setUser: () => {},
+  loggedAt: new Date(),
 });
 
 export function UserProvider({ children }: Props) {
@@ -27,7 +29,13 @@ export function UserProvider({ children }: Props) {
   );
   const [user, setUser] = useLocalStorage("user", "");
 
-  const value = { userPapers, setUserPapers, user, setUser };
+  const value = {
+    userPapers,
+    setUserPapers,
+    user,
+    setUser,
+    loggedAt: new Date(),
+  };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
