@@ -8,7 +8,7 @@ type Props = {
 
 type PaperContextValue = {
   allPapers: typeof papers;
-  setAllPapers: (paper: typeof papers) => void;
+  setAllPapers: React.Dispatch<React.SetStateAction<typeof papers>>;
 }
 
 const PaperContext = React.createContext<PaperContextValue>({

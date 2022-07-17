@@ -1,13 +1,23 @@
-import usePapers from 'hooks/usePapers'
-import useUserData from 'hooks/useUserData'
-import React from 'react'
+import usePapers from "hooks/usePapers";
+import React from "react";
+import Paper from "./Paper";
 
-type Props = {}
+type Props = {};
 
 export default function AllPapers({}: Props) {
-  const h = usePapers()
+  const { allPapers } = usePapers();
 
   return (
-    <div>AllPapers {JSON.stringify(h.allPapers)}</div>
-  )
+    <div className="max-h-80 overflow-y-scroll">
+      <div>AllPapers</div>
+      <div>
+        {allPapers.map(paper => (
+          <Paper
+            key={paper.CodAtivo}
+            data={paper}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }

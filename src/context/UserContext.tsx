@@ -8,9 +8,9 @@ type Props = {
 
 type UserContextValue = {
   userPapers: typeof papers;
-  setUserPapers: (paper: typeof papers) => void;
+  setUserPapers: React.Dispatch<React.SetStateAction<typeof papers>>;
   user: string;
-  setUser: (user: string) => void;
+  setUser: React.Dispatch<React.SetStateAction<string>>;
   loggedAt: Date;
 };
 
