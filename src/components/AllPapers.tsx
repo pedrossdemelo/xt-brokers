@@ -1,11 +1,11 @@
-import usePapers from "hooks/usePapers";
+import useUserData from "hooks/useUserData";
 import React from "react";
 import Paper from "./Paper";
 
 type Props = {};
 
 export default function AllPapers({}: Props) {
-  const { allPapers } = usePapers();
+  const { allPapers } = useUserData();
 
   return (
     <div className="max-h-80 overflow-y-scroll">
