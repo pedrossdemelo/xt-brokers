@@ -152,3 +152,7 @@ export const papers = [
   { CodAtivo: "MGEL3", QteAtivo: 100, Valor: 74.1 },
   { CodAtivo: "PCAR3", QteAtivo: 100, Valor: 15.77 },
 ];
+
+type InferArray<T> = T extends (infer U)[] ? U : never;
+
+export type Paper = InferArray<typeof papers>;
