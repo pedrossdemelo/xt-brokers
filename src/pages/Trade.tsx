@@ -2,7 +2,7 @@ import { Button, Modal, TextInput } from "flowbite-react";
 import usePaperTransaction from "hooks/usePaperTransaction";
 import useUserData from "hooks/useUserData";
 import React, { useCallback, useMemo } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { Paper } from "utils/mockData";
 
 type Props = {};
@@ -28,8 +28,10 @@ function useTrade() {
   const navigate = useNavigate();
 
   const goBack = useCallback(() => {
-    navigate("/dashboard");
+    navigate("/");
   }, []);
+
+  const notFound = useMemo(() => !userPaper && !poolPaper, [userPaper, poolPaper]);
 
   const { buyPaper, sellPaper } = usePaperTransaction(defaultPaper);
 
@@ -47,6 +49,7 @@ function useTrade() {
     sellPaper,
     buyPaper,
     goBack,
+    notFound,
   };
 }
 
@@ -63,7 +66,10 @@ export default function Trade({}: Props) {
     sellPaper,
     buyPaper,
     goBack,
+    notFound,
   } = useTrade();
+
+  if (notFound) return <Navigate to="/" />;
 
   return (
     <Modal show position="center" onClose={goBack}>

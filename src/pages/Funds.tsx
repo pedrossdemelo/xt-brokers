@@ -5,7 +5,7 @@ import React from "react";
 type Props = {};
 
 function useFunds() {
-  const { funds, setFunds, userPapers } = useUserData();
+  const { funds, setFunds, userPapers, logout } = useUserData();
 
   const [amount, setAmount] = React.useState(0);
 
@@ -33,11 +33,12 @@ function useFunds() {
     amount,
     setAmount: (e: React.ChangeEvent<HTMLInputElement>) =>
       setAmount(Math.max(0, +e.target.value)),
+    logout,
   };
 }
 
 export default function Funds({}: Props) {
-  const { funds, amount, setAmount, addFunds, removeFunds, portfolio } =
+  const { funds, amount, setAmount, addFunds, removeFunds, portfolio, logout } =
     useFunds();
 
   return (
@@ -49,6 +50,7 @@ export default function Funds({}: Props) {
 
       <Button onClick={addFunds}>Add Funds</Button>
       <Button onClick={removeFunds} disabled={funds < amount}>Remove Funds</Button>
+      <Button onClick={logout}>Logout</Button>
     </>
   );
 }

@@ -16,6 +16,7 @@ type UserContextValue = {
   funds: number;
   setFunds: React.Dispatch<React.SetStateAction<number>>;
   loggedAt: Date;
+  logout: () => void;
 };
 
 const UserContext = React.createContext<UserContextValue>({
@@ -28,6 +29,7 @@ const UserContext = React.createContext<UserContextValue>({
   funds: 1000,
   setFunds: () => {},
   loggedAt: new Date(),
+  logout: () => {},
 });
 
 export function UserProvider({ children }: Props) {
@@ -35,14 +37,17 @@ export function UserProvider({ children }: Props) {
     "userPapers",
     [] as Paper[]
   );
-
   const [allPapers, setAllPapers] = useLocalStorage("allPapers", papers);
-
   const [user, setUser] = useLocalStorage("user", "");
-
   const [funds, setFunds] = useLocalStorage("funds", 1000);
-
   const loggedAt = useRef(new Date());
+  const logout = () => {
+    setUser("");
+    setUserPapers([]);
+    setFunds(1000);
+    setAllPapers(papers);
+    loggedAt.current = new Date();
+  }
 
   const value = {
     userPapers,
@@ -54,6 +59,7 @@ export function UserProvider({ children }: Props) {
     funds,
     setFunds,
     loggedAt: loggedAt.current,
+    logout
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

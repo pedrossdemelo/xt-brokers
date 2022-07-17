@@ -13,7 +13,7 @@ function useHome() {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setUser(email)
-    navigate("/dashboard");
+    navigate("/");
   }
 
   return {
