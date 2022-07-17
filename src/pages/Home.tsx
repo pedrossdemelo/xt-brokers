@@ -2,21 +2,24 @@ import { Label, TextInput, Button } from "flowbite-react";
 import { MailIcon, KeyIcon } from "@heroicons/react/solid";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import useUserData from "hooks/useUserData";
 
 function useHome() {
   const navigate = useNavigate();
-  const [name, setName] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const { setUser } = useUserData();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setUser(email)
     navigate("/dashboard");
   }
 
   return {
-    name,
-    setName: (e: React.ChangeEvent<HTMLInputElement>) =>
-      setName(e.target.value),
+    password,
+    setPassword: (e: React.ChangeEvent<HTMLInputElement>) =>
+      setPassword(e.target.value),
     email,
     setEmail: (e: React.ChangeEvent<HTMLInputElement>) =>
       setEmail(e.target.value),
@@ -25,7 +28,7 @@ function useHome() {
 }
 
 export default function Home() {
-  const { name, setName, email, setEmail, handleSubmit } = useHome();
+  const { password, setPassword, email, setEmail, handleSubmit } = useHome();
 
   return (
     <>
@@ -50,8 +53,8 @@ export default function Home() {
             <Label htmlFor="password-input" value="Password" />
           </div>
           <TextInput
-            onChange={setName}
-            value={name}
+            onChange={setPassword}
+            value={password}
             id="password-input"
             type="password"
             required={true}
