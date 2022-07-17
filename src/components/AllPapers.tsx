@@ -1,4 +1,4 @@
-import useUserData from "hooks/useUserData";
+import { useUserData } from "hooks";
 import React from "react";
 import Paper from "./Paper";
 

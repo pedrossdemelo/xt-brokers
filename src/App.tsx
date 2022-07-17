@@ -1,11 +1,6 @@
-import Header from "components/Header";
-import PrivateRoutes from "components/PrivateRoutes";
-import useUserData from "hooks/useUserData";
-import Dashboard from "pages/Dashboard";
-import Funds from "pages/Funds";
-import Home from "pages/Home";
-import NotFound from "pages/NotFound";
-import Trade from "pages/Trade";
+import { Header, PrivateRoutes } from "components";
+import { useUserData } from "hooks";
+import { Home, Dashboard, Trade, Funds, NotFound } from "pages";
 import { Route, Routes } from "react-router-dom";
 
 function App() {

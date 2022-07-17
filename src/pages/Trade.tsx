@@ -1,9 +1,7 @@
 import { Button, Modal, TextInput } from "flowbite-react";
-import usePaperTransaction from "hooks/usePaperTransaction";
-import useUserData from "hooks/useUserData";
+import { useUserData, usePaperTransaction } from "hooks";
 import React, { useCallback, useMemo } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { Paper } from "utils/mockData";
 
 type Props = {};
 

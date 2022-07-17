@@ -1,5 +1,5 @@
 import { Button } from "flowbite-react";
-import useUserData from "hooks/useUserData";
+import { useUserData } from "hooks";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 

@@ -1,4 +1,4 @@
-import useLocalStorage from "hooks/useLocalStorage";
+import { useLocalStorage } from "hooks";
 import React, { useRef } from "react";
 import { Paper, papers } from "utils/mockData";
 

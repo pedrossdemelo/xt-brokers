@@ -2,7 +2,7 @@ import { Label, TextInput, Button } from "flowbite-react";
 import { MailIcon, KeyIcon } from "@heroicons/react/solid";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import useUserData from "hooks/useUserData";
+import { useUserData } from "hooks";
 
 function useHome() {
   const navigate = useNavigate();

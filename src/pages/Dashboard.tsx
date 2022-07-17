@@ -1,5 +1,4 @@
-import AllPapers from "components/AllPapers";
-import UserPapers from "components/UserPapers";
+import { UserPapers, AllPapers } from "components";
 import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 

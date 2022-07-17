@@ -1,8 +1,7 @@
 import { Button } from "flowbite-react";
-import usePaperTransaction from "hooks/usePaperTransaction";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Paper as TPaper } from "utils/mockData";
+import { Paper as TPaper } from "utils";
 
 type Props = {
   data: TPaper;
