@@ -1,5 +1,7 @@
 import { Button } from "flowbite-react";
 import usePaperTransaction from "hooks/usePaperTransaction";
+import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { Paper as TPaper } from "utils/mockData";
 
 type Props = {
@@ -8,20 +10,24 @@ type Props = {
 };
 
 function usePaper(paper: TPaper) {
-  const transactions = usePaperTransaction(paper);
-  return transactions;
+  const navigate = useNavigate();
+
+  const tradeTicker = useCallback(() => {
+    navigate(`trade/${paper.CodAtivo}`);
+  }, [paper])
+
+  return { tradeTicker };
 }
 
-export default function Paper({ data, personal }: Props) {
-  const { sellPaper, buyPaper } = usePaper(data);
+export default function Paper({ data }: Props) {
+  const { tradeTicker } = usePaper(data);
 
   return (
     <div>
       <div>
         {data.CodAtivo} {data.Valor} {data.QteAtivo}
       </div>
-      <Button onClick={() => buyPaper(1)}>Buy</Button>
-      {personal && <Button onClick={() => sellPaper(1)}>Sell</Button>}
+      <Button onClick={tradeTicker}>Trade</Button>
     </div>
   );
 }
