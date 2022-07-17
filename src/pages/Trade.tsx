@@ -1,9 +1,7 @@
 import { Button, Modal, TextInput } from "flowbite-react";
-import { useUserData, usePaperTransaction } from "hooks";
+import { usePaperTransaction, useUserData } from "hooks";
 import React, { useCallback, useMemo } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-
-type Props = {};
 
 function useTrade() {
   const { ticker } = useParams();
@@ -12,13 +10,13 @@ function useTrade() {
   const [sellAmount, setSellAmount] = React.useState(0);
 
   const userPaper = useMemo(
-    () => userPapers.find(paper => paper.CodAtivo === ticker),
-    [userPapers]
+    () => userPapers.find((paper) => paper.CodAtivo === ticker),
+    [userPapers],
   );
 
   const poolPaper = useMemo(
-    () => allPapers.find(paper => paper.CodAtivo === ticker),
-    [allPapers]
+    () => allPapers.find((paper) => paper.CodAtivo === ticker),
+    [allPapers],
   );
 
   const defaultPaper = { ...userPaper!, ...poolPaper!, QteAtivo: 0 };
@@ -29,7 +27,10 @@ function useTrade() {
     navigate("/");
   }, []);
 
-  const notFound = useMemo(() => !userPaper && !poolPaper, [userPaper, poolPaper]);
+  const notFound = useMemo(
+    () => !userPaper && !poolPaper,
+    [userPaper, poolPaper],
+  );
 
   const { buyPaper, sellPaper } = usePaperTransaction(defaultPaper);
 
@@ -51,7 +52,7 @@ function useTrade() {
   };
 }
 
-export default function Trade({}: Props) {
+export default function Trade() {
   const {
     buyAmount,
     setBuyAmount,
@@ -72,31 +73,46 @@ export default function Trade({}: Props) {
   return (
     <Modal show position="center" onClose={goBack}>
       <Modal.Header>Trade {ticker}</Modal.Header>
+
       <Modal.Body>
         <div className="space-y-6">
           <p>
-            In portfolio: {userPaper.QteAtivo} | In pool: {poolPaper.QteAtivo} |
-            Funds: {funds.toFixed(2)} | Price: {poolPaper.Valor}
+            In portfolio: {userPaper.QteAtivo} | In pool:
+            {poolPaper.QteAtivo} | Funds:
+            {funds.toFixed(2)} | Price:
+            {poolPaper.Valor}
           </p>
+
           <TextInput
             type="number"
             addon="Buy"
             value={buyAmount}
             onChange={setBuyAmount}
-            helperText={"Funds after: " + (funds - poolPaper.Valor * buyAmount).toFixed(2)}
+            helperText={
+              "Funds after: " + (funds - poolPaper.Valor * buyAmount).toFixed(2)
+            }
           />
+
           <TextInput
             type="number"
             addon="Sell"
             value={sellAmount}
             onChange={setSellAmount}
-            helperText={"Funds after: " + (funds + poolPaper.Valor * sellAmount).toFixed(2)}
+            helperText={
+              "Funds after: " +
+              (funds + poolPaper.Valor * sellAmount).toFixed(2)
+            }
           />
         </div>
       </Modal.Body>
+
       <Modal.Footer>
         <Button
-          disabled={poolPaper.QteAtivo < buyAmount || buyAmount <= 0 || funds < buyAmount * poolPaper.Valor}
+          disabled={
+            poolPaper.QteAtivo < buyAmount ||
+            buyAmount <= 0 ||
+            funds < buyAmount * poolPaper.Valor
+          }
           onClick={() => {
             buyPaper(buyAmount);
             goBack();
@@ -104,6 +120,7 @@ export default function Trade({}: Props) {
         >
           Buy
         </Button>
+
         <Button
           disabled={userPaper.QteAtivo < sellAmount || sellAmount <= 0}
           onClick={() => {

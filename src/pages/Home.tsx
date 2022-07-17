@@ -1,8 +1,8 @@
-import { Label, TextInput, Button } from "flowbite-react";
-import { MailIcon, KeyIcon } from "@heroicons/react/solid";
+import { KeyIcon, MailIcon } from "@heroicons/react/solid";
+import { Button, Label, TextInput } from "flowbite-react";
+import { useUserData } from "hooks";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useUserData } from "hooks";
 
 function useHome() {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ function useHome() {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setUser(email)
+    setUser(email);
     navigate("/");
   }
 
@@ -33,11 +33,13 @@ export default function Home() {
   return (
     <>
       <h1 className="text-3xl mb-4">XT Brokers</h1>
+
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div>
           <div className="mb-2 block">
             <Label htmlFor="email-input" value="Email" />
           </div>
+
           <TextInput
             id="email-input"
             type="email"
@@ -48,10 +50,12 @@ export default function Home() {
             icon={MailIcon}
           />
         </div>
+
         <div>
           <div className="mb-2 block">
             <Label htmlFor="password-input" value="Password" />
           </div>
+
           <TextInput
             onChange={setPassword}
             value={password}
@@ -61,6 +65,7 @@ export default function Home() {
             icon={KeyIcon}
           />
         </div>
+
         <Button type="submit">Login</Button>
       </form>
     </>

@@ -1,23 +1,15 @@
-import { UserPapers, AllPapers } from "components";
-import React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-
-function useDashboard() {
-  const navigate = useNavigate();
-
-  return {
-    
-  };
-}
+import { AllPapers, UserPapers } from "components";
+import { Outlet } from "react-router-dom";
 
 export default function Dashboard() {
-  const { } = useDashboard();
-
   return (
     <>
       <div>Dashboard</div>
+
       <UserPapers />
+
       <AllPapers />
+
       <Outlet />
     </>
   );

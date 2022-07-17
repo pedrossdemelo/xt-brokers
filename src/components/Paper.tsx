@@ -13,7 +13,7 @@ function usePaper(paper: TPaper) {
 
   const tradeTicker = useCallback(() => {
     navigate(`trade/${paper.CodAtivo}`);
-  }, [paper])
+  }, [paper]);
 
   return { tradeTicker };
 }
@@ -24,8 +24,13 @@ export default function Paper({ data }: Props) {
   return (
     <div>
       <div>
-        {data.CodAtivo} {data.Valor} {data.QteAtivo}
+        {data.CodAtivo}
+
+        {data.Valor}
+
+        {data.QteAtivo}
       </div>
+
       <Button onClick={tradeTicker}>Trade</Button>
     </div>
   );

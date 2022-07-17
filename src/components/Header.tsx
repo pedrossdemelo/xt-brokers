@@ -1,9 +1,6 @@
 import { Button } from "flowbite-react";
 import { useUserData } from "hooks";
-import React from "react";
 import { useNavigate } from "react-router-dom";
-
-type Props = {};
 
 function useHeader() {
   const { user, loggedAt } = useUserData();
@@ -16,14 +13,17 @@ function useHeader() {
   return { user, loggedAt, goToFunds };
 }
 
-export default function Header({}: Props) {
+export default function Header() {
   const { user, loggedAt, goToFunds } = useHeader();
 
   return (
     <>
       <div>Header</div>
+
       <div id="user">User: {user}</div>
+
       <div id="last-login">loggedAt: {loggedAt.toISOString()}</div>
+
       <Button onClick={goToFunds}>Funds</Button>
     </>
   );

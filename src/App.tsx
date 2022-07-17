@@ -1,6 +1,6 @@
 import { Header, PrivateRoutes } from "components";
 import { useUserData } from "hooks";
-import { Home, Dashboard, Trade, Funds, NotFound } from "pages";
+import { Dashboard, Funds, Home, NotFound, Trade } from "pages";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
@@ -10,15 +10,19 @@ function App() {
   return (
     <div className="max-w-md">
       <Header />
+
       <Routes>
         <Route element={<PrivateRoutes when={loggedIn} redirectTo="/" />}>
           <Route path="/login" element={<Home />} />
         </Route>
+
         <Route element={<PrivateRoutes when={!loggedIn} redirectTo="/login" />}>
           <Route path="/" element={<Dashboard />}>
             <Route path="trade/:ticker" element={<Trade />} />
           </Route>
+
           <Route path="funds" element={<Funds />} />
+
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

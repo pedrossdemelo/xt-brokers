@@ -35,7 +35,7 @@ const UserContext = React.createContext<UserContextValue>({
 export function UserProvider({ children }: Props) {
   const [userPapers, setUserPapers] = useLocalStorage(
     "userPapers",
-    [] as Paper[]
+    [] as Paper[],
   );
   const [allPapers, setAllPapers] = useLocalStorage("allPapers", papers);
   const [user, setUser] = useLocalStorage("user", "");
@@ -47,7 +47,7 @@ export function UserProvider({ children }: Props) {
     setFunds(1000);
     setAllPapers(papers);
     loggedAt.current = new Date();
-  }
+  };
 
   const value = {
     userPapers,
@@ -59,7 +59,7 @@ export function UserProvider({ children }: Props) {
     funds,
     setFunds,
     loggedAt: loggedAt.current,
-    logout
+    logout,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

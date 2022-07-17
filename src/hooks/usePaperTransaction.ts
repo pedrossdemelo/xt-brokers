@@ -11,8 +11,8 @@ export default function usePaperTransaction(paper: Paper) {
       let error = false;
 
       setUserPapers(
-        produce(draft => {
-          const index = draft.findIndex(p => p.CodAtivo === paper.CodAtivo);
+        produce((draft) => {
+          const index = draft.findIndex((p) => p.CodAtivo === paper.CodAtivo);
 
           if (index !== -1 && draft[index].QteAtivo >= amount) {
             draft[index].QteAtivo -= amount;
@@ -24,7 +24,7 @@ export default function usePaperTransaction(paper: Paper) {
           if (draft[index].QteAtivo === 0) {
             draft.splice(index, 1);
           }
-        })
+        }),
       );
 
       if (error) return;
@@ -32,18 +32,18 @@ export default function usePaperTransaction(paper: Paper) {
       setFunds(funds + paper.Valor * amount);
 
       setAllPapers(
-        produce(draft => {
-          const index = draft.findIndex(p => p.CodAtivo === paper.CodAtivo);
+        produce((draft) => {
+          const index = draft.findIndex((p) => p.CodAtivo === paper.CodAtivo);
 
           if (index !== -1) {
             draft[index].QteAtivo += amount;
           } else {
             draft.push({ ...paper, QteAtivo: amount });
           }
-        })
+        }),
       );
     },
-    [paper]
+    [paper],
   );
 
   const buyPaper = React.useCallback(
@@ -51,9 +51,13 @@ export default function usePaperTransaction(paper: Paper) {
       let error = false;
 
       setAllPapers(
-        produce(draft => {
-          const index = draft.findIndex(p => p.CodAtivo === paper.CodAtivo);
-          if (index !== -1 && draft[index].QteAtivo >= amount && funds >= paper.Valor * amount) {
+        produce((draft) => {
+          const index = draft.findIndex((p) => p.CodAtivo === paper.CodAtivo);
+          if (
+            index !== -1 &&
+            draft[index].QteAtivo >= amount &&
+            funds >= paper.Valor * amount
+          ) {
             draft[index].QteAtivo -= amount;
           } else {
             error = true;
@@ -63,7 +67,7 @@ export default function usePaperTransaction(paper: Paper) {
           if (draft[index].QteAtivo === 0) {
             draft.splice(index, 1);
           }
-        })
+        }),
       );
 
       if (error) return;
@@ -71,17 +75,17 @@ export default function usePaperTransaction(paper: Paper) {
       setFunds(funds - paper.Valor * amount);
 
       setUserPapers(
-        produce(draft => {
-          const index = draft.findIndex(p => p.CodAtivo === paper.CodAtivo);
+        produce((draft) => {
+          const index = draft.findIndex((p) => p.CodAtivo === paper.CodAtivo);
           if (index !== -1) {
             draft[index].QteAtivo += amount;
           } else {
             draft.push({ ...paper, QteAtivo: amount });
           }
-        })
+        }),
       );
     },
-    [paper]
+    [paper],
   );
 
   return { buyPaper, sellPaper };
