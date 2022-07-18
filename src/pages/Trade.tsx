@@ -1,3 +1,4 @@
+import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/solid";
 import { Modal } from "flowbite-react";
 import { usePaperTransaction, useUserData } from "hooks";
 import React, { useCallback, useMemo } from "react";
@@ -48,6 +49,8 @@ function useTrade() {
     goBack,
     notFound,
     tab,
+    incAmount: () => setAmount(amount + 1),
+    decAmount: () => setAmount(amount - 1),
     setBuy: () => setTab("buy"),
     setSell: () => setTab("sell"),
   };
@@ -65,6 +68,8 @@ export default function Trade() {
     sellPaper,
     goBack,
     notFound,
+    incAmount,
+    decAmount,
     tab,
     setBuy,
     setSell,
@@ -141,20 +146,36 @@ export default function Trade() {
                 AMOUNT
               </div>
 
+              <button
+                onClick={decAmount}
+                disabled={amount === 0}
+                className="absolute top-1/2 disabled:opacity-20 opacity-60 p-2 -translate-y-1/2 left-2"
+              >
+                <MinusSmIcon className="h-6" />
+              </button>
+
+              <button
+                onClick={incAmount}
+                disabled={amount === amountAvailable}
+                className="absolute top-1/2 disabled:opacity-20 opacity-60 p-2 -translate-y-1/2 right-2"
+              >
+                <PlusSmIcon className="h-6" />
+              </button>
+
               <input
                 type="number"
                 value={amount}
                 onChange={setAmount}
-                className="bg-transparent focus:ring-gray-200 border-none
+                className="bg-transparent focus:ring-gray-200 focus:ring-2 border-none
                 text-center font-medium h-16 pt-6 text-3xl"
-              ></input>
+              />
             </div>
 
-            <div className="grid py-2 px-4 text-gray-600 grid-cols-2 grid-flow-row gap-x-6 gap-y-2 text-xs divide-solid">
+            <div className="grid py-2 px-4 text-gray-600 border-t border-gray-200 grid-cols-2 grid-flow-row gap-x-6 gap-y-2 text-xs">
               <span>
                 {"Funds: "}
 
-                <span className="float-right">{funds.toFixed(2)} BRL</span>
+                <span className="float-right">R$ {funds.toFixed(2)}</span>
               </span>
 
               <span
@@ -162,10 +183,10 @@ export default function Trade() {
                   tab === "buy" && amount * price > funds && "text-red-700"
                 }`}
               >
-                {"Order value: "}
+                {"Order: "}
 
                 <span className="float-right">
-                  {(price * amount).toFixed(2)} BRL
+                  R$ {(price * amount).toFixed(2)}
                 </span>
               </span>
 
@@ -178,7 +199,7 @@ export default function Trade() {
               >
                 {"Available: "}
 
-                <span className="float-right">{amountAvailable}</span>
+                <span className="float-right">{amountAvailable} shares</span>
               </span>
 
               <span
@@ -188,7 +209,7 @@ export default function Trade() {
               >
                 {"Position: "}
 
-                <span className="float-right">{userAmount}</span>
+                <span className="float-right">{userAmount} shares</span>
               </span>
             </div>
           </div>

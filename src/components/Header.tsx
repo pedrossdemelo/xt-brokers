@@ -68,7 +68,7 @@ export default function Header() {
           !showFunds && "text-slate-800 bg-slate-800 select-none"
         }`}
       >
-        {funds.toFixed(2)} BRL
+        R$ {funds.toFixed(2)}
       </h1>
 
       <Dropdown inline arrowIcon={false} label={<MenuIcon className="h-7" />}>
