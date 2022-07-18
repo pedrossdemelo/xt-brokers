@@ -70,18 +70,15 @@ export default function Trade() {
 
   if (notFound) return <Navigate to="/" />;
 
+  const title = `In portfolio: ${userPaper.QteAtivo} | In pool: ${poolPaper.QteAtivo} | Funds: ${funds} | Price: ${poolPaper.Valor}`;
+
   return (
     <Modal show position="center" onClose={goBack}>
       <Modal.Header>Trade {ticker}</Modal.Header>
 
       <Modal.Body>
         <div className="space-y-6">
-          <p>
-            In portfolio: {userPaper.QteAtivo} | In pool:
-            {poolPaper.QteAtivo} | Funds:
-            {funds.toFixed(2)} | Price:
-            {poolPaper.Valor}
-          </p>
+          <p>{title}</p>
 
           <TextInput
             type="number"

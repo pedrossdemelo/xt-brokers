@@ -46,7 +46,7 @@
     "vite-tsconfig-paths": "^3.5.0"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
+    "./src/**/*.{js,jsx,ts,tsx}": [
       "pnpm organize-imports-cli",
       "pnpm prettier --write",
       "pnpm eslint --fix"
