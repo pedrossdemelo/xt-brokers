@@ -39,3 +39,5 @@ rules:
     - 'off'
   prettier/prettier:
     - warn
+ignorePatterns:
+  - '*.cjs'
