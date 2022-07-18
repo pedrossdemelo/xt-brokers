@@ -3,17 +3,9 @@ import { useUserData } from "hooks";
 import React from "react";
 
 function useFunds() {
-  const { funds, setFunds, userPapers, logout } = useUserData();
+  const { funds, setFunds, portfolio, logout } = useUserData();
 
   const [amount, setAmount] = React.useState(0);
-
-  const portfolio = React.useMemo(
-    () =>
-      userPapers.reduce((acc, paper) => {
-        return acc + paper.Valor * paper.QteAtivo;
-      }, 0),
-    [userPapers],
-  );
 
   function addFunds() {
     setFunds(funds + amount);
