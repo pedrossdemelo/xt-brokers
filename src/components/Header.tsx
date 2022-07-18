@@ -16,6 +16,8 @@ function useHeader() {
 export default function Header() {
   const { user, loggedAt, goToFunds } = useHeader();
 
+  if (!user) return null;
+
   return (
     <>
       <div>Header</div>
