@@ -1,5 +1,4 @@
-import { TrendingUpIcon } from "@heroicons/react/solid";
-import { Modal, TextInput } from "flowbite-react";
+import { Modal } from "flowbite-react";
 import { usePaperTransaction, useUserData } from "hooks";
 import React, { useCallback, useMemo } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
@@ -7,8 +6,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 function useTrade() {
   const { ticker } = useParams();
   const { userPapers, allPapers, funds } = useUserData();
-  const [buyAmount, setBuyAmount] = React.useState(0);
-  const [sellAmount, setSellAmount] = React.useState(0);
+  const [amount, setAmount] = React.useState(0);
 
   const [tab, setTab] = React.useState("buy");
 
@@ -38,12 +36,9 @@ function useTrade() {
   const { buyPaper, sellPaper } = usePaperTransaction(defaultPaper);
 
   return {
-    buyAmount,
-    setBuyAmount: (e: React.ChangeEvent<HTMLInputElement>) =>
-      setBuyAmount(Math.max(0, +e.target.value)),
-    sellAmount,
-    setSellAmount: (e: React.ChangeEvent<HTMLInputElement>) =>
-      setSellAmount(Math.max(0, +e.target.value)),
+    amount,
+    setAmount: (e: React.ChangeEvent<HTMLInputElement>) =>
+      setAmount(Math.max(0, +e.target.value)),
     userPaper: userPaper ?? defaultPaper,
     poolPaper: poolPaper ?? defaultPaper,
     funds,
@@ -53,26 +48,34 @@ function useTrade() {
     goBack,
     notFound,
     tab,
-    setTab,
+    setBuy: () => setTab("buy"),
+    setSell: () => setTab("sell"),
   };
 }
 
 export default function Trade() {
   const {
-    buyAmount,
-    setBuyAmount,
-    sellAmount,
-    setSellAmount,
+    amount,
+    setAmount,
     userPaper,
     poolPaper,
     ticker,
     funds,
     buyPaper,
+    sellPaper,
     goBack,
     notFound,
+    tab,
+    setBuy,
+    setSell,
   } = useTrade();
 
   if (notFound) return <Navigate to="/" />;
+
+  const name = poolPaper.NomeAtivo;
+  const price = poolPaper.Valor;
+  const amountAvailable = poolPaper.QteAtivo;
+  const userAmount = userPaper.QteAtivo;
 
   return (
     <Modal show position="center" size="lg" onClose={goBack}>
@@ -81,60 +84,134 @@ export default function Trade() {
           <div>
             <h1>{ticker}</h1>
 
-            <p className="text-sm -mt-1 text-gray-400">{poolPaper.NomeAtivo}</p>
-          </div>
-
-          <div className="flex items-center">
-            <TrendingUpIcon className="h-6" />
+            <p className="text-sm -mt-1 text-gray-400">{name}</p>
           </div>
         </div>
       </Modal.Header>
 
       <Modal.Body>
-        <div className="space-y-6">
-          <TextInput
-            type="number"
-            addon="Buy"
-            value={buyAmount}
-            onChange={setBuyAmount}
-            helperText={
-              "Funds after: " + (funds - poolPaper.Valor * buyAmount).toFixed(2)
-            }
-          />
+        <div className="flex flex-col gap-4 -mt-2">
+          <div className="flex flex-col rounded-md border-gray-200 border overflow-hidden">
+            <div
+              className="flex gap-2 items-center justify-between border-b
+            border-gray-200 h-10"
+            >
+              <div className="flex items-stretch h-full">
+                <button
+                  onClick={setBuy}
+                  disabled={funds < price}
+                  className={`border-r border-gray-200 px-4 disabled:text-gray-300 disabled:pointer-events-none ${
+                    tab === "buy" && "font-semibold bg-blue-50/50 text-blue-700"
+                  }`}
+                >
+                  BUY
+                </button>
 
-          <TextInput
-            type="number"
-            addon="Sell"
-            value={sellAmount}
-            onChange={setSellAmount}
-            helperText={
-              "Funds after: " +
-              (funds + poolPaper.Valor * sellAmount).toFixed(2)
+                <button
+                  onClick={setSell}
+                  disabled={userAmount === 0}
+                  className={`border-r border-gray-200 px-4 disabled:text-gray-300 disabled:pointer-events-none ${
+                    tab === "sell" && "font-semibold bg-red-50/50 text-red-700"
+                  }`}
+                >
+                  SELL
+                </button>
+              </div>
+
+              <span className="font-medium pr-4">
+                {price}
+
+                {" · "}
+
+                <span
+                  className={`${
+                    poolPaper.Variacao > 0 ? "text-green-600" : "text-red-600"
+                  }`}
+                >
+                  {poolPaper.Variacao}%
+                </span>
+              </span>
+            </div>
+
+            <div className="relative flex text-center flex-col bg-gray-100">
+              <div
+                className="text-xs absolute left-1/2 top-1.5 -translate-x-1/2
+              text-gray-600 font-medium"
+              >
+                AMOUNT
+              </div>
+
+              <input
+                type="number"
+                value={amount}
+                onChange={setAmount}
+                className="bg-transparent focus:ring-gray-200 border-none
+                text-center font-medium h-16 pt-6 text-3xl"
+              ></input>
+            </div>
+
+            <div className="grid py-2 px-4 text-gray-600 grid-cols-2 grid-flow-row gap-x-6 gap-y-2 text-xs divide-solid">
+              <span>
+                {"Funds: "}
+
+                <span className="float-right">{funds.toFixed(2)} BRL</span>
+              </span>
+
+              <span
+                className={`${
+                  tab === "buy" && amount * price > funds && "text-red-700"
+                }`}
+              >
+                {"Order value: "}
+
+                <span className="float-right">
+                  {(price * amount).toFixed(2)} BRL
+                </span>
+              </span>
+
+              <span className="col-span-2 -mx-4 bg-gray-200 border-b"></span>
+
+              <span
+                className={`${
+                  tab === "buy" && amountAvailable < amount && "text-red-700"
+                }`}
+              >
+                {"Available: "}
+
+                <span className="float-right">{amountAvailable}</span>
+              </span>
+
+              <span
+                className={`${
+                  tab === "sell" && amount > userAmount && "text-red-700"
+                }`}
+              >
+                {"Position: "}
+
+                <span className="float-right">{userAmount}</span>
+              </span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            className={`text-white h-12 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 focus:outline-none disabled:opacity-25 ${
+              tab === "sell" && "bg-red-700 hover:bg-red-800 focus:ring-red-300"
+            } `}
+            disabled={
+              (tab === "sell" && amount > userAmount) ||
+              (tab === "buy" && amount * price > funds)
             }
-          />
+            onClick={() => {
+              const transaction = tab === "sell" ? sellPaper : buyPaper;
+              transaction(amount);
+              goBack();
+            }}
+          >
+            {tab === "sell" ? "SELL" : "BUY"}
+          </button>
         </div>
       </Modal.Body>
-
-      <Modal.Footer>
-        <button
-          type="button"
-          disabled={
-            userPaper.QteAtivo < buyAmount ||
-            buyAmount <= 0 ||
-            funds < buyAmount * poolPaper.Valor
-          }
-          className="text-white h-12 w-full bg-blue-700 hover:bg-blue-800
-          focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-5
-          py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700
-          focus:outline-none dark:focus:ring-blue-800 disabled:opacity-25"
-          onClick={() => {
-            buyPaper(buyAmount);
-            goBack();
-          }}
-        >
-          BUY
-        </button>
-      </Modal.Footer>
     </Modal>
   );
 }
