@@ -1,4 +1,5 @@
-import { Button, Modal, TextInput } from "flowbite-react";
+import { TrendingUpIcon } from "@heroicons/react/solid";
+import { Modal, TextInput } from "flowbite-react";
 import { usePaperTransaction, useUserData } from "hooks";
 import React, { useCallback, useMemo } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
@@ -8,6 +9,8 @@ function useTrade() {
   const { userPapers, allPapers, funds } = useUserData();
   const [buyAmount, setBuyAmount] = React.useState(0);
   const [sellAmount, setSellAmount] = React.useState(0);
+
+  const [tab, setTab] = React.useState("buy");
 
   const userPaper = useMemo(
     () => userPapers.find((paper) => paper.CodAtivo === ticker),
@@ -49,6 +52,8 @@ function useTrade() {
     buyPaper,
     goBack,
     notFound,
+    tab,
+    setTab,
   };
 }
 
@@ -62,7 +67,6 @@ export default function Trade() {
     poolPaper,
     ticker,
     funds,
-    sellPaper,
     buyPaper,
     goBack,
     notFound,
@@ -71,18 +75,23 @@ export default function Trade() {
   if (notFound) return <Navigate to="/" />;
 
   return (
-    <Modal show position="center" onClose={goBack}>
-      <Modal.Header>Trade {ticker}</Modal.Header>
+    <Modal show position="center" size="lg" onClose={goBack}>
+      <Modal.Header>
+        <div className="-my-2 flex items-center justify-between gap-6">
+          <div>
+            <h1>{ticker}</h1>
+
+            <p className="text-sm -mt-1 text-gray-400">{poolPaper.NomeAtivo}</p>
+          </div>
+
+          <div className="flex items-center">
+            <TrendingUpIcon className="h-6" />
+          </div>
+        </div>
+      </Modal.Header>
 
       <Modal.Body>
         <div className="space-y-6">
-          <p>
-            In portfolio: {userPaper.QteAtivo} | In pool:
-            {poolPaper.QteAtivo} | Funds:
-            {funds.toFixed(2)} | Price:
-            {poolPaper.Valor}
-          </p>
-
           <TextInput
             type="number"
             addon="Buy"
@@ -107,29 +116,24 @@ export default function Trade() {
       </Modal.Body>
 
       <Modal.Footer>
-        <Button
+        <button
+          type="button"
           disabled={
-            poolPaper.QteAtivo < buyAmount ||
+            userPaper.QteAtivo < buyAmount ||
             buyAmount <= 0 ||
             funds < buyAmount * poolPaper.Valor
           }
+          className="text-white h-12 w-full bg-blue-700 hover:bg-blue-800
+          focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-5
+          py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700
+          focus:outline-none dark:focus:ring-blue-800 disabled:opacity-25"
           onClick={() => {
             buyPaper(buyAmount);
             goBack();
           }}
         >
-          Buy
-        </Button>
-
-        <Button
-          disabled={userPaper.QteAtivo < sellAmount || sellAmount <= 0}
-          onClick={() => {
-            sellPaper(sellAmount);
-            goBack();
-          }}
-        >
-          Sell
-        </Button>
+          BUY
+        </button>
       </Modal.Footer>
     </Modal>
   );

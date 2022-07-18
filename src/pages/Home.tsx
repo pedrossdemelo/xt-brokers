@@ -35,12 +35,13 @@ export default function Home() {
       <div className="hidden md:block w-72 bg-slate-900 text-white py-8 px-12">
         <h1 className="text-4xl">XT Brokers</h1>
 
-        <p className="w-full">Simulate trading</p>
+        <p className="w-full text-sm">Trading simulator</p>
       </div>
 
       <div className="flex flex-col grow items-center justify-center p-4 md:p-10">
         <form
-          className="flex flex-col gap-4 p-8 lg:gap-6 lg:p-12 shadow-lg max-w-md md:max-w-lg w-full rounded-lg bg-white"
+          className="flex flex-col gap-4 p-8 lg:gap-6 lg:p-12 shadow-lg max-w-md
+          md:max-w-xl w-full rounded-lg bg-white"
           onSubmit={handleSubmit}
         >
           <div>

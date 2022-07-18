@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 export default function Dashboard() {
   return (
-    <>
+    <div className="grow">
       <div>Dashboard</div>
 
       <UserPapers />
@@ -11,6 +11,6 @@ export default function Dashboard() {
       <AllPapers />
 
       <Outlet />
-    </>
+    </div>
   );
 }

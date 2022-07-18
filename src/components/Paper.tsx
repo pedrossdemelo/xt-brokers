@@ -29,6 +29,8 @@ export default function Paper({ data }: Props) {
         {data.Valor}
 
         {data.QteAtivo}
+
+        {data.NomeAtivo}
       </div>
 
       <Button onClick={tradeTicker}>Trade</Button>

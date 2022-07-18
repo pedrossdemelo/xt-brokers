@@ -15,6 +15,7 @@ type UserContextValue = {
   setUser: React.Dispatch<React.SetStateAction<string>>;
   funds: number;
   setFunds: React.Dispatch<React.SetStateAction<number>>;
+  portfolio: number;
   loggedAt: Date;
   logout: () => void;
 };
@@ -28,6 +29,7 @@ const UserContext = React.createContext<UserContextValue>({
   setUser: () => {},
   funds: 1000,
   setFunds: () => {},
+  portfolio: 0,
   loggedAt: new Date(),
   logout: () => {},
 });
@@ -48,6 +50,13 @@ export function UserProvider({ children }: Props) {
     setAllPapers(papers);
     loggedAt.current = new Date();
   };
+  const portfolio = React.useMemo(
+    () =>
+      userPapers.reduce((acc, paper) => {
+        return acc + paper.Valor * paper.QteAtivo;
+      }, 0),
+    [userPapers],
+  );
 
   const value = {
     userPapers,
@@ -58,6 +67,7 @@ export function UserProvider({ children }: Props) {
     setUser,
     funds,
     setFunds,
+    portfolio,
     loggedAt: loggedAt.current,
     logout,
   };
