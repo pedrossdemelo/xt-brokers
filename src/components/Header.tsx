@@ -110,13 +110,19 @@ export default function Header() {
         </Dropdown.Item>
       </Dropdown>
 
-      <h1
-        className={`text-lg font-medium px-2 rounded-md ${
+      <div
+        className={`text-center -mb-0.5 px-2 rounded ${
           !showFunds && "text-slate-800 bg-slate-800 select-none"
         }`}
       >
-        R$ {funds.toFixed(2)}
-      </h1>
+        <label htmlFor="funds" className="block text-xs -mb-[5px]">
+          Funds:
+        </label>
+
+        <h1 className={"text-xl font-medium rounded-md"} id="funds">
+          R$ {funds.toFixed(2)}
+        </h1>
+      </div>
 
       <button onClick={toggleFunds}>
         {showFunds ? (
