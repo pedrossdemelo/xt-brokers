@@ -39,7 +39,8 @@ function useTrade() {
   return {
     amount,
     setAmount: (e: React.ChangeEvent<HTMLInputElement>) =>
-      setAmount(Math.max(0, +e.target.value)),
+      // @ts-ignore
+      setAmount(Math.abs(+e.target.value) || ""),
     userPaper: userPaper ?? defaultPaper,
     poolPaper: poolPaper ?? defaultPaper,
     funds,
@@ -49,8 +50,8 @@ function useTrade() {
     goBack,
     notFound,
     tab,
-    incAmount: () => setAmount(amount + 1),
-    decAmount: () => setAmount(amount - 1),
+    incAmount: () => setAmount(Number(amount) + 1),
+    decAmount: () => setAmount(Number(amount) - 1),
     setBuy: () => setTab("buy"),
     setSell: () => setTab("sell"),
   };
@@ -58,7 +59,7 @@ function useTrade() {
 
 export default function Trade() {
   const {
-    amount,
+    amount: amountInput,
     setAmount,
     userPaper,
     poolPaper,
@@ -74,6 +75,8 @@ export default function Trade() {
     setBuy,
     setSell,
   } = useTrade();
+
+  const amount = Number(amountInput);
 
   if (notFound) return <Navigate to="/" />;
 
@@ -148,7 +151,7 @@ export default function Trade() {
 
               <button
                 onClick={decAmount}
-                disabled={amount === 0}
+                disabled={amount == 0}
                 className="absolute top-1/2 disabled:opacity-20 opacity-60 p-2 -translate-y-1/2 left-2"
               >
                 <MinusSmIcon className="h-6" />
@@ -167,7 +170,7 @@ export default function Trade() {
 
               <input
                 type="number"
-                value={amount}
+                value={amountInput}
                 onChange={setAmount}
                 className="bg-transparent focus:ring-gray-200 focus:ring-2 border-none
                 text-center font-medium h-16 pt-6 text-3xl"
