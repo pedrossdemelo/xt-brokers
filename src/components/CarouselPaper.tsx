@@ -25,12 +25,16 @@ export default function CarouselPaper({ data }: Props) {
   const { tradeTicker } = usePaper(data);
 
   return (
-    <div
+    <button
       onClick={tradeTicker}
-      className="border-gray-200 p-3 rounded-xl text-sm border shrink-0 w-52 flex flex-col justify-between"
+      className="border-gray-200 p-3 rounded-xl text-sm border shrink-0 w-52
+      text-left flex flex-col items-stretch justify-between"
     >
       <div className="flex gap-3 items-center overflow-hidden">
-        <div className="h-10 w-10 rounded-full shrink-0 bg-gray-200 flex items-center justify-center">
+        <div
+          className="h-10 w-10 rounded-full shrink-0 bg-gray-200 flex
+          items-center justify-center"
+        >
           <GlobeAltIcon className="h-6 opacity-30" />
         </div>
 
@@ -74,6 +78,6 @@ export default function CarouselPaper({ data }: Props) {
           <span className="float-right">{data.QteAtivo} shares</span>
         </div>
       </div>
-    </div>
+    </button>
   );
 }

@@ -26,11 +26,11 @@ export default function Paper({ data, personal = false }: Props) {
   const { tradeTicker } = usePaper(data);
 
   return (
-    <div
+    <button
       onClick={tradeTicker}
       className="border-gray-200 p-3 rounded-xl text-sm border flex justify-between items-center"
     >
-      <div className="flex gap-3 items-center">
+      <div className="flex gap-3 items-center text-left">
         <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
           <GlobeAltIcon className="h-6 opacity-30" />
         </div>
@@ -77,6 +77,6 @@ export default function Paper({ data, personal = false }: Props) {
           {personal ? " owned" : " available"}
         </div>
       </div>
-    </div>
+    </button>
   );
 }
