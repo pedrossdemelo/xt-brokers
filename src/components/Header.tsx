@@ -4,7 +4,7 @@ import {
   EyeIcon,
   EyeOffIcon,
   LogoutIcon,
-  MenuIcon,
+  MenuAlt3Icon,
   UserIcon,
   ViewGridIcon,
 } from "@heroicons/react/solid";
@@ -54,12 +54,12 @@ export default function Header() {
   if (!user) return null;
 
   return (
-    <nav className="h-14 flex px-4 py-2 z-50 justify-between items-center bg-slate-900 text-white">
+    <nav className="relative h-14 flex px-4 py-2 z-50 justify-between items-center bg-slate-900 text-white">
       <button onClick={toggleFunds}>
         {showFunds ? (
-          <EyeOffIcon className="h-6" />
+          <EyeOffIcon className="h-5" />
         ) : (
-          <EyeIcon className="h-6" />
+          <EyeIcon className="h-5" />
         )}
       </button>
 
@@ -71,7 +71,11 @@ export default function Header() {
         R$ {funds.toFixed(2)}
       </h1>
 
-      <Dropdown inline arrowIcon={false} label={<MenuIcon className="h-7" />}>
+      <Dropdown
+        inline
+        arrowIcon={false}
+        label={<MenuAlt3Icon className="h-6" />}
+      >
         <Dropdown.Item>
           <div className="flex gap-2 items-center mr-2">
             <UserIcon className="h-6" />

@@ -3,9 +3,7 @@ import { Outlet } from "react-router-dom";
 
 export default function Dashboard() {
   return (
-    <div className="grow">
-      <div>Dashboard</div>
-
+    <div className="grow flex flex-col">
       <UserPapers />
 
       <AllPapers />
