@@ -7,7 +7,7 @@ function useFunds() {
   const { funds, setFunds, portfolio } = useUserData();
 
   const [tab, setTab] = React.useState<"deposit" | "withdraw">("deposit");
-  const [amount, setAmount] = React.useState(0);
+  const [amount, setAmount] = React.useState<number | "">(0);
 
   function addFunds() {
     setFunds(funds + Number(amount));
@@ -24,7 +24,6 @@ function useFunds() {
     portfolio,
     amount,
     setAmount: (e: React.ChangeEvent<HTMLInputElement>) =>
-      // @ts-ignore
       setAmount(Math.abs(+e.target.value) || ""),
     addAmount: (add: number) => () => setAmount(Number(amount) + add),
     tab,

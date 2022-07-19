@@ -7,7 +7,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 function useTrade() {
   const { ticker } = useParams();
   const { userPapers, allPapers, funds } = useUserData();
-  const [amount, setAmount] = React.useState(0);
+  const [amount, setAmount] = React.useState<number | "">(0);
 
   const [tab, setTab] = React.useState("buy");
 
@@ -39,7 +39,6 @@ function useTrade() {
   return {
     amount,
     setAmount: (e: React.ChangeEvent<HTMLInputElement>) =>
-      // @ts-ignore
       setAmount(Math.abs(+e.target.value) || ""),
     userPaper: userPaper ?? defaultPaper,
     poolPaper: poolPaper ?? defaultPaper,
