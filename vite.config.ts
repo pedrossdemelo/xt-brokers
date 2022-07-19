@@ -1,4 +1,6 @@
 /// <reference types="vitest" />
+/// <reference types="vite/client" />
+
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -9,5 +11,15 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "jsdom",
+    setupFiles: "./src/tests/setup.ts",
+    coverage: {
+      all: true,
+      include: [
+        "src/components/*.{jsx,tsx}",
+        "src/hooks/**/*.{js,ts}",
+        "src/pages/**/*.{jsx,tsx}",
+      ],
+      exclude: ["**/index.{js,ts}"],
+    },
   },
 });
