@@ -156,7 +156,10 @@ export default function Trade() {
 
               <button
                 onClick={incAmount}
-                disabled={amount === amountAvailable}
+                disabled={
+                  (tab === "buy" && amount >= amountAvailable) ||
+                  (tab === "sell" && amount >= userAmount)
+                }
                 className="absolute top-1/2 disabled:opacity-20 opacity-60 p-2 -translate-y-1/2 right-2"
               >
                 <PlusSmIcon className="h-6" />
@@ -221,7 +224,9 @@ export default function Trade() {
             } `}
             disabled={
               (tab === "sell" && amount > userAmount) ||
-              (tab === "buy" && amount * price > funds)
+              (tab === "buy" &&
+                (amount * price > funds || amount > amountAvailable)) ||
+              amount === 0
             }
             onClick={() => {
               const transaction = tab === "sell" ? sellPaper : buyPaper;
