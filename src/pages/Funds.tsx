@@ -117,7 +117,7 @@ export default function Funds() {
         className={`text-white h-12 bg-blue-700 mx-4 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 focus:outline-none disabled:opacity-25 ${
           tab === "withdraw" && "bg-red-700 hover:bg-red-800 focus:ring-red-300"
         } `}
-        disabled={(tab === "withdraw" && amount > funds) || amount === 0}
+        disabled={(tab === "withdraw" && amount > funds) || amount == 0}
         onClick={() => {
           const transaction = tab === "withdraw" ? removeFunds : addFunds;
           transaction();
