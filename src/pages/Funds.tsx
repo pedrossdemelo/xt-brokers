@@ -98,7 +98,7 @@ export default function Funds() {
         </button>
 
         <button
-          onClick={addAmount(200)}
+          onClick={addAmount(500)}
           className="rounded-lg px-2.5 py-1 text-sm"
         >
           +R$ 500
