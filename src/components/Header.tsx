@@ -10,13 +10,11 @@ import {
 } from "@heroicons/react/solid";
 import { Dropdown } from "flowbite-react";
 import { useUserData } from "hooks";
-import React from "react";
 import { useNavigate } from "react-router-dom";
 
 function useHeader() {
-  const { user, funds, logout } = useUserData();
+  const { user, funds, logout, hideMoney, setHideMoney } = useUserData();
   const navigate = useNavigate();
-  const [showFunds, setShowFunds] = React.useState(true);
 
   function goToFunds() {
     navigate("/funds");
@@ -31,8 +29,8 @@ function useHeader() {
     goToFunds,
     goToDashboard,
     funds,
-    showFunds,
-    toggleFunds: () => setShowFunds(!showFunds),
+    showFunds: !hideMoney,
+    toggleFunds: () => setHideMoney(!hideMoney),
     logout: () => {
       navigate("/login");
       logout();

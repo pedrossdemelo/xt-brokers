@@ -18,6 +18,8 @@ type UserContextValue = {
   portfolio: number;
   loggedAt: Date;
   logout: () => void;
+  hideMoney: boolean;
+  setHideMoney: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const UserContext = React.createContext<UserContextValue>({
@@ -32,6 +34,8 @@ const UserContext = React.createContext<UserContextValue>({
   portfolio: 0,
   loggedAt: new Date(),
   logout: () => {},
+  hideMoney: false,
+  setHideMoney: () => {},
 });
 
 export function UserProvider({ children }: Props) {
@@ -57,6 +61,7 @@ export function UserProvider({ children }: Props) {
       }, 0),
     [userPapers],
   );
+  const [hideMoney, setHideMoney] = useLocalStorage("hideMoney", false);
 
   const value = {
     userPapers,
@@ -70,6 +75,8 @@ export function UserProvider({ children }: Props) {
     portfolio,
     loggedAt: loggedAt.current,
     logout,
+    hideMoney,
+    setHideMoney,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

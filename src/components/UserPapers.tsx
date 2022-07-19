@@ -3,11 +3,23 @@ import { useUserData } from "hooks";
 import CarouselPaper from "./CarouselPaper";
 
 export default function UserPapers() {
-  const { userPapers } = useUserData();
+  const { userPapers, portfolio, hideMoney } = useUserData();
 
   return (
     <div className="p-4">
-      <h2 className="font-medium text-xl mb-2">Portfolio</h2>
+      <div className="mb-2 flex justify-between font-medium text-xl">
+        <h2>Portfolio</h2>
+
+        {!!userPapers.length && (
+          <h2
+            className={`text-right rounded pl-2 ${
+              hideMoney && "text-slate-100 select-none bg-slate-100"
+            }`}
+          >
+            R$ {portfolio.toFixed(2)}
+          </h2>
+        )}
+      </div>
 
       <div className="flex gap-4 px-4 -mx-4 relative overflow-x-scroll">
         {userPapers.map((paper) => (
