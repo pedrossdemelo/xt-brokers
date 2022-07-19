@@ -4,7 +4,7 @@ import {
   EyeIcon,
   EyeOffIcon,
   LogoutIcon,
-  MenuAlt3Icon,
+  MenuAlt2Icon,
   UserIcon,
   ViewGridIcon,
 } from "@heroicons/react/solid";
@@ -55,26 +55,10 @@ export default function Header() {
 
   return (
     <nav className="relative h-14 flex px-4 py-2 z-50 justify-between items-center bg-slate-900 text-white">
-      <button onClick={toggleFunds}>
-        {showFunds ? (
-          <EyeOffIcon className="h-5" />
-        ) : (
-          <EyeIcon className="h-5" />
-        )}
-      </button>
-
-      <h1
-        className={`text-lg font-medium px-2 rounded-md ${
-          !showFunds && "text-slate-800 bg-slate-800 select-none"
-        }`}
-      >
-        R$ {funds.toFixed(2)}
-      </h1>
-
       <Dropdown
         inline
         arrowIcon={false}
-        label={<MenuAlt3Icon className="h-6" />}
+        label={<MenuAlt2Icon className="h-6" />}
       >
         <Dropdown.Item>
           <div className="flex gap-2 items-center mr-2">
@@ -125,6 +109,22 @@ export default function Header() {
           </div>
         </Dropdown.Item>
       </Dropdown>
+
+      <h1
+        className={`text-lg font-medium px-2 rounded-md ${
+          !showFunds && "text-slate-800 bg-slate-800 select-none"
+        }`}
+      >
+        R$ {funds.toFixed(2)}
+      </h1>
+
+      <button onClick={toggleFunds}>
+        {showFunds ? (
+          <EyeOffIcon className="h-5" />
+        ) : (
+          <EyeIcon className="h-5" />
+        )}
+      </button>
     </nav>
   );
 }
