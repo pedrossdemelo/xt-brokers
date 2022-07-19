@@ -10,11 +10,11 @@ function useFunds() {
   const [amount, setAmount] = React.useState(0);
 
   function addFunds() {
-    setFunds(funds + amount);
+    setFunds(funds + Number(amount));
   }
 
   function removeFunds() {
-    setFunds(funds - amount);
+    setFunds(funds - Number(amount));
   }
 
   return {
@@ -26,7 +26,7 @@ function useFunds() {
     setAmount: (e: React.ChangeEvent<HTMLInputElement>) =>
       // @ts-ignore
       setAmount(Math.abs(+e.target.value) || ""),
-    addAmount: (add: number) => () => setAmount(amount + add),
+    addAmount: (add: number) => () => setAmount(Number(amount) + add),
     tab,
     toggleTab: () => setTab(tab === "deposit" ? "withdraw" : "deposit"),
   };
