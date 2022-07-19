@@ -4,6 +4,7 @@ specifiers:
   '@commitlint/cli': ^17.0.3
   '@commitlint/config-conventional': ^17.0.3
   '@heroicons/react': ^1.0.6
+  '@tailwindcss/line-clamp': ^0.4.0
   '@types/react': ^18
   '@types/react-dom': ^18
   '@typescript-eslint/eslint-plugin': ^5.30.6
@@ -35,6 +36,7 @@ specifiers:
 
 dependencies:
   '@heroicons/react': 1.0.6_react@18.2.0
+  '@tailwindcss/line-clamp': 0.4.0_tailwindcss@3.1.6
   flowbite: 1.4.7
   flowbite-react: 0.1.3_m4wlw4ohrv6bwvfrep5jp2tjre
   immer: 9.0.15
@@ -679,6 +681,14 @@ packages:
 
   /@popperjs/core/2.11.5:
     resolution: {integrity: sha512-9X2obfABZuDVLCgPK9aX0a/x4jaOEweTTWE2+9sr0Qqqevj2Uv5XorvusThmc9XGYpS9yI+fhh8RTafBtGposw==}
+    dev: false
+
+  /@tailwindcss/line-clamp/0.4.0_tailwindcss@3.1.6:
+    resolution: {integrity: sha512-HQZo6gfx1D0+DU3nWlNLD5iA6Ef4JAXh0LeD8lOGrJwEDBwwJNKQza6WoXhhY1uQrxOuU8ROxV7CqiQV4CoiLw==}
+    peerDependencies:
+      tailwindcss: '>=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1'
+    dependencies:
+      tailwindcss: 3.1.6
     dev: false
 
   /@ts-morph/common/0.16.0:
