@@ -1,10 +1,11 @@
 import { Trade } from "pages";
-import { render } from "tests";
-import { describe, it } from "vitest";
+import { render, screen } from "tests";
 
 describe("Trade component", () => {
   it.todo("implement tests");
   it("should render", () => {
-    render(<Trade />);
+    render(<Trade />, { route: "/trade/:ticker=ABCB4" });
+
+    expect(screen.getByText("ABCB4")).toBeInTheDocument();
   });
 });
