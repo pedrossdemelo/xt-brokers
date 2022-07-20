@@ -1,8 +1,8 @@
-import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/solid";
-import { Modal } from "flowbite-react";
+import { MinusSmIcon, PlusSmIcon, ViewGridIcon } from "@heroicons/react/solid";
+import { Button, Modal } from "flowbite-react";
 import { usePaperTransaction, useUserData } from "hooks";
 import React, { useCallback, useMemo } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function useTrade() {
   const { ticker } = useParams();
@@ -77,7 +77,19 @@ export default function Trade() {
 
   const amount = Number(amountInput);
 
-  if (notFound) return <Navigate to="/" />;
+  if (notFound)
+    return (
+      <Modal show position="center" size="lg" onClose={goBack}>
+        <Modal.Header>Ticker {ticker} does not exist</Modal.Header>
+
+        <Modal.Footer>
+          <Button color="gray" onClick={goBack}>
+            <ViewGridIcon className="h-6 mr-3" />
+            Return to Dashboard
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
 
   const name = poolPaper.NomeAtivo;
   const price = poolPaper.Valor;
