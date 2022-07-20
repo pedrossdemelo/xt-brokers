@@ -30,7 +30,7 @@ export function Announcements() {
           <Timeline.Content>
             <Timeline.Time>9 July 2022</Timeline.Time>
 
-            <Timeline.Title>XP Inc. is hiring!</Timeline.Title>
+            <Timeline.Title>XT Inc. is hiring!</Timeline.Title>
 
             <Timeline.Body>
               <span className="text-sm">
