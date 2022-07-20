@@ -25,7 +25,11 @@ function useLoginInput() {
       valid = false;
     }
     if (password.length < 8) {
-      setErrorPassword("Password must be at least 8 characters");
+      setErrorPassword(
+        password
+          ? "Password must be at least 8 characters"
+          : "Password is required",
+      );
       valid = false;
     }
     if (valid) {
@@ -115,6 +119,7 @@ export default function LoginInput() {
         <div className="flex pt-4 gap-4">
           <button
             type="submit"
+            id="login-button"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4
             focus:ring-blue-300 font-medium rounded-lg px-5 py-3.5 mr-2 mb-2
             focus:outline-none w-full"
@@ -124,6 +129,7 @@ export default function LoginInput() {
 
           <button
             type="submit"
+            id="signup-button"
             className="text-white bg-emerald-500 hover:bg-emerald-700 focus:ring-4
             focus:ring-blue-300 font-medium rounded-lg px-5 py-3.5 ml-2 mb-2
             focus:outline-none w-full"
@@ -135,6 +141,7 @@ export default function LoginInput() {
 
       <button
         type="button"
+        id="login-with-google"
         className="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4
         focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg
         text-sm px-5 py-2.5 text-center inline-flex items-center
