@@ -8,13 +8,20 @@ afterEach(() => {
   cleanup();
 });
 
-const FakeContext = (mock?: MockContext, route?: string) =>
+const FakeContext = (mock?: MockContext, route: string = "") =>
   function Context({ children }: { children: React.ReactNode }) {
-    let paramValue, url;
-    if (route) {
-      [url, paramValue] = route.split("=");
-      route = url;
-      url = route.split(":")[0] + paramValue;
+    let url = "";
+    const routeSplit = route.split("/");
+    route = "";
+    for (let path of routeSplit) {
+      if (path.startsWith(":")) {
+        let [param, paramValue] = path.split("=");
+        url += `/${paramValue}`;
+        route += `/${param}`;
+      } else {
+        url += `/${path}`;
+        route += `/${path}`;
+      }
     }
     return (
       <UserProviderMock mockContext={mock}>
@@ -27,6 +34,21 @@ const FakeContext = (mock?: MockContext, route?: string) =>
     );
   };
 
+/**
+ * Render a component with a mock context and route.
+ * @param ui - A renderable component to test.
+ * @param options - Optional render options.
+ * @see https://testing-library.com/docs/react-testing-library/api#render-options
+ * @param options.mock - The mock context value
+ * @param options.route - The route to use
+ * @example ```jsx
+ * render(<Component />, {
+ *      route: "/route/:param=value/:param2=value2",
+ *      mock: { user: "JohnDoe@gmail.com" }
+ * });
+ * ```
+ * @returns The rendered component.
+ */
 const renderWithContext = (
   ui: React.ReactElement,
   options: Parameters<typeof render>[1] & {
