@@ -10,7 +10,6 @@ describe("AllPapers", () => {
   });
 
   it("should display all papers in the pool", async () => {
-    screen.logTestingPlaygroundURL();
     for (const paper of mockPapers) {
       const paperElement = document.getElementById(`trade-${paper.CodAtivo}`)!;
 
@@ -20,9 +19,7 @@ describe("AllPapers", () => {
       await within(paperElement).findByText(
         new RegExp(`${paper.Variacao}`, "i"),
       );
-      await within(paperElement).findByText(
-        new RegExp(`${paper.QteAtivo}`, "i"),
-      );
+      await within(paperElement).findByText(`${paper.QteAtivo} available`);
     }
   });
 
