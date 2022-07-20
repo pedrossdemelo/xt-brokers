@@ -7,7 +7,9 @@ type ExcludeValuesOfType<U, T> = {
   [K in keyof T]: T[K] extends U ? never : T[K];
 };
 
-export type MockContext = ExcludeValuesOfType<Function, UserMockContextValue>;
+export type MockContext = Partial<
+  ExcludeValuesOfType<Function, UserMockContextValue>
+>;
 
 type Props = {
   children: React.ReactNode;
