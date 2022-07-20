@@ -56,10 +56,11 @@ export default function Header() {
       <Dropdown
         inline
         arrowIcon={false}
+        id="mobile-menu"
         label={<MenuAlt2Icon className="h-6" />}
       >
         <Dropdown.Item>
-          <div className="flex gap-2 items-center mr-2">
+          <div id="user-email" className="flex gap-2 items-center mr-2">
             <UserIcon className="h-6" />
 
             <span className="ml-2">{user}</span>
@@ -69,7 +70,7 @@ export default function Header() {
         <Dropdown.Divider />
 
         <Dropdown.Item onClick={goToDashboard}>
-          <div className="flex gap-2 items-center mr-2">
+          <div id="dash-link" className="flex gap-2 items-center mr-2">
             <ViewGridIcon className="h-6" />
 
             <span className="ml-2">Dashboard</span>
@@ -80,6 +81,7 @@ export default function Header() {
           <a
             href="https://pedrosousa.dev"
             target="_blank"
+            id="dev-link"
             className="flex gap-2 items-center -my-2 py-2 -mx-4 px-4 w-full"
             rel="noreferrer"
           >
@@ -90,7 +92,7 @@ export default function Header() {
         </Dropdown.Item>
 
         <Dropdown.Item onClick={goToFunds}>
-          <div className="flex gap-2 items-center mr-2">
+          <div id="funds-link" className="flex gap-2 items-center mr-2">
             <CashIcon className="h-6" />
 
             <span className="ml-2">Funds</span>
@@ -100,7 +102,10 @@ export default function Header() {
         <Dropdown.Divider />
 
         <Dropdown.Item onClick={logout}>
-          <div className="flex gap-2 items-center text-red-700 mr-2">
+          <div
+            id="logout-link"
+            className="flex gap-2 items-center text-red-700 mr-2"
+          >
             <LogoutIcon className="h-6" />
 
             <span className="ml-2">Logout</span>
@@ -112,17 +117,19 @@ export default function Header() {
         className={`text-center -mb-0.5 px-2 rounded ${
           !showFunds && "text-slate-800 bg-slate-800 select-none"
         }`}
+        aria-hidden={!showFunds}
+        id="funds"
       >
         <label htmlFor="funds" className="block text-xs -mb-[5px]">
           Funds:
         </label>
 
-        <h1 className={"text-xl font-medium rounded-md"} id="funds">
+        <h1 className={"text-xl font-medium rounded-md"}>
           R$ {funds.toFixed(2)}
         </h1>
       </div>
 
-      <button onClick={toggleFunds}>
+      <button id="hide-money" onClick={toggleFunds}>
         {showFunds ? (
           <EyeOffIcon className="h-5" />
         ) : (
