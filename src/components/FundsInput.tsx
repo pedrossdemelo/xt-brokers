@@ -48,18 +48,12 @@ export default function Funds() {
     toggleTab,
   } = useFundsInput();
 
-  const [st, setSt] = React.useState("coissa");
-
   return (
     <>
       <div className="px-2 my-2 flex justify-between items-center">
         <h1 className="px-2 font-medium text-xl">
           {tab === "deposit" ? "Deposit" : "Withdraw"} request
         </h1>
-
-        <button onClick={() => setSt(st === "coissa" ? "oiee" : "coissa")}>
-          {st}
-        </button>
 
         <button
           data-testid="switch-transaction"
