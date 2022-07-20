@@ -14,6 +14,7 @@ const FakeContext = (mock?: MockContext, route: string = "") =>
     const routeSplit = route.split("/");
     route = "";
     for (let path of routeSplit) {
+      if (!path) continue;
       if (path.startsWith(":")) {
         let [param, paramValue] = path.split("=");
         url += `/${paramValue}`;
