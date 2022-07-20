@@ -1,7 +1,7 @@
 import { UserContext } from "context";
 import { useLocalStorage } from "hooks";
 import React, { useRef } from "react";
-import { Paper, papers } from "./mockPapers";
+import { papers } from "./mockPapers";
 
 type ExcludeValuesOfType<U, T> = {
   [K in keyof T]: T[K] extends U ? never : T[K];
@@ -36,12 +36,21 @@ type UserMockContextValue = {
 export function UserProviderMock({ children, mockContext }: Props) {
   const [userPapers, setUserPapers] = useLocalStorage(
     "userPapers",
-    [] as Paper[],
+    mockContext?.userPapers ?? [],
   );
-  const [allPapers, setAllPapers] = useLocalStorage("allPapers", papers);
-  const [user, setUser] = useLocalStorage("user", "test@gmail.com");
-  const [funds, setFunds] = useLocalStorage("funds", 10000);
-  const loggedAt = useRef(new Date());
+  const [allPapers, setAllPapers] = useLocalStorage(
+    "allPapers",
+    mockContext?.allPapers ?? papers,
+  );
+  const [user, setUser] = useLocalStorage(
+    "user",
+    mockContext?.user ?? "test@gmail.com",
+  );
+  const [funds, setFunds] = useLocalStorage(
+    "funds",
+    mockContext?.funds ?? 10000,
+  );
+  const loggedAt = useRef(mockContext?.loggedAt ?? new Date());
   const logout = () => {
     setUser("");
     setUserPapers([]);
@@ -56,7 +65,10 @@ export function UserProviderMock({ children, mockContext }: Props) {
       }, 0),
     [userPapers],
   );
-  const [hideMoney, setHideMoney] = useLocalStorage("hideMoney", false);
+  const [hideMoney, setHideMoney] = useLocalStorage(
+    "hideMoney",
+    mockContext?.hideMoney ?? false,
+  );
 
   const value = {
     userPapers,
