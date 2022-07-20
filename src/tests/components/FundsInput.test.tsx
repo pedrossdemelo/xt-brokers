@@ -60,11 +60,11 @@ describe("FundsInput", () => {
       "switch-transaction",
     ) as HTMLButtonElement;
 
-    expect(screen.findByText(/deposit request/i));
+    await screen.findByText(/deposit request/i);
 
-    userEvent.click(switchBtn);
+    await userEvent.click(switchBtn);
 
-    expect(screen.findByText(/withdraw request/i));
+    await screen.findByText(/withdraw request/i);
   });
 
   it("should reset the input when the transaction button is clicked", async () => {

@@ -68,7 +68,7 @@ describe("Header", () => {
 
     await userEvent.click(menuBtn);
 
-    expect(within(menu).findByText("TEST_USER@EMAIL.COM"));
+    await within(menu).findByText("TEST_USER@EMAIL.COM");
   });
 
   it("renders a dropdown menu with a logout button", async () => {
@@ -77,7 +77,7 @@ describe("Header", () => {
 
     await userEvent.click(menuBtn);
 
-    expect(within(menu).findByText(/logout/i));
+    await within(menu).findByText(/logout/i);
   });
 
   it("renders a dropdown menu with a link to the developer page", async () => {
@@ -86,7 +86,7 @@ describe("Header", () => {
 
     await userEvent.click(menuBtn);
 
-    expect(within(menu).findByText(/developer/i));
+    await within(menu).findByText(/developer/i);
   });
 
   it("renders a dropdown menu with a link to the funds page", async () => {
@@ -95,7 +95,7 @@ describe("Header", () => {
 
     await userEvent.click(menuBtn);
 
-    expect(within(menu).findByText(/funds/i));
+    await within(menu).findByText(/funds/i);
   });
 
   it("renders a dropdown menu with a link to the dashboard page", async () => {
@@ -104,6 +104,6 @@ describe("Header", () => {
 
     await userEvent.click(menuBtn);
 
-    expect(within(menu).findByText(/dashboard/i));
+    await within(menu).findByText(/dashboard/i);
   });
 });
