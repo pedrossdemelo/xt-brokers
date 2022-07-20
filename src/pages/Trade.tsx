@@ -33,7 +33,7 @@ function useTrade() {
   );
 
   const [tab, setTab] = React.useState<"buy" | "sell">(
-    poolPaper ? "buy" : "sell",
+    poolPaper && poolPaper.Valor < funds ? "buy" : "sell",
   );
 
   const { buyPaper, sellPaper } = usePaperTransaction(defaultPaper);
