@@ -2,6 +2,8 @@ import { Trade } from "pages";
 import { fireEvent, render, screen, userEvent } from "tests";
 import { papers } from "tests/mocks";
 
+const FUNDS = 10000;
+
 function getPaperMock(ticker: string) {
   return papers.find((paper) => paper.CodAtivo === ticker);
 }
@@ -37,10 +39,11 @@ function runSpecsOn(type: "BUY" | "SELL") {
     render(<Trade />, {
       route: `/trade/:ticker=${ticker}`,
       mock: isBuy
-        ? undefined
+        ? { funds: FUNDS }
         : {
             userPapers: [Paper],
             allPapers: papers.filter((p) => p.CodAtivo !== ticker),
+            funds: FUNDS,
           },
     });
   });
@@ -118,7 +121,7 @@ function runSpecsOn(type: "BUY" | "SELL") {
   it("should inform the current funds", async () => {
     await screen.findByText(/funds/i);
 
-    await screen.findByText(/R\$ 10000/i);
+    await screen.findByText(new RegExp(FUNDS.toString(), "i"));
   });
 
   it("should inform the user's position in the portfolio", async () => {
@@ -254,6 +257,34 @@ function runSpecsOn(type: "BUY" | "SELL") {
     fireEvent.change(amountInput, { target: { value: "100" } });
 
     expect(incrementBtn).toBeDisabled();
+  });
+
+  it(`should ${
+    isBuy ? "decrease" : "increase"
+  } the user's funds when clicking the ${typeUpper} button`, async () => {
+    await switchToTab();
+
+    const typeBtn = document.getElementById(
+      `${typeLower}-btn`,
+    ) as HTMLButtonElement;
+
+    expect(typeBtn).toBeInTheDocument();
+
+    expect(typeBtn).toBeDisabled();
+
+    const amountInput = screen.getByLabelText(/amount/i) as HTMLInputElement;
+
+    fireEvent.change(amountInput, { target: { value: "10" } });
+
+    expect(typeBtn).not.toBeDisabled();
+
+    fireEvent.click(typeBtn);
+
+    render(<Trade />, { route: `/trade/:ticker=${ticker}` });
+
+    const order = price * 10 * (isBuy ? -1 : 1);
+
+    await screen.findByText(new RegExp((FUNDS + order).toFixed(2), "i"));
   });
 }
 
