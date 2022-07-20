@@ -4,16 +4,34 @@ import { useUserData } from "hooks";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+
 function useLoginInput() {
   const navigate = useNavigate();
   const [password, setPassword] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const [errorEmail, setErrorEmail] = React.useState<string | null>(null);
+  const [errorPassword, setErrorPassword] = React.useState<string | null>(null);
+
   const { setUser } = useUserData();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setUser(email);
-    navigate("/");
+    setErrorEmail(null);
+    setErrorPassword(null);
+    let valid = true;
+    if (!EMAIL_REGEX.test(email)) {
+      setErrorEmail(email ? "Invalid email" : "Email is required");
+      valid = false;
+    }
+    if (password.length < 8) {
+      setErrorPassword("Password must be at least 8 characters");
+      valid = false;
+    }
+    if (valid) {
+      setUser(email);
+      navigate("/");
+    }
   }
 
   return {
@@ -24,12 +42,21 @@ function useLoginInput() {
     setEmail: (e: React.ChangeEvent<HTMLInputElement>) =>
       setEmail(e.target.value),
     handleSubmit,
+    errorEmail,
+    errorPassword,
   };
 }
 
 export default function LoginInput() {
-  const { password, setPassword, email, setEmail, handleSubmit } =
-    useLoginInput();
+  const {
+    password,
+    setPassword,
+    email,
+    setEmail,
+    errorEmail,
+    errorPassword,
+    handleSubmit,
+  } = useLoginInput();
 
   return (
     <>
@@ -50,16 +77,17 @@ export default function LoginInput() {
               Email
             </label>
 
-            <p className="text-red-500">error</p>
+            <p role="alert" className="text-red-500">
+              {errorEmail}
+            </p>
           </div>
 
           <TextInput
             id="email-input"
-            type="email"
+            type="text"
             onChange={setEmail}
             value={email}
-            placeholder="user@xpinc.com.br"
-            required={true}
+            placeholder="user@xtinc.com.br"
             icon={MailIcon}
           />
         </div>
@@ -70,7 +98,9 @@ export default function LoginInput() {
               Password
             </label>
 
-            <p className="text-red-500">error</p>
+            <p role="alert" className="text-red-500">
+              {errorPassword}
+            </p>
           </div>
 
           <TextInput
@@ -78,7 +108,6 @@ export default function LoginInput() {
             value={password}
             id="password-input"
             type="password"
-            required={true}
             icon={KeyIcon}
           />
         </div>
