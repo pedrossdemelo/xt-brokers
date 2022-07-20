@@ -70,11 +70,13 @@ export default function Funds() {
             type="number"
             id="fund-amount"
             className={`${
-              tab === "withdraw" && "focus:border-red-600"
+              tab === "withdraw"
+                ? "focus:border-red-600"
+                : "focus:border-blue-600"
             } block rounded-t-lg pr-4 pl-16 pb-3 pt-9 w-full text-3xl
             font-semibold bg-slate-200 border-0 border-b-2 border-slate-400
             appearance-none focus:outline-none focus:ring-0
-            focus:border-blue-600 peer`}
+            peer`}
             value={amount}
             onChange={setAmount}
             min="0"
