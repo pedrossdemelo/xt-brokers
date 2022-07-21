@@ -19,12 +19,12 @@ export default function NotFound() {
   const { goBack } = useNotFound();
 
   return (
-    <div className="grow flex flex-col items-center relative justify-center">
-      <QuestionMarkCircleIcon className="h-64 absolute opacity-5 pointer-events-none top-0 translate-y-[135%]" />
+    <div className="grow flex flex-col gap-4 items-center relative justify-center">
+      <QuestionMarkCircleIcon className="h-64 z-0 absolute opacity-5 top-1/2 -translate-y-1/2" />
 
-      <h1 className="text-xl text-medium mb-4">This page does not exist.</h1>
+      <h1 className="text-xl text-medium">This page does not exist.</h1>
 
-      <Button color="gray" onClick={goBack}>
+      <Button style={{ zIndex: 10 }} color="gray" onClick={goBack}>
         <ViewGridIcon className="h-6 mr-3" />
         Return to Dashboard
       </Button>
