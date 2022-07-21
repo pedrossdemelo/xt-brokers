@@ -1,6 +1,6 @@
-import { UserContext } from "context";
+import { UserContext, UserContextValue } from "context";
 import { useLocalStorage } from "hooks";
-import React, { useRef } from "react";
+import React from "react";
 import { papers } from "./mockPapers";
 
 type ExcludeValuesOfType<U, T> = {
@@ -16,20 +16,7 @@ type Props = {
   mockContext?: MockContext;
 };
 
-type UserMockContextValue = {
-  userPapers: typeof papers;
-  setUserPapers: React.Dispatch<React.SetStateAction<typeof papers>>;
-  allPapers: typeof papers;
-  setAllPapers: React.Dispatch<React.SetStateAction<typeof papers>>;
-  user: string;
-  setUser: React.Dispatch<React.SetStateAction<string>>;
-  funds: number;
-  setFunds: React.Dispatch<React.SetStateAction<number>>;
-  portfolio: number;
-  loggedAt: Date;
-  logout: () => void;
-  hideMoney: boolean;
-  setHideMoney: React.Dispatch<React.SetStateAction<boolean>>;
+type UserMockContextValue = UserContextValue & {
   mockContext?: MockContext;
 };
 
@@ -50,14 +37,16 @@ export function UserProviderMock({ children, mockContext }: Props) {
     "funds",
     mockContext?.funds ?? 10000,
   );
-  const loggedAt = useRef(mockContext?.loggedAt ?? new Date());
+  const [loggedIn, setLoggedIn] = React.useState(mockContext?.loggedIn ?? true);
+
   const logout = () => {
     setUser("");
     setUserPapers([]);
-    setFunds(10000);
+    setFunds(mockContext?.funds ?? 10000);
     setAllPapers(papers);
-    loggedAt.current = new Date();
+    setLoggedIn(false);
   };
+
   const portfolio = React.useMemo(
     () =>
       userPapers.reduce((acc, paper) => {
@@ -80,10 +69,12 @@ export function UserProviderMock({ children, mockContext }: Props) {
     funds,
     setFunds,
     portfolio,
-    loggedAt: loggedAt.current,
+    loggedAt: mockContext?.loggedAt ?? null,
     logout,
     hideMoney,
     setHideMoney,
+    loggedIn,
+    setLoggedIn,
     ...mockContext,
   };
 
