@@ -5,11 +5,12 @@ import { papers } from "tests/mocks";
 const contextMock = {
   user: "test@test.com",
   userPapers: [],
-  allPapers: papers,
+  allPapers: papers.slice(0, 10),
   portfolio: 1000,
   funds: 1000,
-  loggedAt: new Date(),
+  loggedAt: new Date().toISOString(),
   hideMoney: false,
+  loggedIn: true,
 };
 
 describe("useUserData", () => {
