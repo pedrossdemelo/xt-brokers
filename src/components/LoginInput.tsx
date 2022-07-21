@@ -6,6 +6,15 @@ import { useNavigate } from "react-router-dom";
 
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
+// simplified from https://stackoverflow.com/questions/5142103/regex-to-validate-password-strength
+const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}$/g;
+// ^              Start anchor
+// (?=.*[A-Z])    At least one uppercase letter
+// (?=.*[0-9])    At least one digit
+// (?=.*[a-z])    At least one lowercase letter
+// .{8,}          At least 8 characters
+// $              End anchor
+
 function useLoginInput() {
   const navigate = useNavigate();
   const [password, setPassword] = React.useState("");
@@ -24,12 +33,16 @@ function useLoginInput() {
       setErrorEmail(email ? "Invalid email" : "Email is required");
       valid = false;
     }
-    if (password.length < 8) {
-      setErrorPassword(
-        password
-          ? "Password must be at least 8 characters"
-          : "Password is required",
-      );
+    if (!PASSWORD_REGEX.test(password)) {
+      if (password.length < 8) {
+        setErrorPassword(
+          password
+            ? "Password must be at least 8 characters"
+            : "Password is required",
+        );
+      } else {
+        setErrorPassword("Please use uppercase, lowercase and numbers");
+      }
       valid = false;
     }
     if (valid) {
@@ -76,7 +89,7 @@ export default function LoginInput() {
         </div>
 
         <div>
-          <div className="mb-2 flex justify-between text-sm">
+          <div className="mb-2 flex justify-between items-end text-sm">
             <label className="text-gray-500" htmlFor="email-input">
               Email
             </label>
@@ -97,12 +110,12 @@ export default function LoginInput() {
         </div>
 
         <div>
-          <div className="mb-2 flex justify-between text-sm">
+          <div className="mb-2 flex gap-2 justify-between items-end text-sm">
             <label className="text-gray-500" htmlFor="password-input">
               Password
             </label>
 
-            <p role="alert" className="text-red-500">
+            <p role="alert" className="text-red-500 text-right">
               {errorPassword}
             </p>
           </div>
