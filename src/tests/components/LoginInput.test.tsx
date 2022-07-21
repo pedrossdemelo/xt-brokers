@@ -40,13 +40,13 @@ describe("LoginInput", () => {
 
     await userEvent.click(loginBtn);
 
-    expect(screen.findByText(/invalid email/i));
+    await screen.findByText(/invalid email/i);
 
     await userEvent.clear(emailInput);
 
     await userEvent.click(loginBtn);
 
-    expect(screen.findByText(/email is required/i));
+    await screen.findByText(/email is required/i);
   });
 
   it("should handle invalid password", async () => {
@@ -63,6 +63,41 @@ describe("LoginInput", () => {
 
     await userEvent.click(loginBtn);
 
-    expect(screen.findByText(/password must be at least 8 characters/i));
+    await screen.findByText(/password must be at least 8 characters/i);
+  });
+
+  it("should handle weak password", async () => {
+    const passwordInput = document.getElementById(
+      "password-input",
+    ) as HTMLInputElement;
+    const loginBtn = screen.getByText(/login/i, { selector: "button" });
+
+    await userEvent.type(passwordInput, "weakbutlong");
+
+    await userEvent.click(loginBtn);
+
+    await screen.findByText(/uppercase/i);
+
+    await screen.findByText(/number/i);
+
+    await userEvent.clear(passwordInput);
+
+    await userEvent.type(passwordInput, "weakButLong");
+
+    await userEvent.click(loginBtn);
+
+    await screen.findByText(/number/i);
+
+    await userEvent.clear(passwordInput);
+
+    await userEvent.type(passwordInput, "strongAndLong123");
+
+    await userEvent.click(loginBtn);
+
+    expect(screen.queryByText(/uppercase/i)).not.toBeInTheDocument();
+
+    expect(screen.queryByText(/lowercase/i)).not.toBeInTheDocument();
+
+    expect(screen.queryByText(/number/i)).not.toBeInTheDocument();
   });
 });
