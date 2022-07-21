@@ -10,16 +10,16 @@ function useTrade() {
   const [amount, setAmount] = React.useState<number | "">(0);
 
   const userPaper = useMemo(
-    () => userPapers.find((paper) => paper.CodAtivo === ticker),
+    () => userPapers.find((paper) => paper.codAtivo === ticker),
     [userPapers],
   );
 
   const poolPaper = useMemo(
-    () => allPapers.find((paper) => paper.CodAtivo === ticker),
+    () => allPapers.find((paper) => paper.codAtivo === ticker),
     [allPapers],
   );
 
-  const defaultPaper = { ...userPaper!, ...poolPaper!, QteAtivo: 0 };
+  const defaultPaper = { ...userPaper!, ...poolPaper!, qtdeAtivo: 0 };
 
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ function useTrade() {
   );
 
   const [tab, setTab] = React.useState<"buy" | "sell">(
-    poolPaper && poolPaper.Valor < funds ? "buy" : "sell",
+    poolPaper && poolPaper.valor < funds ? "buy" : "sell",
   );
 
   const { buyPaper, sellPaper } = usePaperTransaction(defaultPaper);
@@ -93,10 +93,10 @@ export default function Trade() {
       </Modal>
     );
 
-  const name = poolPaper.NomeAtivo;
-  const price = poolPaper.Valor;
-  const amountAvailable = poolPaper.QteAtivo;
-  const userAmount = userPaper.QteAtivo;
+  const name = poolPaper.nomeAtivo;
+  const price = poolPaper.valor;
+  const amountAvailable = poolPaper.qtdeAtivo;
+  const userAmount = userPaper.qtdeAtivo;
 
   return (
     <Modal show position="center" size="lg" onClose={goBack}>
@@ -148,10 +148,10 @@ export default function Trade() {
 
                 <span
                   className={`${
-                    poolPaper.Variacao > 0 ? "text-green-600" : "text-red-600"
+                    poolPaper.variacao > 0 ? "text-green-600" : "text-red-600"
                   }`}
                 >
-                  {poolPaper.Variacao}%
+                  {poolPaper.variacao}%
                 </span>
               </span>
             </div>

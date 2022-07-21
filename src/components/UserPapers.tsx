@@ -23,7 +23,7 @@ export default function UserPapers() {
 
       <div className="flex gap-4 px-4 -mx-4 relative overflow-x-scroll">
         {userPapers.map((paper) => (
-          <CarouselPaper key={paper.CodAtivo} data={paper} />
+          <CarouselPaper key={paper.codAtivo} data={paper} />
         ))}
 
         {!userPapers.length && (

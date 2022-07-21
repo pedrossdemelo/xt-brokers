@@ -50,7 +50,7 @@ export function UserProviderMock({ children, mockContext }: Props) {
   const portfolio = React.useMemo(
     () =>
       userPapers.reduce((acc, paper) => {
-        return acc + paper.Valor * paper.QteAtivo;
+        return acc + paper.valor * paper.qtdeAtivo;
       }, 0),
     [userPapers],
   );

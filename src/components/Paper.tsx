@@ -16,7 +16,7 @@ function usePaper(paper: TPaper) {
   const navigate = useNavigate();
 
   const tradeTicker = useCallback(() => {
-    navigate(`trade/${paper.CodAtivo}`);
+    navigate(`trade/${paper.codAtivo}`);
   }, [paper]);
 
   return { tradeTicker };
@@ -28,7 +28,7 @@ export default function Paper({ data, personal = false }: Props) {
   return (
     <button
       onClick={tradeTicker}
-      id={`${personal ? "portfolio" : "trade"}-${data.CodAtivo}`}
+      id={`${personal ? "portfolio" : "trade"}-${data.codAtivo}`}
       className="border-gray-200 p-3 rounded-xl text-sm border flex justify-between items-center"
     >
       <div className="flex gap-3 items-center text-left">
@@ -38,42 +38,43 @@ export default function Paper({ data, personal = false }: Props) {
 
         <div>
           <div className="font-semibold">
-            <span>{data.CodAtivo}</span>
+            <span>{data.codAtivo}</span>
 
             <span
               className={`text-[11px] h-full relative inline-block bottom-px ml-1 ${
-                data.Variacao > 0 ? "text-green-700" : "text-red-700"
+                data.variacao > 0 ? "text-green-700" : "text-red-700"
               }`}
             >
-              {data.Variacao > 0 ? (
+              {data.variacao > 0 ? (
                 <TrendingUpIcon className="h-4 mr-1 inline" />
               ) : (
                 <TrendingDownIcon className="h-4 mr-1 inline" />
               )}
 
-              {data.Variacao}
+              {data.variacao}
 
               {"%"}
             </span>
           </div>
 
-          <div className="text-xs">{data.NomeAtivo}</div>
+          <div className="text-xs">{data.nomeAtivo}</div>
         </div>
       </div>
 
       <div className="text-right">
         <div
           className={`font-semibold ${
-            data.Variacao > 0 ? "text-green-700" : "text-red-700"
+            data.variacao > 0 ? "text-green-700" : "text-red-700"
           }`}
         >
           <span>
-            R$ {personal ? (data.Valor * data.QteAtivo).toFixed(2) : data.Valor}
+            R${" "}
+            {personal ? (data.valor * data.qtdeAtivo).toFixed(2) : data.valor}
           </span>
         </div>
 
         <div className="text-xs">
-          {data.QteAtivo}
+          {data.qtdeAtivo}
 
           {personal ? " owned" : " available"}
         </div>

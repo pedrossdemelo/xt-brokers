@@ -10,7 +10,7 @@ export default function AllPapers() {
 
       <div className="px-4 gap-4 flex flex-col">
         {allPapers.map((paper) => (
-          <Paper key={paper.CodAtivo} data={paper} />
+          <Paper key={paper.codAtivo} data={paper} />
         ))}
       </div>
     </div>

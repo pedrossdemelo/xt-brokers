@@ -2,7 +2,7 @@ import { CarouselPaper } from "components";
 import { render, screen } from "tests";
 import { papers } from "../mocks";
 
-const mockPaper = { ...papers[0], QteAtivo: 10 };
+const mockPaper = { ...papers[0], qtdeAtivo: 10 };
 
 describe("CarouselPaper", () => {
   beforeEach(() => {
@@ -10,36 +10,36 @@ describe("CarouselPaper", () => {
   });
 
   it("should display the ticker", () => {
-    expect(screen.getByText(mockPaper.CodAtivo)).toBeInTheDocument();
+    expect(screen.getByText(mockPaper.codAtivo)).toBeInTheDocument();
   });
 
   it("should display the name", () => {
-    expect(screen.getByText(mockPaper.NomeAtivo)).toBeInTheDocument();
+    expect(screen.getByText(mockPaper.nomeAtivo)).toBeInTheDocument();
   });
 
   it("should display the price", () => {
     expect(
-      screen.getByText(new RegExp(`${mockPaper.Valor}`, "i")),
+      screen.getByText(new RegExp(`${mockPaper.valor}`, "i")),
     ).toBeInTheDocument();
   });
 
   it("should display the amount in the portfolio", () => {
     expect(
-      screen.getByText(new RegExp(`${mockPaper.QteAtivo}`, "i")),
+      screen.getByText(new RegExp(`${mockPaper.qtdeAtivo}`, "i")),
     ).toBeInTheDocument();
   });
 
   it("should display the price * amount", () => {
     expect(
       screen.getByText(
-        new RegExp((mockPaper.Valor * mockPaper.QteAtivo).toFixed(2), "i"),
+        new RegExp((mockPaper.valor * mockPaper.qtdeAtivo).toFixed(2), "i"),
       ),
     ).toBeInTheDocument();
   });
 
   it("should display the variation", () => {
     expect(
-      screen.getByText(new RegExp(`${mockPaper.Variacao}`, "i")),
+      screen.getByText(new RegExp(`${mockPaper.variacao}`, "i")),
     ).toBeInTheDocument();
   });
 });

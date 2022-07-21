@@ -11,15 +11,15 @@ describe("AllPapers", () => {
 
   it("should display all papers in the pool", async () => {
     for (const paper of mockPapers) {
-      const paperElement = document.getElementById(`trade-${paper.CodAtivo}`)!;
+      const paperElement = document.getElementById(`trade-${paper.codAtivo}`)!;
 
-      await within(paperElement).findByText(paper.CodAtivo);
-      await within(paperElement).findByText(paper.NomeAtivo);
-      await within(paperElement).findByText(new RegExp(`${paper.Valor}`, "i"));
+      await within(paperElement).findByText(paper.codAtivo);
+      await within(paperElement).findByText(paper.nomeAtivo);
+      await within(paperElement).findByText(new RegExp(`${paper.valor}`, "i"));
       await within(paperElement).findByText(
-        new RegExp(`${paper.Variacao}`, "i"),
+        new RegExp(`${paper.variacao}`, "i"),
       );
-      await within(paperElement).findByText(`${paper.QteAtivo} available`);
+      await within(paperElement).findByText(`${paper.qtdeAtivo} available`);
     }
   });
 

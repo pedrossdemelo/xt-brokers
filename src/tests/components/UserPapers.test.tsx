@@ -4,10 +4,10 @@ import { papers } from "tests/mocks";
 
 const mockPapers = papers
   .slice(0, 5)
-  .map((paper) => ({ ...paper, QteAtivo: 10 }));
+  .map((paper) => ({ ...paper, qtdeAtivo: 10 }));
 
 const total = mockPapers.reduce(
-  (acc, paper) => acc + paper.Valor * paper.QteAtivo,
+  (acc, paper) => acc + paper.valor * paper.qtdeAtivo,
   0,
 );
 
@@ -20,27 +20,27 @@ describe("UserPapers", () => {
     it("should display all papers in the portfolio", async () => {
       for (const paper of mockPapers) {
         const paperElement = document.getElementById(
-          `carousel-${paper.CodAtivo}`,
+          `carousel-${paper.codAtivo}`,
         )!;
 
-        await within(paperElement).findByText(paper.CodAtivo);
+        await within(paperElement).findByText(paper.codAtivo);
 
-        await within(paperElement).findByText(paper.NomeAtivo);
+        await within(paperElement).findByText(paper.nomeAtivo);
 
         await within(paperElement).findByText(
-          new RegExp(`${paper.Valor}`, "i"),
+          new RegExp(`${paper.valor}`, "i"),
         );
 
         await within(paperElement).findByText(
-          new RegExp((paper.Valor * paper.QteAtivo).toFixed(2), "i"),
+          new RegExp((paper.valor * paper.qtdeAtivo).toFixed(2), "i"),
         );
 
         await within(paperElement).findByText(
-          new RegExp(`${paper.Variacao}`, "i"),
+          new RegExp(`${paper.variacao}`, "i"),
         );
 
         await within(paperElement).findByText(
-          new RegExp(`${paper.QteAtivo} shares`, "i"),
+          new RegExp(`${paper.qtdeAtivo} shares`, "i"),
         );
       }
     });

@@ -15,7 +15,7 @@ function usePaper(paper: Paper) {
   const navigate = useNavigate();
 
   const tradeTicker = useCallback(() => {
-    navigate(`trade/${paper.CodAtivo}`);
+    navigate(`trade/${paper.codAtivo}`);
   }, [paper]);
 
   return { tradeTicker };
@@ -27,7 +27,7 @@ export default function CarouselPaper({ data }: Props) {
   return (
     <button
       onClick={tradeTicker}
-      id={`carousel-${data.CodAtivo}`}
+      id={`carousel-${data.codAtivo}`}
       className="border-gray-200 p-3 rounded-xl text-sm border shrink-0 w-52
       text-left flex flex-col items-stretch justify-between"
     >
@@ -41,42 +41,42 @@ export default function CarouselPaper({ data }: Props) {
 
         <div>
           <div className="font-semibold">
-            <span>{data.CodAtivo}</span>
+            <span>{data.codAtivo}</span>
 
             <span
               className={`text-[11px] h-full relative inline-block bottom-px ml-1 ${
-                data.Variacao > 0 ? "text-green-700" : "text-red-700"
+                data.variacao > 0 ? "text-green-700" : "text-red-700"
               }`}
             >
-              {data.Variacao > 0 ? (
+              {data.variacao > 0 ? (
                 <TrendingUpIcon className="h-4 mr-1 inline" />
               ) : (
                 <TrendingDownIcon className="h-4 mr-1 inline" />
               )}
 
-              {data.Variacao}
+              {data.variacao}
 
               {"%"}
             </span>
           </div>
 
-          <div className="text-xs line-clamp-1">{data.NomeAtivo}</div>
+          <div className="text-xs line-clamp-1">{data.nomeAtivo}</div>
         </div>
       </div>
 
       <div className="mt-3">
         <div
           className={`font-semibold text-xl ${
-            data.Variacao > 0 ? "text-green-700" : "text-red-700"
+            data.variacao > 0 ? "text-green-700" : "text-red-700"
           }`}
         >
-          <span>R$ {data.Valor}</span>
+          <span>R$ {data.valor}</span>
         </div>
 
         <div className="text-xs">
-          <span>R$ {(data.QteAtivo * data.Valor).toFixed(2)}</span>
+          <span>R$ {(data.qtdeAtivo * data.valor).toFixed(2)}</span>
 
-          <span className="float-right">{data.QteAtivo} shares</span>
+          <span className="float-right">{data.qtdeAtivo} shares</span>
         </div>
       </div>
     </button>

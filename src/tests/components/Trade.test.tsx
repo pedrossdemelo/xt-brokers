@@ -5,17 +5,17 @@ import { papers } from "tests/mocks";
 const FUNDS = 10000;
 
 function getPaperMock(ticker: string) {
-  return papers.find((paper) => paper.CodAtivo === ticker);
+  return papers.find((paper) => paper.codAtivo === ticker);
 }
 
 const Paper = getPaperMock("PETR4")!;
 
 const {
-  CodAtivo: ticker,
-  Valor: price,
-  QteAtivo: amount,
-  NomeAtivo: name,
-  Variacao: variation,
+  codAtivo: ticker,
+  valor: price,
+  qtdeAtivo: amount,
+  nomeAtivo: name,
+  variacao: variation,
 } = Paper;
 
 function runSpecsOn(type: "BUY" | "SELL") {
@@ -42,7 +42,7 @@ function runSpecsOn(type: "BUY" | "SELL") {
         ? { funds: FUNDS }
         : {
             userPapers: [Paper],
-            allPapers: papers.filter((p) => p.CodAtivo !== ticker),
+            allPapers: papers.filter((p) => p.codAtivo !== ticker),
             funds: FUNDS,
           },
     });

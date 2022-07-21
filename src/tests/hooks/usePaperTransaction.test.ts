@@ -16,7 +16,7 @@ describe("usePaperTransaction", () => {
       result.current.buyPaper(20);
     });
 
-    expect(result.current.allPapers[0].QteAtivo).toBe(80);
+    expect(result.current.allPapers[0].qtdeAtivo).toBe(80);
   });
 
   it("should increase the shares owned when buying", () => {
@@ -28,7 +28,7 @@ describe("usePaperTransaction", () => {
       result.current.buyPaper(10);
     });
 
-    expect(result.current.userPapers[0].QteAtivo).toBe(30);
+    expect(result.current.userPapers[0].qtdeAtivo).toBe(30);
   });
 
   it("should increase the shares available when selling", () => {
@@ -40,7 +40,7 @@ describe("usePaperTransaction", () => {
       result.current.sellPaper(10);
     });
 
-    expect(result.current.allPapers[0].QteAtivo).toBe(80);
+    expect(result.current.allPapers[0].qtdeAtivo).toBe(80);
   });
 
   it("should decrease the shares owned when buying", () => {
@@ -52,7 +52,7 @@ describe("usePaperTransaction", () => {
       result.current.sellPaper(10);
     });
 
-    expect(result.current.userPapers[0].QteAtivo).toBe(10);
+    expect(result.current.userPapers[0].qtdeAtivo).toBe(10);
   });
 
   it("should clear the user paper when selling all", () => {
@@ -66,7 +66,7 @@ describe("usePaperTransaction", () => {
 
     expect(result.current.userPapers).not.toContain({
       ...mockPaper,
-      QteAtivo: 0,
+      qtdeAtivo: 0,
     });
   });
 });
