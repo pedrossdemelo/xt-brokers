@@ -1,12 +1,12 @@
 import { useLocalStorage } from "hooks";
-import React, { useRef } from "react";
+import React from "react";
 import { Paper, papers } from "tests/mocks";
 
 type Props = {
   children: React.ReactNode;
 };
 
-type UserContextValue = {
+export type UserContextValue = {
   userPapers: typeof papers;
   setUserPapers: React.Dispatch<React.SetStateAction<typeof papers>>;
   allPapers: typeof papers;
@@ -16,10 +16,12 @@ type UserContextValue = {
   funds: number;
   setFunds: React.Dispatch<React.SetStateAction<number>>;
   portfolio: number;
-  loggedAt: Date;
+  loggedAt: string | null;
   logout: () => void;
   hideMoney: boolean;
   setHideMoney: React.Dispatch<React.SetStateAction<boolean>>;
+  loggedIn: boolean;
+  setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const UserContext = React.createContext<UserContextValue>({
@@ -32,11 +34,16 @@ const UserContext = React.createContext<UserContextValue>({
   funds: 1000,
   setFunds: () => {},
   portfolio: 0,
-  loggedAt: new Date(),
+  loggedAt: null,
   logout: () => {},
   hideMoney: false,
   setHideMoney: () => {},
+  loggedIn: false,
+  setLoggedIn: () => {},
 });
+
+const loggedAt = localStorage.getItem("loggedAt");
+const minutes = (min: number) => min * 60 * 1000;
 
 export function UserProvider({ children }: Props) {
   const [userPapers, setUserPapers] = useLocalStorage(
@@ -46,14 +53,25 @@ export function UserProvider({ children }: Props) {
   const [allPapers, setAllPapers] = useLocalStorage("allPapers", papers);
   const [user, setUser] = useLocalStorage("user", "");
   const [funds, setFunds] = useLocalStorage("funds", 1000);
-  const loggedAt = useRef(new Date());
+
+  // only allow loggedIn to be true if user is set and
+  // the time difference between now and the last login is less than 10 minutes
+  const [loggedIn, setLoggedIn] = React.useState(
+    Boolean(
+      user &&
+        loggedAt &&
+        new Date().getTime() - new Date(loggedAt).getTime() < minutes(10),
+    ),
+  );
+
   const logout = () => {
     setUser("");
     setUserPapers([]);
     setFunds(1000);
     setAllPapers(papers);
-    loggedAt.current = new Date();
+    setLoggedIn(false);
   };
+
   const portfolio = React.useMemo(
     () =>
       userPapers.reduce((acc, paper) => {
@@ -62,6 +80,10 @@ export function UserProvider({ children }: Props) {
     [userPapers],
   );
   const [hideMoney, setHideMoney] = useLocalStorage("hideMoney", false);
+
+  React.useEffect(() => {
+    if (loggedIn) localStorage.setItem("loggedAt", new Date().toISOString());
+  }, [loggedIn]);
 
   const value = {
     userPapers,
@@ -73,10 +95,12 @@ export function UserProvider({ children }: Props) {
     funds,
     setFunds,
     portfolio,
-    loggedAt: loggedAt.current,
+    loggedAt,
     logout,
     hideMoney,
     setHideMoney,
+    loggedIn,
+    setLoggedIn,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

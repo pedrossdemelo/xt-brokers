@@ -13,7 +13,8 @@ import { useUserData } from "hooks";
 import { useNavigate } from "react-router-dom";
 
 function useHeader() {
-  const { user, funds, logout, hideMoney, setHideMoney } = useUserData();
+  const { user, loggedIn, funds, logout, hideMoney, setHideMoney } =
+    useUserData();
   const navigate = useNavigate();
 
   function goToFunds() {
@@ -25,31 +26,33 @@ function useHeader() {
   }
 
   return {
-    user,
+    loggedIn,
     goToFunds,
     goToDashboard,
     funds,
     showFunds: !hideMoney,
     toggleFunds: () => setHideMoney(!hideMoney),
+    user,
     logout: () => {
-      navigate("/login");
       logout();
+      navigate("/login", { replace: true });
     },
   };
 }
 
 export default function Header() {
   const {
-    user,
     goToFunds,
     goToDashboard,
     logout,
     funds,
     showFunds,
     toggleFunds,
+    loggedIn,
+    user,
   } = useHeader();
 
-  if (!user) return null;
+  if (!loggedIn) return null;
 
   return (
     <nav className="relative h-14 flex px-4 py-2 z-50 justify-between items-center bg-slate-900 text-white">

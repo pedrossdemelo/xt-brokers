@@ -5,8 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import { PrivateRoutes } from "utils";
 
 function App() {
-  const { user } = useUserData();
-  const loggedIn = !!user;
+  const { loggedIn } = useUserData();
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
