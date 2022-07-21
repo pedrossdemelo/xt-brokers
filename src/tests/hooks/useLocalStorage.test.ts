@@ -1,5 +1,5 @@
 import { useLocalStorage } from "hooks";
-import { renderHook } from "tests";
+import { act, renderHook } from "tests";
 import { vi } from "vitest";
 
 describe("useLocalStorage", () => {
@@ -21,9 +21,6 @@ describe("useLocalStorage", () => {
   });
 
   it("should return and set the initialState if the key is not in localStorage", () => {
-    const spyGET = vi.spyOn(Storage.prototype, "getItem");
-    const spySET = vi.spyOn(Storage.prototype, "setItem");
-
     const key = "test";
     const initialState = { foo: "bar" };
 
@@ -90,12 +87,14 @@ describe("useLocalStorage", () => {
       wrapper: undefined,
     });
 
-    const [value, setValue] = result.current;
+    expect(result.current[0]).toStrictEqual(storedState);
 
-    expect(value).toStrictEqual(storedState);
-
-    setValue(newValue);
+    act(() => {
+      result.current[1](newValue);
+    });
 
     expect(spySET).toHaveBeenCalledWith(key, newValueJSON);
+
+    expect(result.current[0]).toStrictEqual(newValue);
   });
 });
