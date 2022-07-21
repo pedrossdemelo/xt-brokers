@@ -27,6 +27,7 @@ export default function CarouselPaper({ data }: Props) {
   return (
     <button
       onClick={tradeTicker}
+      id={`carousel-${data.CodAtivo}`}
       className="border-gray-200 p-3 rounded-xl text-sm border shrink-0 w-52
       text-left flex flex-col items-stretch justify-between"
     >

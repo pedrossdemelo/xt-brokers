@@ -28,6 +28,7 @@ export default function Paper({ data, personal = false }: Props) {
   return (
     <button
       onClick={tradeTicker}
+      id={`${personal ? "portfolio" : "trade"}-${data.CodAtivo}`}
       className="border-gray-200 p-3 rounded-xl text-sm border flex justify-between items-center"
     >
       <div className="flex gap-3 items-center text-left">

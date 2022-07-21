@@ -1,7 +1,8 @@
-import { Header, PrivateRoutes } from "components";
+import { Header } from "components";
 import { useUserData } from "hooks";
 import { Dashboard, Funds, Home, NotFound, Trade } from "pages";
 import { Route, Routes } from "react-router-dom";
+import { PrivateRoutes } from "utils";
 
 function App() {
   const { user } = useUserData();

@@ -41,3 +41,5 @@ rules:
     - warn
 ignorePatterns:
   - '*.cjs'
+  - '*.test.tsx'
+  - '*.test.ts'

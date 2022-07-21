@@ -1,15 +1,13 @@
-import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/solid";
-import { Modal } from "flowbite-react";
+import { MinusSmIcon, PlusSmIcon, ViewGridIcon } from "@heroicons/react/solid";
+import { Button, Modal } from "flowbite-react";
 import { usePaperTransaction, useUserData } from "hooks";
 import React, { useCallback, useMemo } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function useTrade() {
   const { ticker } = useParams();
   const { userPapers, allPapers, funds } = useUserData();
-  const [amount, setAmount] = React.useState(0);
-
-  const [tab, setTab] = React.useState("buy");
+  const [amount, setAmount] = React.useState<number | "">(0);
 
   const userPaper = useMemo(
     () => userPapers.find((paper) => paper.CodAtivo === ticker),
@@ -34,12 +32,15 @@ function useTrade() {
     [userPaper, poolPaper],
   );
 
+  const [tab, setTab] = React.useState<"buy" | "sell">(
+    poolPaper && poolPaper.Valor < funds ? "buy" : "sell",
+  );
+
   const { buyPaper, sellPaper } = usePaperTransaction(defaultPaper);
 
   return {
     amount,
     setAmount: (e: React.ChangeEvent<HTMLInputElement>) =>
-      // @ts-ignore
       setAmount(Math.abs(+e.target.value) || ""),
     userPaper: userPaper ?? defaultPaper,
     poolPaper: poolPaper ?? defaultPaper,
@@ -78,7 +79,19 @@ export default function Trade() {
 
   const amount = Number(amountInput);
 
-  if (notFound) return <Navigate to="/" />;
+  if (notFound)
+    return (
+      <Modal show position="center" size="lg" onClose={goBack}>
+        <Modal.Header>Ticker {ticker} does not exist</Modal.Header>
+
+        <Modal.Footer>
+          <Button color="gray" onClick={goBack}>
+            <ViewGridIcon className="h-6 mr-3" />
+            Return to Dashboard
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
 
   const name = poolPaper.NomeAtivo;
   const price = poolPaper.Valor;
@@ -107,7 +120,8 @@ export default function Trade() {
               <div className="flex items-stretch h-full">
                 <button
                   onClick={setBuy}
-                  disabled={funds < price}
+                  id="buy-tab"
+                  disabled={funds < price || amountAvailable === 0}
                   className={`border-r border-gray-200 px-4 disabled:text-gray-300 disabled:pointer-events-none ${
                     tab === "buy" && "font-semibold bg-blue-50/50 text-blue-700"
                   }`}
@@ -117,6 +131,7 @@ export default function Trade() {
 
                 <button
                   onClick={setSell}
+                  id="sell-tab"
                   disabled={userAmount === 0}
                   className={`border-r border-gray-200 px-4 disabled:text-gray-300 disabled:pointer-events-none ${
                     tab === "sell" && "font-semibold bg-red-50/50 text-red-700"
@@ -126,7 +141,7 @@ export default function Trade() {
                 </button>
               </div>
 
-              <span className="font-medium pr-4">
+              <span id="price-variation" className="font-medium pr-4">
                 {price}
 
                 {" · "}
@@ -142,15 +157,18 @@ export default function Trade() {
             </div>
 
             <div className="relative flex text-center flex-col bg-gray-100">
-              <div
+              <label
                 className="text-xs absolute left-1/2 top-1.5 -translate-x-1/2
               text-gray-600 font-medium"
+                htmlFor="trade-amount-input"
               >
                 AMOUNT
-              </div>
+              </label>
 
               <button
                 onClick={decAmount}
+                id="decrement-btn"
+                aria-label="decrement"
                 disabled={amount == 0}
                 className="absolute top-1/2 disabled:opacity-20 opacity-60 p-2 -translate-y-1/2 left-2"
               >
@@ -159,6 +177,8 @@ export default function Trade() {
 
               <button
                 onClick={incAmount}
+                id="increment-btn"
+                aria-label="increment"
                 disabled={
                   (tab === "buy" && amount >= amountAvailable) ||
                   (tab === "sell" && amount >= userAmount)
@@ -171,6 +191,7 @@ export default function Trade() {
               <input
                 type="number"
                 value={amountInput}
+                id="trade-amount-input"
                 onChange={setAmount}
                 className="bg-transparent focus:ring-gray-200 focus:ring-2 border-none
                 text-center font-medium h-16 pt-6 text-3xl"
@@ -222,6 +243,7 @@ export default function Trade() {
 
           <button
             type="button"
+            id={`${tab}-btn`}
             className={`text-white h-12 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 focus:outline-none disabled:opacity-25 ${
               tab === "sell" && "bg-red-700 hover:bg-red-800 focus:ring-red-300"
             } `}
@@ -237,7 +259,9 @@ export default function Trade() {
               goBack();
             }}
           >
-            {tab === "sell" ? "SELL" : "BUY"}
+            {tab === "sell" ? "SELL " : "BUY "}
+
+            {ticker}
           </button>
         </div>
       </Modal.Body>
