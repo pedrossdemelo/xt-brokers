@@ -16,13 +16,13 @@ const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}$/g;
 // $              End anchor
 
 function useLoginInput() {
+  const { setUser, setLoggedIn, loggedAt, user } = useUserData();
+
   const navigate = useNavigate();
   const [password, setPassword] = React.useState("");
-  const [email, setEmail] = React.useState("");
+  const [email, setEmail] = React.useState(user ?? "");
   const [errorEmail, setErrorEmail] = React.useState<string | null>(null);
   const [errorPassword, setErrorPassword] = React.useState<string | null>(null);
-
-  const { setUser } = useUserData();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -47,6 +47,7 @@ function useLoginInput() {
     }
     if (valid) {
       setUser(email);
+      setLoggedIn(true);
       navigate("/");
     }
   }
@@ -61,6 +62,7 @@ function useLoginInput() {
     handleSubmit,
     errorEmail,
     errorPassword,
+    loggedAt,
   };
 }
 
@@ -73,7 +75,10 @@ export default function LoginInput() {
     errorEmail,
     errorPassword,
     handleSubmit,
+    loggedAt,
   } = useLoginInput();
+
+  const loggedDate = loggedAt ? new Date(loggedAt) : null;
 
   return (
     <>
@@ -85,7 +90,11 @@ export default function LoginInput() {
         <div>
           <h1 className="text-2xl">Welcome to XT Brokers.</h1>
 
-          <p className="text-gray-500 text-sm">Log in to continue.</p>
+          <p className="text-gray-500 text-sm">
+            {loggedDate
+              ? `Last login at ${loggedDate.toLocaleDateString()} ${loggedDate.toLocaleTimeString()}`
+              : "Log in to continue"}
+          </p>
         </div>
 
         <div>
