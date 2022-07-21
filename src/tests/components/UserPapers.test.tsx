@@ -12,43 +12,57 @@ const total = mockPapers.reduce(
 );
 
 describe("UserPapers", () => {
-  beforeEach(() => {
-    render(<UserPapers />, { mock: { userPapers: mockPapers } });
+  describe("when the user has papers in his portfolio", () => {
+    beforeEach(() => {
+      render(<UserPapers />, { mock: { userPapers: mockPapers } });
+    });
+
+    it("should display all papers in the portfolio", async () => {
+      for (const paper of mockPapers) {
+        const paperElement = document.getElementById(
+          `carousel-${paper.CodAtivo}`,
+        )!;
+
+        await within(paperElement).findByText(paper.CodAtivo);
+
+        await within(paperElement).findByText(paper.NomeAtivo);
+
+        await within(paperElement).findByText(
+          new RegExp(`${paper.Valor}`, "i"),
+        );
+
+        await within(paperElement).findByText(
+          new RegExp((paper.Valor * paper.QteAtivo).toFixed(2), "i"),
+        );
+
+        await within(paperElement).findByText(
+          new RegExp(`${paper.Variacao}`, "i"),
+        );
+
+        await within(paperElement).findByText(
+          new RegExp(`${paper.QteAtivo} shares`, "i"),
+        );
+      }
+    });
+
+    it("should display 'Portfolio' at the top", () => {
+      expect(screen.getByText(/portfolio/i)).toBeInTheDocument();
+    });
+
+    it("should display the total portfolio value", () => {
+      expect(
+        screen.getByText(new RegExp(total.toFixed(2), "i")),
+      ).toBeInTheDocument();
+    });
   });
 
-  it("should display all papers in the portfolio", async () => {
-    for (const paper of mockPapers) {
-      const paperElement = document.getElementById(
-        `carousel-${paper.CodAtivo}`,
-      )!;
+  describe("when the user has no papers in his portfolio", () => {
+    beforeEach(() => {
+      render(<UserPapers />, { mock: { userPapers: [] } });
+    });
 
-      await within(paperElement).findByText(paper.CodAtivo);
-
-      await within(paperElement).findByText(paper.NomeAtivo);
-
-      await within(paperElement).findByText(new RegExp(`${paper.Valor}`, "i"));
-
-      await within(paperElement).findByText(
-        new RegExp((paper.Valor * paper.QteAtivo).toFixed(2), "i"),
-      );
-
-      await within(paperElement).findByText(
-        new RegExp(`${paper.Variacao}`, "i"),
-      );
-
-      await within(paperElement).findByText(
-        new RegExp(`${paper.QteAtivo} shares`, "i"),
-      );
-    }
-  });
-
-  it("should display 'Portfolio' at the top", () => {
-    expect(screen.getByText(/portfolio/i)).toBeInTheDocument();
-  });
-
-  it("should display the total portfolio value", () => {
-    expect(
-      screen.getByText(new RegExp(total.toFixed(2), "i")),
-    ).toBeInTheDocument();
+    it("should display 'start trading'", () => {
+      expect(screen.getByText(/start trading/i)).toBeInTheDocument();
+    });
   });
 });
