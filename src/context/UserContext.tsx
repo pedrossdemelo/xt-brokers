@@ -1,6 +1,6 @@
 import { useLocalStorage } from "hooks";
 import React, { useRef } from "react";
-import { Paper, papers } from "utils/mockData";
+import { Paper, papers } from "tests/mocks";
 
 type Props = {
   children: React.ReactNode;
