@@ -1,6 +1,6 @@
 import produce from "immer";
 import React from "react";
-import { Paper } from "utils/mockData";
+import { Paper } from "tests/mocks";
 import useUserData from "./useUserData";
 
 export default function usePaperTransaction(paper: Paper) {

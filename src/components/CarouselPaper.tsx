@@ -5,7 +5,7 @@ import {
 } from "@heroicons/react/solid";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Paper } from "utils";
+import { Paper } from "tests/mocks";
 
 type Props = {
   data: Paper;
