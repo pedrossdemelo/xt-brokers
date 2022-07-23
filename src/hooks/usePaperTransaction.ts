@@ -71,6 +71,8 @@ export default function usePaperTransaction(paper: Paper) {
       );
 
       setLoading(false);
+
+      toast.success(`Sold ${amount} ${paper.codAtivo}`);
     },
     [paper],
   );
@@ -133,6 +135,8 @@ export default function usePaperTransaction(paper: Paper) {
         }),
       );
       setLoading(false);
+
+      toast.success(`Bought ${amount} ${paper.codAtivo}`);
     },
     [paper],
   );

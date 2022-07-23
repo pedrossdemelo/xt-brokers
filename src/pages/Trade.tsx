@@ -36,7 +36,7 @@ function useTrade() {
     poolPaper && poolPaper.valor < funds ? "buy" : "sell",
   );
 
-  const { buyPaper, sellPaper } = usePaperTransaction(defaultPaper);
+  const { buyPaper, sellPaper, loading } = usePaperTransaction(defaultPaper);
 
   return {
     amount,
@@ -55,6 +55,7 @@ function useTrade() {
     decAmount: () => setAmount(Number(amount) - 1),
     setBuy: () => setTab("buy"),
     setSell: () => setTab("sell"),
+    loading,
   };
 }
 
@@ -75,6 +76,7 @@ export default function Trade() {
     tab,
     setBuy,
     setSell,
+    loading,
   } = useTrade();
 
   const amount = Number(amountInput);
@@ -248,6 +250,7 @@ export default function Trade() {
               tab === "sell" && "bg-red-700 hover:bg-red-800 focus:ring-red-300"
             } `}
             disabled={
+              loading ||
               (tab === "sell" && amount > userAmount) ||
               (tab === "buy" &&
                 (amount * price > funds || amount > amountAvailable)) ||
@@ -259,7 +262,7 @@ export default function Trade() {
               goBack();
             }}
           >
-            {tab === "sell" ? "SELL " : "BUY "}
+            {`${tab.toUpperCase()}${loading ? "ing " : " "}`}
 
             {ticker}
           </button>
