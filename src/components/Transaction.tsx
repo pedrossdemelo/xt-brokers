@@ -17,7 +17,7 @@ export default function Transaction({ data }: Props) {
 
       <div>x {data.qtdeAtivo} </div>
 
-      <div>{data.valor * factor} </div>
+      <div>{(data.valor * factor).toFixed(2)} </div>
 
       <div>{dateString} </div>
     </div>
