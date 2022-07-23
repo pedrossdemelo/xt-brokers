@@ -12,6 +12,8 @@ export default function Transactions() {
 
   return (
     <div className="grow">
+      <h1>Transactions</h1>
+
       {transactions.map((transaction) => (
         <Transaction data={transaction} key={transaction.id} />
       ))}
