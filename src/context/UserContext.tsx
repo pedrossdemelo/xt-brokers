@@ -41,9 +41,18 @@ export function UserProvider({ children }: Props) {
   );
   const [hideMoney, setHideMoney] = useLocalStorage("hideMoney", false);
 
+  const loggedIn = React.useMemo(() => !!user, [user]);
+
   React.useEffect(() => {
     (async () => {
-      if (!user) return setLoading(false);
+      if (!loggedIn) {
+        setTransactions([]);
+        setUserPapers([]);
+        setAllPapers([]);
+        setFunds(0);
+
+        return setLoading(false);
+      }
 
       setLoading(true);
 
@@ -64,7 +73,7 @@ export function UserProvider({ children }: Props) {
 
       setLoading(false);
     })();
-  }, [user]);
+  }, [loggedIn]);
 
   React.useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -115,7 +124,7 @@ export function UserProvider({ children }: Props) {
     logout: () => supabase.auth.signOut(),
     hideMoney,
     setHideMoney,
-    loggedIn: !!user,
+    loggedIn,
     loading,
     setLoading,
     transactions,
