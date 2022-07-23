@@ -1,6 +1,6 @@
 import supabase from "./supabase";
 
-export default function sendTransaction(
+export default function postTransaction(
   ticker: string,
   { amount, sell }: { amount: number; sell: boolean },
 ) {
