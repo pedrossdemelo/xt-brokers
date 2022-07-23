@@ -10,7 +10,9 @@ describe("Transactions", () => {
   });
 
   it("should display the ticker", () => {
-    expect(screen.getByText(mockTransaction.codAtivo)).toBeInTheDocument();
+    expect(
+      screen.getByText(mockTransaction.codAtivo, { exact: false }),
+    ).toBeInTheDocument();
   });
 
   it("should display the transaction value", () => {

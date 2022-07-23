@@ -19,7 +19,9 @@ describe("Transactions", () => {
         `transaction-${transaction.id}`,
       )!;
 
-      await within(transactionElement).findByText(transaction.codAtivo);
+      await within(transactionElement).findByText(transaction.codAtivo, {
+        exact: false,
+      });
       await within(transactionElement).findByText(dateString);
       await within(transactionElement).findByText(
         new RegExp(`${(transaction.valor * factor).toFixed(2)}`, "i"),
