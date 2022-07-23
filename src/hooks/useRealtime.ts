@@ -8,6 +8,7 @@ import { supabase } from "utils";
  * Supabase realtime subscriptions are down/not working
  * @see https://github.com/supabase/supabase-js/issues/443
  * @see https://github.com/supabase/supabase/issues/7771
+ * @see https://github.com/supabase/realtime/issues/265#issuecomment-1181560093
  */
 export default function useRealtime(
   setTransactions: UserContextValue["setTransactions"],
