@@ -34,8 +34,6 @@ export default function useRealtime(
             );
             if (index !== -1) {
               draft[index].qtdeAtivo = payload.new.qtdeAtivo;
-            } else {
-              draft.push(payload.new);
             }
           }),
         );
@@ -44,10 +42,42 @@ export default function useRealtime(
         setUserPapers(
           produce((draft) => {
             const index = draft.findIndex(
-              (p) => p.codAtivo === payload.new.codAtivo,
+              (p) => p.codAtivo === payload.old.codAtivo,
             );
             if (index !== -1) {
               draft.splice(index, 1);
+            }
+          }),
+        );
+      })
+      .on("INSERT", async (payload) => {
+        const { data } = await supabase
+          .from("investimentos")
+          .select("variacao, valor, nomeAtivo")
+          .eq("codAtivo", payload.new.codAtivo);
+        let variacao: number, valor: number, nomeAtivo: string;
+        if (data) {
+          variacao = data[0].variacao;
+          valor = data[0].valor;
+          nomeAtivo = data[0].nomeAtivo;
+        }
+        setUserPapers(
+          produce((draft) => {
+            const index = draft.findIndex(
+              (p) => p.codAtivo === payload.new.codAtivo,
+            );
+            if (index !== -1) {
+              draft[index].qtdeAtivo = payload.new.qtdeAtivo;
+            } else {
+              console.log(payload.new);
+              const newPaper = {
+                codAtivo: payload.new.codAtivo,
+                nomeAtivo,
+                qtdeAtivo: payload.new.qtdeAtivo,
+                valor,
+                variacao,
+              };
+              draft.push(newPaper);
             }
           }),
         );
@@ -57,7 +87,6 @@ export default function useRealtime(
     const allPapersSubscription = supabase
       .from("investimentos")
       .on("UPDATE", (payload) => {
-        console.log(payload);
         setAllPapers(
           produce((draft) => {
             const index = draft.findIndex(
