@@ -1,4 +1,8 @@
 /** @type {import('tailwindcss').Config} */
+
+const plugin = require("tailwindcss/plugin");
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
@@ -7,10 +11,22 @@ module.exports = {
   ],
   darkMode: "class",
   theme: {
-    extend: {},
+    fontFamily: {
+      poppins: ["Poppins", "sans-serif"],
+      inter: ["Inter", "sans-serif"],
+    },
+    screens: {
+      xs: "480px",
+      ...defaultTheme.screens,
+    }
   },
   plugins: [
-    require('flowbite/plugin'),
-    require('@tailwindcss/line-clamp')
+    require("flowbite/plugin"),
+    require("@tailwindcss/line-clamp"),
+    plugin(({ addVariant }) => {
+      addVariant("hocus", ["&:focus", "&:hover"]);
+      addVariant("touch", "@media (pointer: coarse)");
+      addVariant("mouse", "@media (pointer: fine)");
+    }),
   ],
 };

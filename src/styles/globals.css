@@ -12,6 +12,7 @@
     -webkit-tap-highlight-color: transparent;
     margin: 0;
     padding: 0;
+    scrollbar-width: thin !important;
   }
 
   input::-webkit-outer-spin-button,
@@ -35,5 +36,23 @@
 
   body {
     overflow-x: hidden;
+  }
+
+  @media (pointer: fine) {
+    *::-webkit-scrollbar {
+      @apply bg-slate-50 h-2.5 w-2.5;
+    }
+
+    body::-webkit-scrollbar-thumb {
+      @apply bg-slate-900 hover:bg-slate-800;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      @apply bg-slate-200 hover:bg-slate-300;
+    }
+
+    *::-webkit-scrollbar-track {
+      @apply border border-slate-100;
+    }
   }
 }
