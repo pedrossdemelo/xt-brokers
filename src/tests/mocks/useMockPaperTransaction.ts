@@ -7,7 +7,7 @@ export default function useMockPaperTransaction(paper: Paper) {
   const { setUserPapers, setAllPapers, funds, setFunds } = useUserData();
 
   const sellPaper = React.useCallback(
-    (amount: number) => {
+    async (amount: number) => {
       let error = false;
 
       setUserPapers(
@@ -47,7 +47,7 @@ export default function useMockPaperTransaction(paper: Paper) {
   );
 
   const buyPaper = React.useCallback(
-    (amount: number) => {
+    async (amount: number) => {
       let error = false;
 
       setAllPapers(
