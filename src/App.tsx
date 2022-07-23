@@ -1,9 +1,8 @@
-import { Header } from "components";
+import { Header, PrivateRoutes } from "components";
 import { useUserData } from "hooks";
 import { Dashboard, Funds, Home, NotFound, Trade, Transactions } from "pages";
 import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
-import { PrivateRoutes } from "utils";
 
 function App() {
   const { loggedIn, loading } = useUserData();
