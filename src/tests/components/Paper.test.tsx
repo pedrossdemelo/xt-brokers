@@ -10,7 +10,6 @@ describe("Paper", () => {
   });
 
   it("should display the ticker", () => {
-    screen.logTestingPlaygroundURL();
     expect(screen.getByText(mockPaper.codAtivo)).toBeInTheDocument();
   });
 
