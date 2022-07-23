@@ -23,6 +23,11 @@ function useFundsInput() {
     }
 
     setFunds(newFunds ?? funds + by);
+    toast.success(
+      `${tab === "deposit" ? "Deposited" : "Withdrew"} R$${Math.abs(by).toFixed(
+        2,
+      )}`,
+    );
   };
 
   return {
