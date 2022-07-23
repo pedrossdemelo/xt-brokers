@@ -1,6 +1,6 @@
 import { Header } from "components";
 import { useUserData } from "hooks";
-import { Dashboard, Funds, Home, NotFound, Trade } from "pages";
+import { Dashboard, Funds, Home, NotFound, Trade, Transactions } from "pages";
 import { Route, Routes } from "react-router-dom";
 import { PrivateRoutes } from "utils";
 
@@ -15,7 +15,7 @@ function App() {
 
       <Routes>
         <Route element={<PrivateRoutes when={loggedIn} redirectTo="/" />}>
-          <Route path="/login" element={<Home />} />
+          <Route path="login" element={<Home />} />
         </Route>
 
         <Route element={<PrivateRoutes when={!loggedIn} redirectTo="/login" />}>
@@ -24,6 +24,8 @@ function App() {
           </Route>
 
           <Route path="funds" element={<Funds />} />
+
+          <Route path="transactions" element={<Transactions />} />
 
           <Route path="*" element={<NotFound />} />
         </Route>
