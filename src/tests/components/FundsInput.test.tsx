@@ -1,15 +1,11 @@
 import { FundsInput } from "components";
 import { fireEvent, render, screen, userEvent } from "tests";
-import * as utils from "utils";
-import { vi } from "vitest";
 
 const getInput = () =>
   screen.getByLabelText(/specify the amount/i) as HTMLInputElement;
 
 describe("FundsInput", () => {
   beforeEach(() => {
-    const spy = vi.spyOn(utils, "incrementFunds");
-    spy.mockResolvedValue({ data: null, error: null });
     render(<FundsInput />);
   });
 

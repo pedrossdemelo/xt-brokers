@@ -16,7 +16,7 @@ describe("Transactions", () => {
       const factor = transaction.venda ? 1 : -1;
 
       const transactionElement = document.getElementById(
-        `transactions-${transaction.id}`,
+        `transaction-${transaction.id}`,
       )!;
 
       await within(transactionElement).findByText(transaction.codAtivo);
@@ -24,7 +24,9 @@ describe("Transactions", () => {
       await within(transactionElement).findByText(
         new RegExp(`${(transaction.valor * factor).toFixed(2)}`, "i"),
       );
-      await within(transactionElement).findByText(transaction.qtdeAtivo);
+      await within(transactionElement).findByText(
+        new RegExp(`${transaction.qtdeAtivo}`, "i"),
+      );
     }
   });
 
