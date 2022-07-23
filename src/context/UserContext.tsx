@@ -108,6 +108,7 @@ export function UserProvider({ children }: Props) {
   // @see https://github.com/supabase/supabase/issues/7771
 
   // R.I.P 😭😭😭😭😭😭😭😭😭
+  // Update: they responded and fixed the issue! Hooray!
   useRealtime(setTransactions, setUserPapers, setAllPapers, setFunds);
 
   const value = {
