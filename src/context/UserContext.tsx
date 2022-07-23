@@ -25,7 +25,7 @@ interface Props {
 export function UserProvider({ children }: Props) {
   const navigate = useNavigate();
 
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const [userPapers, setUserPapers] = React.useState<Paper[]>([]);
   const [allPapers, setAllPapers] = React.useState<Paper[]>([]);
   const [user, setUser] = React.useState<null | User>(supabase.auth.user());
