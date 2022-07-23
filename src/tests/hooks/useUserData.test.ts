@@ -3,7 +3,7 @@ import { renderHook } from "tests";
 import { papers } from "tests/mocks";
 
 const contextMock = {
-  user: "test@test.com",
+  user: { email: "testing@email.com" },
   userPapers: [],
   allPapers: papers.slice(0, 10),
   portfolio: 1000,
@@ -11,6 +11,9 @@ const contextMock = {
   loggedAt: new Date().toISOString(),
   hideMoney: false,
   loggedIn: true,
+  loading: false,
+  transactions: [],
+  lastEmail: null,
 };
 
 describe("useUserData", () => {
