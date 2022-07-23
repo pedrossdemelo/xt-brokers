@@ -1,6 +1,7 @@
 import { Header } from "components";
 import { useUserData } from "hooks";
 import { Dashboard, Funds, Home, NotFound, Trade, Transactions } from "pages";
+import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
 import { PrivateRoutes } from "utils";
 
@@ -30,6 +31,8 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
+
+      <Toaster position="bottom-center" />
     </div>
   );
 }

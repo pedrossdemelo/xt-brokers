@@ -1,5 +1,6 @@
 import produce from "immer";
 import React from "react";
+import toast from "react-hot-toast";
 import { Paper } from "tests/mocks";
 import { postTransaction } from "utils";
 import useUserData from "./useUserData";
@@ -20,8 +21,7 @@ export default function usePaperTransaction(paper: Paper) {
       );
 
       if (error) {
-        // TODO: inform user with error toast
-        console.error(error);
+        toast.error(error.message);
         return setLoading(false);
       }
 
@@ -86,8 +86,7 @@ export default function usePaperTransaction(paper: Paper) {
       );
 
       if (error) {
-        // TODO: inform user with error toast
-        console.error(error);
+        toast.error(error.message);
         return setLoading(false);
       }
 

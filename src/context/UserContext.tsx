@@ -2,6 +2,7 @@
 import { User } from "@supabase/supabase-js";
 import { useLocalStorage, useRealtime } from "hooks";
 import React from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Paper, Transaction } from "tests/mocks";
 import { UserContextValue } from "types";
@@ -61,9 +62,15 @@ export function UserProvider({ children }: Props) {
       const { data: transactions, error: errorT } = await fetchTransactions();
       const { data: saldo, error: errorF } = await fetchFunds();
 
-      if (errorUP || errorAP || errorT || errorF) {
-        // TODO: inform user with error toast
-        return console.error(errorUP);
+      const errors = [errorUP, errorAP, errorT, errorF];
+
+      if (errors.find((e) => e !== null)) {
+        for (const error of errors) {
+          if (error) {
+            toast.error(error.message);
+          }
+        }
+        return setLoading(false);
       }
 
       setTransactions(transactions ?? []);

@@ -1,6 +1,7 @@
 import { SwitchHorizontalIcon } from "@heroicons/react/solid";
 import { useUserData } from "hooks";
 import React from "react";
+import toast from "react-hot-toast";
 import { incrementFunds } from "utils";
 
 function useFundsInput() {
@@ -17,8 +18,7 @@ function useFundsInput() {
     const { error, data: newFunds } = await incrementFunds(by);
 
     if (error) {
-      // TODO: handle error
-      console.error(error);
+      toast.error(error.message);
       return;
     }
 
