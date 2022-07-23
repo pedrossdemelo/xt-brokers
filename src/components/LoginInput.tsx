@@ -2,9 +2,9 @@ import { KeyIcon, MailIcon } from "@heroicons/react/solid";
 import { TextInput } from "flowbite-react";
 import { useUserData } from "hooks";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { supabase } from "utils";
 
-const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
 
 // simplified from https://stackoverflow.com/questions/5142103/regex-to-validate-password-strength
 const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}$/g;
@@ -16,23 +16,27 @@ const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}$/g;
 // $              End anchor
 
 function useLoginInput() {
-  const { setUser, setLoggedIn, loggedAt, user } = useUserData();
+  const { loggedAt, lastEmail } = useUserData();
 
-  const navigate = useNavigate();
   const [password, setPassword] = React.useState("");
-  const [email, setEmail] = React.useState(user ?? "");
+  const [email, setEmail] = React.useState(lastEmail ?? "");
   const [errorEmail, setErrorEmail] = React.useState<string | null>(null);
   const [errorPassword, setErrorPassword] = React.useState<string | null>(null);
+  const isLogin = React.useRef(true);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     setErrorEmail(null);
     setErrorPassword(null);
-    let valid = true;
+
+    let errorFlag = false;
+
     if (!EMAIL_REGEX.test(email)) {
       setErrorEmail(email ? "Invalid email" : "Email is required");
-      valid = false;
+      errorFlag = true;
     }
+
     if (!PASSWORD_REGEX.test(password)) {
       if (password.length < 8) {
         setErrorPassword(
@@ -43,13 +47,38 @@ function useLoginInput() {
       } else {
         setErrorPassword("Please use uppercase, lowercase and numbers");
       }
-      valid = false;
+      errorFlag = true;
     }
-    if (valid) {
-      setUser(email);
-      setLoggedIn(true);
-      navigate("/");
+
+    if (!errorFlag) {
+      if (isLogin.current) {
+        let { error } = await supabase.auth.signIn({
+          email,
+          password,
+        });
+
+        if (error) {
+          setErrorEmail(error.message);
+          return;
+        }
+      } else {
+        let { error } = await supabase.auth.signUp({
+          email,
+          password,
+        });
+
+        if (error) {
+          setErrorEmail(error.message);
+          return;
+        }
+      }
     }
+  }
+
+  async function gSignIn() {
+    const { error } = await supabase.auth.signIn({ provider: "google" });
+
+    if (error) setErrorEmail(error?.message);
   }
 
   return {
@@ -63,6 +92,8 @@ function useLoginInput() {
     errorEmail,
     errorPassword,
     loggedAt,
+    isLogin,
+    gSignIn,
   };
 }
 
@@ -76,6 +107,8 @@ export default function LoginInput() {
     errorPassword,
     handleSubmit,
     loggedAt,
+    isLogin,
+    gSignIn,
   } = useLoginInput();
 
   const loggedDate = loggedAt ? new Date(loggedAt) : null;
@@ -141,6 +174,7 @@ export default function LoginInput() {
         <div className="flex pt-4 gap-4">
           <button
             type="submit"
+            onClick={() => (isLogin.current = true)}
             id="login-button"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4
             focus:ring-blue-300 font-medium rounded-lg px-5 py-3.5 mr-2 mb-2
@@ -151,6 +185,7 @@ export default function LoginInput() {
 
           <button
             type="submit"
+            onClick={() => (isLogin.current = false)}
             id="signup-button"
             className="text-white bg-emerald-500 hover:bg-emerald-700 focus:ring-4
             focus:ring-blue-300 font-medium rounded-lg px-5 py-3.5 ml-2 mb-2
@@ -164,6 +199,7 @@ export default function LoginInput() {
       <button
         type="button"
         id="login-with-google"
+        onClick={gSignIn}
         className="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4
         focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg
         text-sm px-5 py-2.5 text-center inline-flex items-center

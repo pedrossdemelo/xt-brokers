@@ -115,7 +115,7 @@ describe("LoginInput", () => {
       render(<LoginInput />, {
         mock: {
           loggedAt: loggedAtString,
-          user: lastUser,
+          lastEmail: lastUser,
         },
       });
     });

@@ -68,7 +68,8 @@ export default function Paper({ data, personal = false }: Props) {
           }`}
         >
           <span>
-            R${" "}
+            {"R$ "}
+
             {personal ? (data.valor * data.qtdeAtivo).toFixed(2) : data.valor}
           </span>
         </div>

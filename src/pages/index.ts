@@ -3,3 +3,4 @@ export { default as Funds } from "./Funds";
 export { default as Home } from "./Home";
 export { default as NotFound } from "./NotFound";
 export { default as Trade } from "./Trade";
+export { default as Transactions } from "./Transactions";

@@ -1058,6 +1058,4 @@ export const papers = [
   },
 ];
 
-type InferArray<T> = T extends (infer U)[] ? U : never;
-
-export type Paper = InferArray<typeof papers>;
+export type Paper = typeof papers[0];

@@ -6,7 +6,7 @@ const getMenu = () => screen.getByRole("tooltip") as HTMLDivElement;
 
 describe("Header", () => {
   beforeEach(() => {
-    render(<Header />, { mock: { user: "TEST_USER@EMAIL.COM" } });
+    render(<Header />, { mock: { user: { email: "TEST_USER@EMAIL.COM" } } });
 
     class ROMock {
       constructor() {}

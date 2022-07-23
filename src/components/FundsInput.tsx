@@ -1,6 +1,7 @@
 import { SwitchHorizontalIcon } from "@heroicons/react/solid";
 import { useUserData } from "hooks";
 import React from "react";
+import { incrementFunds } from "utils";
 
 function useFundsInput() {
   const { funds, setFunds, portfolio } = useUserData();
@@ -8,18 +9,20 @@ function useFundsInput() {
   const [tab, setTab] = React.useState<"deposit" | "withdraw">("deposit");
   const [amount, setAmount] = React.useState<number | "">(0);
 
-  function addFunds() {
-    setFunds(funds + Number(amount));
-  }
+  const confirmTransaction = async () => {
+    const by = Number(amount) * (tab === "deposit" ? 1 : -1);
 
-  function removeFunds() {
-    setFunds(funds - Number(amount));
-  }
-
-  const confirmTransaction = () => {
-    const transaction = tab === "withdraw" ? removeFunds : addFunds;
-    transaction();
     setAmount(0);
+
+    const { error, data: newFunds } = await incrementFunds(by);
+
+    if (error) {
+      // TODO: handle error
+      console.error(error);
+      return;
+    }
+
+    setFunds(newFunds ?? funds + by);
   };
 
   return {

@@ -1,38 +1,33 @@
+import { useUserData } from "hooks";
 import produce from "immer";
 import React from "react";
 import { Paper } from "tests/mocks";
-import { postTransaction, supabase } from "utils";
-import useUserData from "./useUserData";
 
-export default function usePaperTransaction(paper: Paper) {
+export default function useMockPaperTransaction(paper: Paper) {
   const { setUserPapers, setAllPapers, funds, setFunds } = useUserData();
-  const [loading, setLoading] = React.useState(false);
 
   const sellPaper = React.useCallback(
     async (amount: number) => {
-      console.log(supabase.getSubscriptions());
-      setLoading(true);
-      const { error } = await postTransaction("sell", amount, paper.codAtivo);
-
-      if (error) {
-        // TODO: inform user with error toast
-        console.error(error);
-        return setLoading(false);
-      }
+      let error = false;
 
       setUserPapers(
         produce((draft) => {
           const index = draft.findIndex((p) => p.codAtivo === paper.codAtivo);
 
-          if (index !== -1) {
+          if (index !== -1 && draft[index].qtdeAtivo >= amount) {
             draft[index].qtdeAtivo -= amount;
+          } else {
+            error = true;
+            return;
           }
 
-          if (draft[index].qtdeAtivo <= 0) {
+          if (draft[index].qtdeAtivo === 0) {
             draft.splice(index, 1);
           }
         }),
       );
+
+      if (error) return;
 
       setFunds(funds + paper.valor * amount);
 
@@ -47,35 +42,35 @@ export default function usePaperTransaction(paper: Paper) {
           }
         }),
       );
-
-      setLoading(false);
     },
     [paper],
   );
 
   const buyPaper = React.useCallback(
     async (amount: number) => {
-      setLoading(true);
-      const { error } = await postTransaction("buy", amount, paper.codAtivo);
-
-      if (error) {
-        // TODO: inform user with error toast
-        console.error(error);
-        return setLoading(false);
-      }
+      let error = false;
 
       setAllPapers(
         produce((draft) => {
           const index = draft.findIndex((p) => p.codAtivo === paper.codAtivo);
-          if (index !== -1) {
+          if (
+            index !== -1 &&
+            draft[index].qtdeAtivo >= amount &&
+            funds >= paper.valor * amount
+          ) {
             draft[index].qtdeAtivo -= amount;
+          } else {
+            error = true;
+            return;
           }
 
-          if (draft[index].qtdeAtivo <= 0) {
+          if (draft[index].qtdeAtivo === 0) {
             draft.splice(index, 1);
           }
         }),
       );
+
+      if (error) return;
 
       setFunds(funds - paper.valor * amount);
 
@@ -89,10 +84,9 @@ export default function usePaperTransaction(paper: Paper) {
           }
         }),
       );
-      setLoading(false);
     },
     [paper],
   );
 
-  return { buyPaper, sellPaper, loading };
+  return { buyPaper, sellPaper, loading: false };
 }

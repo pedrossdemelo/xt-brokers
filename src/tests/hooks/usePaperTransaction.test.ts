@@ -1,15 +1,15 @@
-import { usePaperTransaction, useUserData } from "hooks";
+import { useUserData } from "hooks";
 import { act, cleanup, renderHook } from "tests";
-import { papers } from "tests/mocks";
+import { papers, useMockPaperTransaction } from "tests/mocks";
 
 const mockPaper = papers[0];
 
-describe("usePaperTransaction", () => {
+describe("useMockPaperTransaction", () => {
   afterEach(cleanup);
 
   it("should decrease the shares available when buying", () => {
     const { result, rerender } = renderHook(() => {
-      return { ...useUserData(), ...usePaperTransaction(mockPaper) };
+      return { ...useUserData(), ...useMockPaperTransaction(mockPaper) };
     });
 
     act(() => {
@@ -21,7 +21,7 @@ describe("usePaperTransaction", () => {
 
   it("should increase the shares owned when buying", () => {
     const { result } = renderHook(() => {
-      return { ...useUserData(), ...usePaperTransaction(mockPaper) };
+      return { ...useUserData(), ...useMockPaperTransaction(mockPaper) };
     });
 
     act(() => {
@@ -33,7 +33,7 @@ describe("usePaperTransaction", () => {
 
   it("should increase the shares available when selling", () => {
     const { result } = renderHook(() => {
-      return { ...useUserData(), ...usePaperTransaction(mockPaper) };
+      return { ...useUserData(), ...useMockPaperTransaction(mockPaper) };
     });
 
     act(() => {
@@ -45,7 +45,7 @@ describe("usePaperTransaction", () => {
 
   it("should decrease the shares owned when buying", () => {
     const { result } = renderHook(() => {
-      return { ...useUserData(), ...usePaperTransaction(mockPaper) };
+      return { ...useUserData(), ...useMockPaperTransaction(mockPaper) };
     });
 
     act(() => {
@@ -57,7 +57,7 @@ describe("usePaperTransaction", () => {
 
   it("should clear the user paper when selling all", () => {
     const { result } = renderHook(() => {
-      return { ...useUserData(), ...usePaperTransaction(mockPaper) };
+      return { ...useUserData(), ...useMockPaperTransaction(mockPaper) };
     });
 
     act(() => {
