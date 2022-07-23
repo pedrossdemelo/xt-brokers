@@ -9,8 +9,10 @@ function useFundsInput() {
 
   const [tab, setTab] = React.useState<"deposit" | "withdraw">("deposit");
   const [amount, setAmount] = React.useState<number | "">(0);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   const confirmTransaction = async () => {
+    setLoading(true);
     const by = Number(amount) * (tab === "deposit" ? 1 : -1);
 
     setAmount(0);
@@ -19,7 +21,7 @@ function useFundsInput() {
 
     if (error) {
       toast.error(error.message);
-      return;
+      return setLoading(false);
     }
 
     setFunds(newFunds ?? funds + by);
@@ -28,6 +30,7 @@ function useFundsInput() {
         2,
       )}`,
     );
+    setLoading(false);
   };
 
   return {
@@ -41,6 +44,7 @@ function useFundsInput() {
     addAmount: (add: number) => () => setAmount(Number(amount) + add),
     tab,
     toggleTab: () => setTab(tab === "deposit" ? "withdraw" : "deposit"),
+    loading,
   };
 }
 
@@ -54,6 +58,7 @@ export default function Funds() {
     confirmTransaction,
     tab,
     toggleTab,
+    loading,
   } = useFundsInput();
 
   return (
@@ -145,11 +150,15 @@ export default function Funds() {
         className={`text-white h-12 bg-blue-700 mx-4 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 focus:outline-none disabled:opacity-25 ${
           tab === "withdraw" && "bg-red-700 hover:bg-red-800 focus:ring-red-300"
         }`}
-        disabled={(tab === "withdraw" && amount > funds) || amount == 0}
+        disabled={
+          loading || (tab === "withdraw" && amount > funds) || amount == 0
+        }
         id="confirm-transaction"
         onClick={confirmTransaction}
       >
         {tab === "withdraw" ? "WITHDRAW" : "DEPOSIT"}
+
+        {loading && "ING..."}
       </button>
     </>
   );
