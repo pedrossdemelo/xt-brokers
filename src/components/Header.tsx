@@ -33,10 +33,7 @@ function useHeader() {
     showFunds: !hideMoney,
     toggleFunds: () => setHideMoney(!hideMoney),
     user,
-    logout: () => {
-      logout();
-      navigate("/login", { replace: true });
-    },
+    logout,
   };
 }
 
@@ -66,7 +63,7 @@ export default function Header() {
           <div id="user-email" className="flex gap-2 items-center mr-2">
             <UserIcon className="h-6" />
 
-            <span className="ml-2">{user}</span>
+            <span className="ml-2">{user?.email}</span>
           </div>
         </Dropdown.Item>
 
