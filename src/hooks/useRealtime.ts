@@ -111,7 +111,7 @@ export default function useRealtime(
       .on("INSERT", (payload) => {
         setTransactions(
           produce((draft) => {
-            draft.push(payload.new);
+            draft.unshift(payload.new);
           }),
         );
       })

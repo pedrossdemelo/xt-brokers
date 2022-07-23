@@ -5,5 +5,5 @@ export default function fetchTransactions() {
   return supabase
     .from<Transaction>("transacoes")
     .select("*")
-    .order("data", { ascending: true });
+    .order("data", { ascending: false });
 }
