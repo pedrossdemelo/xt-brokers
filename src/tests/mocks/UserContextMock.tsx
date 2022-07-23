@@ -1,7 +1,10 @@
-import { UserContext, UserContextValue } from "context";
+import { User } from "@supabase/supabase-js";
+import { UserContext } from "context";
 import { useLocalStorage } from "hooks";
 import React from "react";
+import { UserContextValue } from "types";
 import { papers } from "./mockPapers";
+import { transactions as transactionsMock } from "./mockTransactions";
 
 type ExcludeValuesOfType<U, T> = {
   [K in keyof T]: T[K] extends U ? never : T[K];
@@ -16,11 +19,15 @@ type Props = {
   mockContext?: MockContext;
 };
 
-type UserMockContextValue = UserContextValue & {
+type UserMockContextValue = {
   mockContext?: MockContext;
-};
+  user: Partial<User>;
+} & Omit<UserContextValue, "user">;
 
 export function UserProviderMock({ children, mockContext }: Props) {
+  const [transactions, setTransactions] = React.useState(
+    mockContext?.transactions ?? transactionsMock,
+  );
   const [userPapers, setUserPapers] = useLocalStorage(
     "userPapers",
     mockContext?.userPapers ?? [],
@@ -29,9 +36,9 @@ export function UserProviderMock({ children, mockContext }: Props) {
     "allPapers",
     mockContext?.allPapers ?? papers,
   );
-  const [user, setUser] = useLocalStorage(
+  const [user, setUser] = useLocalStorage<Partial<User> | null>(
     "user",
-    mockContext?.user ?? "test@gmail.com",
+    mockContext?.user ?? ({ email: "test@test.com" } as Partial<User>),
   );
   const [funds, setFunds] = useLocalStorage(
     "funds",
@@ -40,7 +47,7 @@ export function UserProviderMock({ children, mockContext }: Props) {
   const [loggedIn, setLoggedIn] = React.useState(mockContext?.loggedIn ?? true);
 
   const logout = () => {
-    setUser("");
+    setUser(null);
     setUserPapers([]);
     setFunds(mockContext?.funds ?? 10000);
     setAllPapers(papers);
@@ -75,8 +82,13 @@ export function UserProviderMock({ children, mockContext }: Props) {
     setHideMoney,
     loggedIn,
     setLoggedIn,
+    loading: false,
+    transactions,
+    setTransactions,
+    lastEmail: mockContext?.lastEmail ?? null,
     ...mockContext,
   };
 
+  // @ts-expect-error: mockContext is not a valid context value
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
