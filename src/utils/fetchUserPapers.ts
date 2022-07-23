@@ -2,11 +2,16 @@ import { Paper } from "tests/mocks";
 import { supabase } from "utils";
 
 export default async function fetchUserPapers() {
-  const { data, error } = await supabase.from("clientesInvestimentos").select(`
+  const { data, error } = await supabase
+    .from("clientesInvestimentos")
+    .select(
+      `
         codAtivo,
         qtdeAtivo,
         investimentos ( codAtivo, nomeAtivo, valor, variacao )
-      `);
+      `,
+    )
+    .order("codAtivo", { ascending: true });
 
   return {
     error,
