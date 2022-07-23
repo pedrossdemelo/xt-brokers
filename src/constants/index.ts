@@ -1,1 +1,0 @@
-export { paperNames } from "./paperNames";
