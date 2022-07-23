@@ -1,6 +1,7 @@
 import {
   CashIcon,
   CodeIcon,
+  CollectionIcon,
   EyeIcon,
   EyeOffIcon,
   LogoutIcon,
@@ -25,10 +26,15 @@ function useHeader() {
     navigate("/");
   }
 
+  function goToTransactions() {
+    navigate("/transactions");
+  }
+
   return {
     loggedIn,
     goToFunds,
     goToDashboard,
+    goToTransactions,
     funds,
     showFunds: !hideMoney,
     toggleFunds: () => setHideMoney(!hideMoney),
@@ -41,6 +47,7 @@ export default function Header() {
   const {
     goToFunds,
     goToDashboard,
+    goToTransactions,
     logout,
     funds,
     showFunds,
@@ -77,6 +84,22 @@ export default function Header() {
           </div>
         </Dropdown.Item>
 
+        <Dropdown.Item onClick={goToFunds}>
+          <div id="funds-link" className="flex gap-2 items-center mr-2">
+            <CashIcon className="h-6" />
+
+            <span className="ml-2">Funds</span>
+          </div>
+        </Dropdown.Item>
+
+        <Dropdown.Item onClick={goToTransactions}>
+          <div id="transactions-link" className="flex gap-2 items-center mr-2">
+            <CollectionIcon className="h-6" />
+
+            <span className="ml-2">Transactions</span>
+          </div>
+        </Dropdown.Item>
+
         <Dropdown.Item>
           <a
             href="https://pedrosousa.dev"
@@ -89,14 +112,6 @@ export default function Header() {
 
             <span className="ml-2">Developer</span>
           </a>
-        </Dropdown.Item>
-
-        <Dropdown.Item onClick={goToFunds}>
-          <div id="funds-link" className="flex gap-2 items-center mr-2">
-            <CashIcon className="h-6" />
-
-            <span className="ml-2">Funds</span>
-          </div>
         </Dropdown.Item>
 
         <Dropdown.Divider />
