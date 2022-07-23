@@ -12,19 +12,17 @@ function useFundsInput() {
   const confirmTransaction = async () => {
     const by = Number(amount) * (tab === "deposit" ? 1 : -1);
 
+    setAmount(0);
+
     const { error, data: newFunds } = await incrementFunds(by);
 
     if (error) {
       // TODO: handle error
       console.error(error);
-      setFunds(0);
-      setAmount(0);
       return;
     }
 
     setFunds(newFunds ?? funds + by);
-
-    setAmount(0);
   };
 
   return {
