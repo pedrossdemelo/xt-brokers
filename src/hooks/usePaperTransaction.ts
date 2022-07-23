@@ -1,7 +1,7 @@
 import produce from "immer";
 import React from "react";
 import { Paper } from "tests/mocks";
-import { postTransaction } from "utils";
+import { postTransaction, supabase } from "utils";
 import useUserData from "./useUserData";
 
 export default function usePaperTransaction(paper: Paper) {
@@ -10,11 +10,13 @@ export default function usePaperTransaction(paper: Paper) {
 
   const sellPaper = React.useCallback(
     async (amount: number) => {
+      console.log(supabase.getSubscriptions());
       setLoading(true);
       const { error } = await postTransaction("sell", amount, paper.codAtivo);
 
       if (error) {
         // TODO: inform user with error toast
+        console.error(error);
         return setLoading(false);
       }
 
@@ -58,6 +60,7 @@ export default function usePaperTransaction(paper: Paper) {
 
       if (error) {
         // TODO: inform user with error toast
+        console.error(error);
         return setLoading(false);
       }
 

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { User } from "@supabase/supabase-js";
-import { useLocalStorage } from "hooks";
+import { useLocalStorage, useRealtime } from "hooks";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Paper, Transaction } from "tests/mocks";
@@ -108,7 +108,7 @@ export function UserProvider({ children }: Props) {
   // @see https://github.com/supabase/supabase/issues/7771
 
   // R.I.P 😭😭😭😭😭😭😭😭😭
-  // useRealtime(setTransactions, setUserPapers, setAllPapers, setFunds);
+  useRealtime(setTransactions, setUserPapers, setAllPapers, setFunds);
 
   const value = {
     userPapers,
