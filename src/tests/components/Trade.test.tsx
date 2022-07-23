@@ -1,6 +1,8 @@
+import * as hooks from "hooks";
 import { Trade } from "pages";
 import { fireEvent, render, screen, userEvent } from "tests";
-import { papers } from "tests/mocks";
+import { papers, useMockPaperTransaction } from "tests/mocks";
+import { vi } from "vitest";
 
 const FUNDS = 10000;
 
@@ -36,6 +38,8 @@ function runSpecsOn(type: "BUY" | "SELL") {
   }
 
   beforeEach(() => {
+    const spy = vi.spyOn(hooks, "usePaperTransaction");
+    spy.mockImplementation(useMockPaperTransaction);
     render(<Trade />, {
       route: `/trade/:ticker=${ticker}`,
       mock: isBuy
