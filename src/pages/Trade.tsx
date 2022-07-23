@@ -256,15 +256,17 @@ export default function Trade() {
                 (amount * price > funds || amount > amountAvailable)) ||
               amount === 0
             }
-            onClick={() => {
+            onClick={async () => {
               const transaction = tab === "sell" ? sellPaper : buyPaper;
-              transaction(amount);
+              await transaction(amount);
               goBack();
             }}
           >
-            {`${tab.toUpperCase()}${loading ? "ing " : " "}`}
+            {`${tab.toUpperCase()}${loading ? "ING " : " "}`}
 
             {ticker}
+
+            {loading && "..."}
           </button>
         </div>
       </Modal.Body>
