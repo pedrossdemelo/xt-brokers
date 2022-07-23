@@ -2,7 +2,6 @@ import { KeyIcon, MailIcon } from "@heroicons/react/solid";
 import { TextInput } from "flowbite-react";
 import { useUserData } from "hooks";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "utils";
 
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
@@ -17,24 +16,27 @@ const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}$/g;
 // $              End anchor
 
 function useLoginInput() {
-  const { setUser, setLoggedIn, loggedAt, user } = useUserData();
+  const { loggedAt, lastEmail } = useUserData();
 
-  const navigate = useNavigate();
   const [password, setPassword] = React.useState("");
-  const [email, setEmail] = React.useState(user ?? "");
+  const [email, setEmail] = React.useState(lastEmail ?? "");
   const [errorEmail, setErrorEmail] = React.useState<string | null>(null);
   const [errorPassword, setErrorPassword] = React.useState<string | null>(null);
   const isLogin = React.useRef(true);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     setErrorEmail(null);
     setErrorPassword(null);
-    let valid = true;
+
+    let errorFlag = false;
+
     if (!EMAIL_REGEX.test(email)) {
       setErrorEmail(email ? "Invalid email" : "Email is required");
-      valid = false;
+      errorFlag = true;
     }
+
     if (!PASSWORD_REGEX.test(password)) {
       if (password.length < 8) {
         setErrorPassword(
@@ -45,12 +47,12 @@ function useLoginInput() {
       } else {
         setErrorPassword("Please use uppercase, lowercase and numbers");
       }
-      valid = false;
+      errorFlag = true;
     }
-    if (valid) {
-      let successUser;
+
+    if (!errorFlag) {
       if (isLogin.current) {
-        let { user, error } = await supabase.auth.signIn({
+        let { error } = await supabase.auth.signIn({
           email,
           password,
         });
@@ -59,10 +61,8 @@ function useLoginInput() {
           setErrorEmail(error.message);
           return;
         }
-
-        successUser = user;
       } else {
-        let { user, error } = await supabase.auth.signUp({
+        let { error } = await supabase.auth.signUp({
           email,
           password,
         });
@@ -71,18 +71,14 @@ function useLoginInput() {
           setErrorEmail(error.message);
           return;
         }
-
-        successUser = user;
       }
-      setUser(successUser!.email!);
-      setLoggedIn(true);
-      navigate("/");
     }
   }
 
   async function gSignIn() {
-    const { user, error } = await supabase.auth.signIn({ provider: "google" });
-    alert(JSON.stringify([user, error]));
+    const { error } = await supabase.auth.signIn({ provider: "google" });
+
+    if (error) setErrorEmail(error?.message);
   }
 
   return {
