@@ -1,8 +1,8 @@
 import { SwitchHorizontalIcon } from "@heroicons/react/solid";
+import { incrementFunds } from "api";
 import { useUserData } from "hooks";
 import React from "react";
 import toast from "react-hot-toast";
-import { incrementFunds } from "utils";
 
 function useFundsInput() {
   const { funds, setFunds, portfolio } = useUserData();

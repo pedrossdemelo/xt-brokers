@@ -1,9 +1,9 @@
 import "@testing-library/jest-dom";
 import { vi } from "vitest";
 
-vi.mock("utils", async () => {
+vi.mock("api", async () => {
   return {
-    ...vi.importMock("utils"),
+    ...vi.importMock("api"),
     incrementFunds: async () => ({ data: null, error: null }),
   };
 });

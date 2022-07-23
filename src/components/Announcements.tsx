@@ -1,6 +1,6 @@
 import { Timeline } from "flowbite-react";
 
-export function Announcements() {
+export default function Announcements() {
   return (
     <div className="p-4">
       <h3 className="font-medium text-xl mb-4">Announcements</h3>

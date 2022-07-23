@@ -1,5 +1,5 @@
+import { supabase } from "api";
 import { Transaction } from "tests/mocks";
-import { supabase } from "utils";
 
 export default function fetchTransactions() {
   return supabase

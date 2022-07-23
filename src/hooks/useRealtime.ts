@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
+import { supabase } from "api";
 import produce from "immer";
 import React from "react";
 import { UserContextValue } from "types";
-import { supabase } from "utils";
 
 /**
  * Supabase realtime subscriptions are down/not working

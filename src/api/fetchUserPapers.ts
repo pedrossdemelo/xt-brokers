@@ -1,5 +1,5 @@
+import { supabase } from "api";
 import { Paper } from "tests/mocks";
-import { supabase } from "utils";
 
 export default async function fetchUserPapers() {
   const { data, error } = await supabase

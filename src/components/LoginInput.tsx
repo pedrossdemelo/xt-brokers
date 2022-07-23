@@ -1,8 +1,8 @@
 import { KeyIcon, MailIcon } from "@heroicons/react/solid";
+import { supabase } from "api";
 import { TextInput } from "flowbite-react";
 import { useUserData } from "hooks";
 import React from "react";
-import { supabase } from "utils";
 
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
 

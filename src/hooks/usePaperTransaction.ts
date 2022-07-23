@@ -1,8 +1,8 @@
+import { postTransaction } from "api";
 import produce from "immer";
 import React from "react";
 import toast from "react-hot-toast";
 import { Paper } from "tests/mocks";
-import { postTransaction } from "utils";
 import useUserData from "./useUserData";
 
 export default function usePaperTransaction(paper: Paper) {
