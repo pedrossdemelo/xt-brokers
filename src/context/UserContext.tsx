@@ -1,76 +1,36 @@
+/* eslint-disable prettier/prettier */
+import { User } from "@supabase/supabase-js";
 import { useLocalStorage } from "hooks";
 import React from "react";
-import { Paper, papers } from "tests/mocks";
+import { useNavigate } from "react-router-dom";
+import { Paper, Transaction } from "tests/mocks";
+import { UserContextValue } from "types";
+import {
+  fetchAllPapers,
+  fetchFunds,
+  fetchTransactions,
+  fetchUserPapers,
+  supabase,
+} from "utils";
 
-type Props = {
-  children: React.ReactNode;
-};
+const UserContext = React.createContext<UserContextValue | null>(null);
 
-export type UserContextValue = {
-  userPapers: typeof papers;
-  setUserPapers: React.Dispatch<React.SetStateAction<typeof papers>>;
-  allPapers: typeof papers;
-  setAllPapers: React.Dispatch<React.SetStateAction<typeof papers>>;
-  user: string;
-  setUser: React.Dispatch<React.SetStateAction<string>>;
-  funds: number;
-  setFunds: React.Dispatch<React.SetStateAction<number>>;
-  portfolio: number;
-  loggedAt: string | null;
-  logout: () => void;
-  hideMoney: boolean;
-  setHideMoney: React.Dispatch<React.SetStateAction<boolean>>;
-  loggedIn: boolean;
-  setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-const UserContext = React.createContext<UserContextValue>({
-  userPapers: [],
-  setUserPapers: () => {},
-  allPapers: [],
-  setAllPapers: () => {},
-  user: "",
-  setUser: () => {},
-  funds: 1000,
-  setFunds: () => {},
-  portfolio: 0,
-  loggedAt: null,
-  logout: () => {},
-  hideMoney: false,
-  setHideMoney: () => {},
-  loggedIn: false,
-  setLoggedIn: () => {},
-});
-
+const lastEmail = localStorage.getItem("lastEmail");
 const loggedAt = localStorage.getItem("loggedAt");
-const minutes = (min: number) => min * 60 * 1000;
+
+interface Props {
+  children: React.ReactNode;
+}
 
 export function UserProvider({ children }: Props) {
-  const [userPapers, setUserPapers] = useLocalStorage(
-    "userPapers",
-    [] as Paper[],
-  );
-  const [allPapers, setAllPapers] = useLocalStorage("allPapers", papers);
-  const [user, setUser] = useLocalStorage("user", "");
-  const [funds, setFunds] = useLocalStorage("funds", 1000);
+  const navigate = useNavigate();
 
-  // only allow loggedIn to be true if user is set and
-  // the time difference between now and the last login is less than 10 minutes
-  const [loggedIn, setLoggedIn] = React.useState(
-    Boolean(
-      user &&
-        loggedAt &&
-        new Date().getTime() - new Date(loggedAt).getTime() < minutes(10),
-    ),
-  );
-
-  const logout = () => {
-    setUser("");
-    setUserPapers([]);
-    setFunds(1000);
-    setAllPapers(papers);
-    setLoggedIn(false);
-  };
+  const [loading, setLoading] = React.useState(false);
+  const [userPapers, setUserPapers] = React.useState<Paper[]>([]);
+  const [allPapers, setAllPapers] = React.useState<Paper[]>([]);
+  const [user, setUser] = React.useState<null | User>(supabase.auth.user());
+  const [funds, setFunds] = React.useState(0);
+  const [transactions, setTransactions] = React.useState<Transaction[]>([]);
 
   const portfolio = React.useMemo(
     () =>
@@ -82,8 +42,64 @@ export function UserProvider({ children }: Props) {
   const [hideMoney, setHideMoney] = useLocalStorage("hideMoney", false);
 
   React.useEffect(() => {
-    if (loggedIn) localStorage.setItem("loggedAt", new Date().toISOString());
-  }, [loggedIn]);
+    (async () => {
+      if (!user) return setLoading(false);
+
+      setLoading(true);
+
+      const { data: userPapers, error: errorUP } = await fetchUserPapers();
+      const { data: allPapers, error: errorAP } = await fetchAllPapers();
+      const { data: transactions, error: errorT } = await fetchTransactions();
+      const { data: saldo, error: errorF } = await fetchFunds();
+
+      if (errorUP || errorAP || errorT || errorF) {
+        // TODO: inform user with error toast
+        return console.error(errorUP);
+      }
+
+      setTransactions(transactions ?? []);
+      setUserPapers(userPapers ?? []);
+      setAllPapers(allPapers ?? []);
+      setFunds(saldo?.[0]?.saldo ?? 0);
+
+      setLoading(false);
+    })();
+  }, [user]);
+
+  React.useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        switch (event) {
+        case "SIGNED_IN":
+          setUser(session!.user);
+          localStorage.setItem("lastEmail", session!.user?.email!);
+          localStorage.setItem("loggedAt", new Date().toISOString());
+          navigate("/", { replace: true });
+          break;
+        case "SIGNED_OUT":
+          setUser(null);
+          navigate("/login", { replace: true });
+          break;
+        case "USER_DELETED":
+          setUser(null);
+          navigate("/login", { replace: true });
+          break;
+        }
+      },
+    );
+
+    return () => {
+      authListener?.unsubscribe();
+    };
+  }, []);
+
+  // Supabase realtime subscriptions are down
+  // just after I spent hours setting them up
+  // @see https://github.com/supabase/supabase-js/issues/443
+  // @see https://github.com/supabase/supabase/issues/7771
+
+  // R.I.P 😭😭😭😭😭😭😭😭😭
+  // useRealtime(setTransactions, setUserPapers, setAllPapers, setFunds);
 
   const value = {
     userPapers,
@@ -96,11 +112,15 @@ export function UserProvider({ children }: Props) {
     setFunds,
     portfolio,
     loggedAt,
-    logout,
+    logout: () => supabase.auth.signOut(),
     hideMoney,
     setHideMoney,
-    loggedIn,
-    setLoggedIn,
+    loggedIn: !!user,
+    loading,
+    setLoading,
+    transactions,
+    setTransactions,
+    lastEmail,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
