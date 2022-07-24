@@ -233,36 +233,50 @@ O Schema define a estrutura do banco de dados e suas tabelas.
 
 ### Regras de Segurança a nível de fileira
 
+Regras de segurança a nível de fileira são definidas para limitar o acesso aos dados.
+
+- Tabela clientes
     ```plpgsql
     -- public.clientes:
     -- SELECT
+
+    -- Permite usuários a lerem apenas seus próprios dados em suas fileiras
     CREATE POLICY "Enable users to only read their own data" ON "public"."clientes"
     AS PERMISSIVE FOR SELECT
     TO public
     USING (auth.uid() = "codCliente")
     ```
 
+- Tabela clientesInvestimentos
     ```plpgsql
     -- public.clientesInvestimentos:
     -- SELECT
+
+    -- Permite usuários a lerem apenas seus próprios investimentos
     CREATE POLICY "Enable users to only read their down portfolio" ON "public"."clientesInvestimentos"
     AS PERMISSIVE FOR SELECT
     TO public
     USING (auth.uid() = "codCliente")
     ```
 
+- Tabela investimentos
     ```plpgsql
     -- public.investimentos:
     -- SELECT
+
+    -- Permite qualquer usuário, autenticado ou não, a ler a tabela de ativos que a corretora possui
     CREATE POLICY "Enable read access for everyone" ON "public"."investimentos"
     AS PERMISSIVE FOR SELECT
     TO public
     USING (true)
     ```
 
+- Tabela transacoes
     ```plpgsql
     -- public.transacoes:
     -- INSERT
+
+    -- Permite apenas usuários autenticados a inserir novas transações
     CREATE POLICY "Enable insert for authenticated users only" ON "public"."transacoes"
     AS PERMISSIVE FOR INSERT
     TO authenticated
@@ -270,6 +284,8 @@ O Schema define a estrutura do banco de dados e suas tabelas.
     WITH CHECK (true)
 
     -- SELECT
+
+    -- Permite usuários a lerem apenas suas próprias transações
     CREATE POLICY "Enable users to only read their own transactions" ON "public"."transacoes"
     AS PERMISSIVE FOR SELECT
     TO public
