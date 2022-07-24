@@ -4,7 +4,7 @@
 
 Antes de iniciar o desenvolvimento do aplicativo, eu primeiro pensei nas expectativas de experiência que um trader teria com o aplicativo.
 
-- A primeira e <strong>mais importante</strong> expectativa é que o estado do aplicativo reflita a estado atual do mercado financeiro em tempo real.
+- ### A primeira e <strong>mais importante</strong> expectativa é que o estado do aplicativo reflita a estado atual do mercado financeiro em tempo real.
 
     Se coloque no lugar do trader nessa situação:
 
@@ -30,7 +30,7 @@ Antes de iniciar o desenvolvimento do aplicativo, eu primeiro pensei nas expecta
 
     Eu poderia ter feito o aplicativo com o Firebase e provavelmente ter entregue muito mais rápido e com mais qualidade visto que já sou familiarizado, mas o objetivo aqui é me desafiar então eu escolhi o Supabase.
 
-- Todas as informações relevantes no momento do trade de algum ativo deve estar aparente na interface.
+- ### O trader espera que todsas as informações relevantes no momento do trade de algum ativo devem estar aparentes na interface.
 
     Por exemplo, se eu quiser comprar MGLU3, eu deveria ver na tela:
 
@@ -43,7 +43,7 @@ Antes de iniciar o desenvolvimento do aplicativo, eu primeiro pensei nas expecta
 
     Por isso eu deixei o Modal de trade bem populado com todas essas informações.
 
-- Uma outra expectativa importante é que o carregamente e transição de páginas seja rápida.
+- ### O trader espera que o carregamente e transição de páginas seja rápida.
 
     Pesquisas frequentemente demonstram uma correlação forte entre tempo de carregamento e qualidade da experiência do usuário.
 
@@ -53,7 +53,7 @@ Antes de iniciar o desenvolvimento do aplicativo, eu primeiro pensei nas expecta
 
     Como não sabia, eu acabei por usar o bom e velho React mesmo.
 
-- Se algum erro ocorreu no banco de dados, o trader deveria ser notificado na interface.
+- ### Se algum erro ocorreu no banco de dados, o trader deve ser notificado na interface.
 
     Por exemplo, se algo que deveria ter sido salvo no banco de dados não foi, o trader deveria ser notificado. Caso contrário ele não vai estar ciente do que ocorreu com o seu patrimônio e isso seria inaceitável.
 
@@ -61,7 +61,7 @@ Antes de iniciar o desenvolvimento do aplicativo, eu primeiro pensei nas expecta
 
     Por isso eu deixei o sistema de notificação de erro bem configurado com a livraria React Hot Toast.
 
-- O trader deveria ser capaz de visualizar todo o valor do seu patrimônio em renda variável também.
+- ### O trader precisa ser capaz de visualizar todo o valor do seu patrimônio.
 
     Se ocorreu alguma variação de preço brusca, o trader precisa saber que o valor do seu patrimônio está variando.
 
@@ -70,13 +70,13 @@ Antes de iniciar o desenvolvimento do aplicativo, eu primeiro pensei nas expecta
     Se eu fosse refazer o aplicativo, eu colocaria mais prioridade em fazer gráficos utilizando uma livraria como <a href="https://formidable.com/open-source/victory/">Victory</a>
 
 
-- O usuario deveria ser educado com uma experiência de onboarding
+- ### O trader espera ser introduzido à platafroma com uma experiência de onboarding
 
     Eu gostaria de ter um onboarding rápido para que o trader possa entender como o aplicativo funciona.
 
     É imprescindível que o usuário entenda como utilizar a plataforma, e como fazer trades. E as vezes uma interface intuitiva não é suficiente.
 
-- O trader espera que o seus dados sejam mantidos seguros.
+- ### O trader espera que o seus dados sejam mantidos seguros.
 
     Um dos motivos pelo qual Firebase é bom é que é um banco de dados seguro e confiável.
 
