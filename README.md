@@ -48,8 +48,8 @@ Simule um ambiente de trading de ações de risco nulo com o app da XT Brokers!
     <li><a href="#screenshots">Screenshots</a></li>
     <li><a href="#local-setup">Local Setup</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#known-issues">Known issues</a></li>
     <li><a href="#built-with">Built with</a></li>
+    <li><a href="#known-issues">Known issues</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
