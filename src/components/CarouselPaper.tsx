@@ -28,8 +28,8 @@ export default function CarouselPaper({ data }: Props) {
     <button
       onClick={tradeTicker}
       id={`carousel-${data.codAtivo}`}
-      className="border-gray-200 p-3 rounded-xl text-sm border shrink-0 w-52
-      text-left flex flex-col items-stretch justify-between"
+      className="border-gray-200 hover:bg-white hover:shadow-md p-3 rounded-xl text-sm border shrink-0 w-52
+      text-left flex flex-col items-stretch justify-between transition overflow-visible"
     >
       <div className="flex gap-3 items-center overflow-hidden">
         <div
