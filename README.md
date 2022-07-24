@@ -203,6 +203,6 @@ Distributuído através da licensa GPL 3.0. Leia `LICENSE` para mais informaçõ
 [issues-shield]: https://img.shields.io/github/issues/pedrossdemelo/xt-brokers?style=for-the-badge
 [issues-url]: https://github.com/pedrossdemelo/xt-brokers/issues
 [license-shield]: https://img.shields.io/github/license/pedrossdemelo/xt-brokers?style=for-the-badge
-[license-url]: https://github.com/pedrossdemelo/xt-brokers/blob/main/LICENSE
+[license-url]: https://github.com/pedrossdemelo/xt-brokers/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/pedrossdemelo/
