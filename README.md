@@ -68,16 +68,17 @@ Simule um ambiente de trading de ações de risco nulo com o app da XT Brokers!
   <img src="docs/assets/Frame 2.png" height="450px" />
   <img src="docs/assets/Frame 3.png" height="450px" />
   <img src="docs/assets/Frame 4.png" height="450px" />
+  <img src="docs/assets/Frame 5.png" height="450px" />
+  <img src="docs/assets/Frame 6.png" height="450px" />
 </div>
 
 ## Installation
 
-- [Chrome](https://support.google.com/chrome/answer/9658361?hl=en&co=GENIE.Platform%3DDesktop)
-- [Safari](https://mobilesyrup.com/2020/05/24/how-install-progressive-web-app-pwa-android-ios-pc-mac/#:~:text=Navigate%20to%20the%20website%20you,like%20a%20native%20iOS%20app)
+###
 
 ## Built with
 
-+ ### Front End
+### Front End
   - [React 18](https://reactjs.org/)
   - [React Router v6](https://reactrouter.com/)
   - [Tailwind](https://tailwindcss.com/)
@@ -87,11 +88,11 @@ Simule um ambiente de trading de ações de risco nulo com o app da XT Brokers!
   - [React Hot Toast](https://react-hot-toast.com/)
   - [Immer](https://immerjs.github.io/immer/)
 
-+ ### Back End
+### Back End
   - [PostgreSQL](https://www.postgresql.org/)
   - [Supabase](https://supabase.com/)
 
-+ ### Development Tools
+### Development Tools
   - [GitHub](https://github.com/)
   - [Git](https://git-scm.com/)
   - [PNPM](https://pnpm.js.org/)
@@ -107,7 +108,7 @@ Simule um ambiente de trading de ações de risco nulo com o app da XT Brokers!
 
 ## Roadmap
 
-+ ### Front End
+### Front End
   - [x] Página de Login
   - [x] Página de Depósito e Saque
   - [x] Página que lista todas as ações disponíveis para compra e todas as no portfólio do usuário
@@ -130,7 +131,7 @@ Simule um ambiente de trading de ações de risco nulo com o app da XT Brokers!
   - [ ] Página dedicada para visualização do portfólio do usuário
   - [x] Deploy na <a href="https://vercel.com/">Vercel</a>
 
-+ ### Back End
+### Back End
   - [x] Criação de tabelas no banco de dados
   - [x] Criação de triggers no banco de dados
   - [x] Cadastro de usuário por email e senha
@@ -146,7 +147,7 @@ Simule um ambiente de trading de ações de risco nulo com o app da XT Brokers!
   - [ ] Testes Unitários (foram feitos manualmente)
   - [x] Deploy na <a href="https://supabase.com/">Supabase</a>
 
-+ ### Development
+### Development
   - [x] Repositório no GitHub
   - [x] Convenção de commits
   - [x] Workflow de testes unitários
