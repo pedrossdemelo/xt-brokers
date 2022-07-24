@@ -91,6 +91,19 @@ Simule um ambiente de trading de ações de risco nulo com o app da XT Brokers!
   - [PostgreSQL](https://www.postgresql.org/)
   - [Supabase](https://supabase.com/)
 
++ ### Development Tools
+  - [GitHub](https://github.com/)
+  - [Git](https://git-scm.com/)
+  - [PNPM](https://pnpm.js.org/)
+  - [Vite](https://vitejs.dev/)
+  - [Vitest](https://vitest.dev/)
+  - [React Testing Library](https://reacttestinglibrary.com/)
+  - [TypeScript](https://www.typescriptlang.org/)
+  - [Commitlint](https://commitlint.org/)
+  - [ESLint](https://eslint.org/)
+  - [Prettier](https://prettier.io/)
+  - [Husky](https://typicode.github.io/husky/#/)
+  - [Lint Staged](https://github.com/okonet/lint-staged)
 
 ## Roadmap
 
@@ -105,13 +118,13 @@ Simule um ambiente de trading de ações de risco nulo com o app da XT Brokers!
   - [x] Testes Unitários (hooks)
   - [x] Tratamento de Erros
   - [x] Feedback com <em>toasts</em> de erros e sucessos na comunicação com o servidor back-end
-  - [x] Botão para esconder e mostrar valores monetário do usuário
+  - [x] Botão para esconder e mostrar valores monetários do usuário
   - [x] Layout mobile
   - [x] Layout responsivo
   - [x] Code splitting
   - [x] Animações no estado de carregamento
   - [x] Suporte à comunicação com o servidor back-end
-  - [x] Suporte à comunicação realtime por websockets
+  - [x] Suporte à comunicação realtime por websockets ([INSTÁBILIDADE NA SUPABASE](https://github.com/supabase/realtime/issues/268#issuecomment-1193184394))
   - [x] Feedback com transição sobre a remoção de ações do portfólio
   - [x] Página de histórico de transações
   - [ ] Página dedicada para visualização do portfólio do usuário
@@ -120,6 +133,8 @@ Simule um ambiente de trading de ações de risco nulo com o app da XT Brokers!
 + ### Back End
   - [x] Criação de tabelas no banco de dados
   - [x] Criação de triggers no banco de dados
+  - [x] Cadastro de usuário por email e senha
+  - [x] Cadastro de usuário usando Google OAuth
   - [x] Requisições para compra de ativos
   - [x] Requisições para venda de ativos
   - [x] Requisições para consulta de portfolio de um usuário
@@ -130,6 +145,11 @@ Simule um ambiente de trading de ações de risco nulo com o app da XT Brokers!
   - [x] Endpoint que fornece uma lista de ações disponíveis para o front-end
   - [ ] Testes Unitários (foram feitos manualmente)
   - [x] Deploy na <a href="https://supabase.com/">Supabase</a>
+
++ ### Development
+  - [x] Repositório no GitHub
+  - [x] Convenção de commits
+  - [x] Workflow de testes unitários
 
 ## Known issues
 
