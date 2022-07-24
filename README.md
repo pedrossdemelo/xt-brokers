@@ -31,28 +31,22 @@ Simule um ambiente de trading de ações de risco nulo com o app da XT Brokers!
 <br>
 <br>
 
-<!-- <div align="center">
+<div align="center">
   <kbd>
     <img
       src="docs/assets/Light theme.gif"
       title="Light theme"
     >
   </kbd>
-  <kbd>
-    <img
-      src="docs/assets/Dark theme.gif"
-      title="Dark theme"
-    >
-  </kbd>
   <br>
   <br>
-</div> -->
+</div>
 
 <details>
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#screenshots">Screenshots</a></li>
-    <li><a href="#installation">Installation</a></li>
+    <li><a href="#local-setup">Local Setup</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#known-issues">Known issues</a></li>
     <li><a href="#built-with">Built with</a></li>
@@ -72,9 +66,7 @@ Simule um ambiente de trading de ações de risco nulo com o app da XT Brokers!
   <img src="docs/assets/Frame 6.png" height="450px" />
 </div>
 
-## Installation
-
-###
+## Local setup
 
 ## Built with
 
@@ -133,6 +125,7 @@ Simule um ambiente de trading de ações de risco nulo com o app da XT Brokers!
 
 ### Back End
   - [x] Criação de tabelas no banco de dados
+  - [x] Criação de regras de segurança a nível de fileira (Row Level Security)
   - [x] Criação de triggers no banco de dados
   - [x] Cadastro de usuário por email e senha
   - [x] Cadastro de usuário usando Google OAuth
