@@ -1,16 +1,53 @@
-import { Header, PrivateRoutes } from "components";
+import { Header, Loader, PrivateRoutes } from "components";
 import { useUserData } from "hooks";
-import { Dashboard, Funds, Home, NotFound, Trade, Transactions } from "pages";
+import { Home } from "pages";
+import React, { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
+
+const SDashboard = React.lazy(() => import("pages/Dashboard"));
+const SFunds = React.lazy(() => import("pages/Funds"));
+const SNotFound = React.lazy(() => import("pages/NotFound"));
+const STrade = React.lazy(() => import("pages/Trade"));
+const STransactions = React.lazy(() => import("pages/Transactions"));
+
+function Suspended({ children }: { children: React.ReactNode }) {
+  return <Suspense fallback={<Loader opacity={5} />}>{children}</Suspense>;
+}
+
+const Dashboard = () => (
+  <Suspended>
+    <SDashboard />
+  </Suspended>
+);
+const Funds = () => (
+  <Suspended>
+    <SFunds />
+  </Suspended>
+);
+const NotFound = () => (
+  <Suspended>
+    <SNotFound />
+  </Suspended>
+);
+const Trade = () => (
+  <Suspended>
+    <STrade />
+  </Suspended>
+);
+const Transactions = () => (
+  <Suspended>
+    <STransactions />
+  </Suspended>
+);
 
 function App() {
   const { loggedIn, loading } = useUserData();
 
-  if (loading) return <div>loading...</div>;
+  if (loading) return <Loader />;
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Header />
 
       <Routes>
