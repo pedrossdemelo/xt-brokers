@@ -146,9 +146,9 @@ export default function Header() {
 
       <button id="hide-money" onClick={toggleFunds}>
         {showFunds ? (
-          <EyeOffIcon className="h-5" />
-        ) : (
           <EyeIcon className="h-5" />
+        ) : (
+          <EyeOffIcon className="h-5" />
         )}
       </button>
     </nav>
