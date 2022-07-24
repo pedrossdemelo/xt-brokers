@@ -46,6 +46,7 @@ Simule um ambiente de trading de ações de risco nulo com o app da XT Brokers!
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#screenshots">Screenshots</a></li>
+    <li><a href="#decisions">Decision Making Process</a></li>
     <li><a href="#local-setup">Local Setup</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#built-with">Built with</a></li>
@@ -65,6 +66,10 @@ Simule um ambiente de trading de ações de risco nulo com o app da XT Brokers!
   <img src="docs/assets/Frame 5.png" height="450px" />
   <img src="docs/assets/Frame 6.png" height="450px" />
 </div>
+
+## Decisions
+
+Eu explico meu processo de decisão durante o desenvolvimento do app no arquivo [docs/DECISIONS.md](https://github.com/pedrossdemelo/xt-brokers/blob/master/docs/DECISIONS.md).
 
 ## Local setup
 
