@@ -3,6 +3,7 @@ import {
   TrendingDownIcon,
   TrendingUpIcon,
 } from "@heroicons/react/solid";
+import { motion } from "framer-motion";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Paper as TPaper } from "tests/mocks";
@@ -26,9 +27,13 @@ export default function Paper({ data, personal = false }: Props) {
   const { tradeTicker } = usePaper(data);
 
   return (
-    <button
+    <motion.button
       onClick={tradeTicker}
       id={`${personal ? "portfolio" : "trade"}-${data.codAtivo}`}
+      key={data.codAtivo}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0.25, scale: 0.95 }}
+      transition={{ duration: 0.75 }}
       className="border-gray-200 transition-all hocus:shadow-md hocus:bg-white
       p-3 rounded-xl text-sm border group flex justify-between items-center"
     >
@@ -38,7 +43,7 @@ export default function Paper({ data, personal = false }: Props) {
         </div>
 
         <div>
-          <div className="font-semibold">
+          <div className="font-semibold line-clamp-1">
             <span className="hidden group-hover:inline group-focus:inline">
               TRADE{" "}
             </span>
@@ -85,6 +90,6 @@ export default function Paper({ data, personal = false }: Props) {
           {personal ? " owned" : " available"}
         </div>
       </div>
-    </button>
+    </motion.button>
   );
 }

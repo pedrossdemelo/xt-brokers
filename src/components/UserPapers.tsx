@@ -1,5 +1,6 @@
 import { PresentationChartBarIcon } from "@heroicons/react/outline";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/solid";
+import { AnimatePresence } from "framer-motion";
 import { useUserData } from "hooks";
 import CarouselPaper from "./CarouselPaper";
 
@@ -54,9 +55,11 @@ export default function UserPapers() {
               <ArrowLeftIcon className="h-6" />
             </button>
 
-            {userPapers.map((paper) => (
-              <CarouselPaper key={paper.codAtivo} data={paper} />
-            ))}
+            <AnimatePresence>
+              {userPapers.map((paper) => (
+                <CarouselPaper key={paper.codAtivo} data={paper} />
+              ))}
+            </AnimatePresence>
 
             <button
               onClick={slideBy(500)}

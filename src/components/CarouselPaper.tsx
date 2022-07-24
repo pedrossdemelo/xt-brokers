@@ -3,6 +3,7 @@ import {
   TrendingDownIcon,
   TrendingUpIcon,
 } from "@heroicons/react/solid";
+import { motion } from "framer-motion";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Paper } from "tests/mocks";
@@ -25,9 +26,12 @@ export default function CarouselPaper({ data }: Props) {
   const { tradeTicker } = usePaper(data);
 
   return (
-    <button
+    <motion.button
       onClick={tradeTicker}
       id={`carousel-${data.codAtivo}`}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0.25, scale: 0.95 }}
+      transition={{ duration: 0.75 }}
       className="border-gray-200 hover:bg-white hover:shadow-md p-3 rounded-xl text-sm border shrink-0 w-52
       text-left flex flex-col items-stretch justify-between transition overflow-visible"
     >
@@ -79,6 +83,6 @@ export default function CarouselPaper({ data }: Props) {
           <span className="float-right">{data.qtdeAtivo} shares</span>
         </div>
       </div>
-    </button>
+    </motion.button>
   );
 }
