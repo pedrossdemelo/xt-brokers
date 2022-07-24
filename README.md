@@ -68,6 +68,36 @@ Simule um ambiente de trading de ações de risco nulo com o app da XT Brokers!
 
 ## Local setup
 
+### Front End
+
+1. Clone o repositório:
+
+    ```bash
+    git clone https://github.com/pedrossdemelo/xt-brokers.git
+    ```
+
+2. Instale as dependências:
+
+    ```bash
+    cd xt-brokers
+    pnpm install
+    ```
+
+3. Rode localmente:
+
+    ```bash
+    # Certifique-se que o servidor está rodando no endereço localhost:5173
+    pnpm dev
+    ```
+
+### Back End
+
+- No momento atual, o back-end está totalmente desenvolvido pela interface gráfica do <a href="https://supabase.com/">Supabase</a>.
+
+- A parte incrível do Supabase é que ele é <a href="https://github.com/supabase/supabase">open source</a> e você pode não só contribuir com o desenvolvimento da plataforma como também facilmente migrar todo o banco de dados Postgres junto com os plugins. Uma das maiores vantagens em relação ao Firebase. 
+
+- As variáveis públicas do Supabase estão disponíveis no arquivo `.env`. É possível interagir com o banco de dados pelo front end instanciado localmente. <strong>Mas não é possível logar com sua conta Google nesse contexto</strong>. Para realizar testes manuais é necessário criar uma conta com algum email (não é necessário ser validado).
+
 ## Built with
 
 ### Front End
