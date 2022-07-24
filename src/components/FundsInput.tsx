@@ -63,7 +63,7 @@ export default function Funds() {
 
   return (
     <>
-      <div className="px-2 my-2 flex justify-between items-center">
+      <div className="px-2 md:px-4 my-2 flex justify-between items-center">
         <h1 className="px-2 font-medium text-xl">
           {tab === "deposit" ? "Deposit" : "Withdraw"} request
         </h1>
@@ -88,7 +88,7 @@ export default function Funds() {
                 : "focus:border-blue-600"
             } block rounded-t-lg pr-4 pl-16 pb-3 pt-9 w-full text-3xl
             font-semibold bg-slate-200 border-0 border-b-2 border-slate-400
-            appearance-none focus:outline-none focus:ring-0
+            appearance-none focus:outline-none focus:ring-0 transition
             peer`}
             value={amount}
             onChange={setAmount}
@@ -147,7 +147,7 @@ export default function Funds() {
 
       <button
         type="button"
-        className={`text-white h-12 bg-blue-700 mx-4 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 focus:outline-none disabled:opacity-25 ${
+        className={`text-white h-12 bg-blue-700 mx-4 transition hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 focus:outline-none disabled:opacity-25 ${
           tab === "withdraw" && "bg-red-700 hover:bg-red-800 focus:ring-red-300"
         }`}
         disabled={
