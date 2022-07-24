@@ -5,10 +5,10 @@ export default function AllPapers() {
   const { allPapers } = useUserData();
 
   return (
-    <div className="grow">
-      <h2 className="ml-4 text-xl font-medium mb-2">Stocks</h2>
+    <div>
+      <h2 className="mx-4 md:mx-6 text-xl font-medium mb-2">Stocks</h2>
 
-      <div className="px-4 gap-4 flex flex-col">
+      <div className="px-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-4">
         {allPapers.map((paper) => (
           <Paper key={paper.codAtivo} data={paper} />
         ))}
