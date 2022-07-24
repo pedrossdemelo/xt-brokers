@@ -38,7 +38,6 @@ function useFundsInput() {
     confirmTransaction,
     portfolio,
     amount,
-    add50: () => setAmount(Number(amount) + 50),
     setAmount: (e: React.ChangeEvent<HTMLInputElement>) =>
       setAmount(Math.abs(+e.target.value) || ""),
     addAmount: (add: number) => () => setAmount(Number(amount) + add),
@@ -54,7 +53,6 @@ export default function Funds() {
     amount,
     setAmount,
     addAmount,
-    add50,
     confirmTransaction,
     tab,
     toggleTab,
@@ -113,7 +111,7 @@ export default function Funds() {
         font-medium text-slate-500"
       >
         <button
-          onClick={add50}
+          onClick={addAmount(50)}
           className="rounded-lg px-2.5 py-1 text-sm"
           id="add-50"
         >
@@ -156,7 +154,7 @@ export default function Funds() {
         id="confirm-transaction"
         onClick={confirmTransaction}
       >
-        {tab === "withdraw" ? "WITHDRAW" : "DEPOSIT"}
+        {tab.toUpperCase()}
 
         {loading && "ING..."}
       </button>
