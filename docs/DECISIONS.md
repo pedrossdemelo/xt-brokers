@@ -398,7 +398,7 @@ Por exemplo, invés de ir atrás utilizar um endpoint PATCH para atualizar o sal
 
 ### Endpoints
 
-Todos os endpoints utilizados, assim como os endpoints listados nos requisitos do desafio Back End podem ser encontrados na pasta `<root>/src/api`
+Todos os endpoints utilizados, assim como os endpoints listados nos requisitos do desafio Back End podem ser encontrados na pasta [`<root>/src/api`](https://github.com/pedrossdemelo/xt-brokers/tree/master/src/api)
 
 ### Outros
 Foram feitas algumas outras mudanças para adaptar o banco de dados à necessidade da aplicação.
