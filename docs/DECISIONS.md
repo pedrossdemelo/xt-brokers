@@ -1,4 +1,4 @@
-# Motivação
+# Decisões
 
 ## História de Desenvolvimento
 
@@ -28,7 +28,7 @@ Antes de iniciar o desenvolvimento do aplicativo, eu primeiro pensei nas expecta
 
     Eu já havia feito um aplicativo extremamente similar no passado, o <a href="https://espressowallet.com">espressowallet</a>, que utiliza o Firebase como backend.
 
-    Eu poderia ter feito o aplicativo com o Firebase e provavelmente ter entregue muito mais rápido e com mais qualidade visto que já sou familiarizado, mas decidi que isso não o objetivo aqui é me desafiar então eu escolhi o Supabase.
+    Eu poderia ter feito o aplicativo com o Firebase e provavelmente ter entregue muito mais rápido e com mais qualidade visto que já sou familiarizado, mas o objetivo aqui é me desafiar então eu escolhi o Supabase.
 
 - Todas as informações relevantes no momento do trade de algum ativo deve estar aparente na interface.
 
