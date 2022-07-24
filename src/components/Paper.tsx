@@ -29,7 +29,8 @@ export default function Paper({ data, personal = false }: Props) {
     <button
       onClick={tradeTicker}
       id={`${personal ? "portfolio" : "trade"}-${data.codAtivo}`}
-      className="border-gray-200 p-3 rounded-xl text-sm border flex justify-between items-center"
+      className="border-gray-200 transition-all hocus:shadow-md hocus:bg-white
+      p-3 rounded-xl text-sm border group flex justify-between items-center"
     >
       <div className="flex gap-3 items-center text-left">
         <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
@@ -38,6 +39,10 @@ export default function Paper({ data, personal = false }: Props) {
 
         <div>
           <div className="font-semibold">
+            <span className="hidden group-hover:inline group-focus:inline">
+              TRADE{" "}
+            </span>
+
             <span>{data.codAtivo}</span>
 
             <span
@@ -57,13 +62,13 @@ export default function Paper({ data, personal = false }: Props) {
             </span>
           </div>
 
-          <div className="text-xs">{data.nomeAtivo}</div>
+          <div className="text-xs line-clamp-1">{data.nomeAtivo}</div>
         </div>
       </div>
 
       <div className="text-right">
         <div
-          className={`font-semibold ${
+          className={`font-semibold line-clamp-1 ${
             data.variacao > 0 ? "text-green-700" : "text-red-700"
           }`}
         >
@@ -74,7 +79,7 @@ export default function Paper({ data, personal = false }: Props) {
           </span>
         </div>
 
-        <div className="text-xs">
+        <div className="text-xs line-clamp-1">
           {data.qtdeAtivo}
 
           {personal ? " owned" : " available"}
