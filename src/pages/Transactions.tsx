@@ -12,9 +12,11 @@ export default function Transactions() {
 
   return (
     <div className="grow">
-      <h1 className="text-xl font-medium mx-4 my-4">Transactions</h1>
+      <h1 className="text-xl font-medium mx-4 mt-4 mb-2 md:mx-6">
+        Transactions
+      </h1>
 
-      <div className="flex flex-col gap-4 mx-4">
+      <div className="grid gap-4 px-4 md:grid-cols-2 xl:grid-cols-3">
         {transactions.map((transaction) => (
           <Transaction data={transaction} key={transaction.id} />
         ))}
