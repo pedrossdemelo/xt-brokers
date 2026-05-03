@@ -29,7 +29,7 @@ export function UserProvider({ children }: Props) {
   const [loading, setLoading] = React.useState(true);
   const [userPapers, setUserPapers] = React.useState<Paper[]>([]);
   const [allPapers, setAllPapers] = React.useState<Paper[]>([]);
-  const [user, setUser] = React.useState<null | User>(supabase.auth.user());
+  const [user, setUser] = React.useState<null | User>(null);
   const [funds, setFunds] = React.useState(0);
   const [transactions, setTransactions] = React.useState<Transaction[]>([]);
 
@@ -43,6 +43,13 @@ export function UserProvider({ children }: Props) {
   const [hideMoney, setHideMoney] = useLocalStorage("hideMoney", false);
 
   const loggedIn = React.useMemo(() => !!user, [user]);
+
+  // Hydrate user from session on mount (v2: getSession is async)
+  React.useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+  }, []);
 
   React.useEffect(() => {
     (async () => {
@@ -83,26 +90,26 @@ export function UserProvider({ children }: Props) {
   }, [loggedIn]);
 
   React.useEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        switch (event) {
-        case "SIGNED_IN":
-          setUser(session!.user);
-          localStorage.setItem("lastEmail", session!.user?.email!);
-          localStorage.setItem("loggedAt", new Date().toISOString());
-          navigate("/", { replace: true });
-          break;
-        case "SIGNED_OUT":
-          setUser(null);
-          navigate("/login", { replace: true });
-          break;
-        case "USER_DELETED":
-          setUser(null);
-          navigate("/login", { replace: true });
-          break;
-        }
-      },
-    );
+    const {
+      data: { subscription: authListener },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      switch (event) {
+      case "SIGNED_IN":
+        setUser(session!.user);
+        localStorage.setItem("lastEmail", session!.user?.email!);
+        localStorage.setItem("loggedAt", new Date().toISOString());
+        navigate("/", { replace: true });
+        break;
+      case "SIGNED_OUT":
+        setUser(null);
+        navigate("/login", { replace: true });
+        break;
+      case "USER_DELETED":
+        setUser(null);
+        navigate("/login", { replace: true });
+        break;
+      }
+    });
 
     return () => {
       authListener?.unsubscribe();
