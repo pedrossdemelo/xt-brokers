@@ -52,7 +52,7 @@ function useLoginInput() {
 
     if (!errorFlag) {
       if (isLogin.current) {
-        let { error } = await supabase.auth.signIn({
+        let { error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
@@ -76,7 +76,9 @@ function useLoginInput() {
   }
 
   async function gSignIn() {
-    const { error } = await supabase.auth.signIn({ provider: "google" });
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
 
     if (error) setErrorEmail(error?.message);
   }
