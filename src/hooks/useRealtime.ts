@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { User } from "@supabase/supabase-js";
 import { supabase } from "api";
 import produce from "immer";
 import React from "react";
@@ -13,13 +14,24 @@ export default function useRealtime(
   setUserPapers: UserContextValue["setUserPapers"],
   setAllPapers: UserContextValue["setAllPapers"],
   setFunds: UserContextValue["setFunds"],
+  user: User | null,
 ) {
   React.useEffect(() => {
+    if (!user) return;
+
+    const userId = user.id;
+    const userFilter = `codCliente=eq.${userId}`;
+
     const fundsChannel = supabase
-      .channel("clientes-changes")
+      .channel(`clientes-changes-${userId}`)
       .on(
         "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "clientes" },
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "clientes",
+          filter: userFilter,
+        },
         (payload) => {
           setFunds((payload.new as { saldo: number }).saldo);
         },
@@ -27,10 +39,15 @@ export default function useRealtime(
       .subscribe();
 
     const userPapersChannel = supabase
-      .channel("clientesInvestimentos-changes")
+      .channel(`clientesInvestimentos-changes-${userId}`)
       .on(
         "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "clientesInvestimentos" },
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "clientesInvestimentos",
+          filter: userFilter,
+        },
         (payload) => {
           setUserPapers(
             produce((draft) => {
@@ -46,7 +63,12 @@ export default function useRealtime(
       )
       .on(
         "postgres_changes",
-        { event: "DELETE", schema: "public", table: "clientesInvestimentos" },
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "clientesInvestimentos",
+          filter: userFilter,
+        },
         (payload) => {
           setUserPapers(
             produce((draft) => {
@@ -62,7 +84,12 @@ export default function useRealtime(
       )
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "clientesInvestimentos" },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "clientesInvestimentos",
+          filter: userFilter,
+        },
         async (payload) => {
           const { data } = await supabase
             .from("investimentos")
@@ -144,5 +171,5 @@ export default function useRealtime(
       supabase.removeChannel(allPapersChannel);
       supabase.removeChannel(transactionsChannel);
     };
-  }, []);
+  }, [user?.id]);
 }

@@ -119,7 +119,7 @@ export function UserProvider({ children }: Props) {
 
   // R.I.P 😭😭😭😭😭😭😭😭😭
   // Update: they responded and fixed the issue! Hooray!
-  useRealtime(setTransactions, setUserPapers, setAllPapers, setFunds);
+  useRealtime(setTransactions, setUserPapers, setAllPapers, setFunds, user);
 
   const value = {
     userPapers,
