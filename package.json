@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
-    "@supabase/supabase-js": "^1.35.4",
+    "@supabase/supabase-js": "^2.0.0",
     "@tailwindcss/line-clamp": "^0.4.0",
     "csstype": "^3.0.10",
     "flowbite": "^1.4.7",
