@@ -5,10 +5,8 @@ import React from "react";
 import { UserContextValue } from "types";
 
 /**
- * Supabase realtime subscriptions are down/not working
- * @see https://github.com/supabase/supabase-js/issues/443
- * @see https://github.com/supabase/supabase/issues/7771
- * @see https://github.com/supabase/realtime/issues/265#issuecomment-1181560093
+ * Supabase realtime subscriptions (v2 API)
+ * @see https://supabase.com/docs/guides/realtime
  */
 export default function useRealtime(
   setTransactions: UserContextValue["setTransactions"],
@@ -17,111 +15,134 @@ export default function useRealtime(
   setFunds: UserContextValue["setFunds"],
 ) {
   React.useEffect(() => {
-    const fundsSubscription = supabase
-      .from("clientes")
-      .on("UPDATE", (payload) => {
-        setFunds(payload.new.saldo);
-      })
+    const fundsChannel = supabase
+      .channel("clientes-changes")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "clientes" },
+        (payload) => {
+          setFunds((payload.new as { saldo: number }).saldo);
+        },
+      )
       .subscribe();
 
-    const userPapersSubscription = supabase
-      .from("clientesInvestimentos")
-      .on("UPDATE", (payload) => {
-        setUserPapers(
-          produce((draft) => {
-            const index = draft.findIndex(
-              (p) => p.codAtivo === payload.new.codAtivo,
-            );
-            if (index !== -1) {
-              draft[index].qtdeAtivo = payload.new.qtdeAtivo;
-            }
-          }),
-        );
-      })
-      .on("DELETE", (payload) => {
-        setUserPapers(
-          produce((draft) => {
-            const index = draft.findIndex(
-              (p) => p.codAtivo === payload.old.codAtivo,
-            );
-            if (index !== -1) {
-              draft.splice(index, 1);
-            }
-          }),
-        );
-      })
-      .on("INSERT", async (payload) => {
-        const { data } = await supabase
-          .from("investimentos")
-          .select("variacao, valor, nomeAtivo")
-          .eq("codAtivo", payload.new.codAtivo);
-        let variacao: number, valor: number, nomeAtivo: string;
-        if (data) {
-          variacao = data[0].variacao;
-          valor = data[0].valor;
-          nomeAtivo = data[0].nomeAtivo;
-        }
-        setUserPapers(
-          produce((draft) => {
-            const index = draft.findIndex(
-              (p) => p.codAtivo === payload.new.codAtivo,
-            );
-            if (index !== -1) {
-              draft[index].qtdeAtivo = payload.new.qtdeAtivo;
-            } else {
-              console.log(payload.new);
-              const newPaper = {
-                codAtivo: payload.new.codAtivo,
-                nomeAtivo,
-                qtdeAtivo: payload.new.qtdeAtivo,
-                valor,
-                variacao,
-              };
-              draft.push(newPaper);
-            }
-          }),
-        );
-      })
+    const userPapersChannel = supabase
+      .channel("clientesInvestimentos-changes")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "clientesInvestimentos" },
+        (payload) => {
+          setUserPapers(
+            produce((draft) => {
+              const index = draft.findIndex(
+                (p) => p.codAtivo === (payload.new as any).codAtivo,
+              );
+              if (index !== -1) {
+                draft[index].qtdeAtivo = (payload.new as any).qtdeAtivo;
+              }
+            }),
+          );
+        },
+      )
+      .on(
+        "postgres_changes",
+        { event: "DELETE", schema: "public", table: "clientesInvestimentos" },
+        (payload) => {
+          setUserPapers(
+            produce((draft) => {
+              const index = draft.findIndex(
+                (p) => p.codAtivo === (payload.old as any).codAtivo,
+              );
+              if (index !== -1) {
+                draft.splice(index, 1);
+              }
+            }),
+          );
+        },
+      )
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "clientesInvestimentos" },
+        async (payload) => {
+          const { data } = await supabase
+            .from("investimentos")
+            .select("variacao, valor, nomeAtivo")
+            .eq("codAtivo", (payload.new as any).codAtivo);
+          let variacao: number, valor: number, nomeAtivo: string;
+          if (data) {
+            variacao = data[0].variacao;
+            valor = data[0].valor;
+            nomeAtivo = data[0].nomeAtivo;
+          }
+          setUserPapers(
+            produce((draft) => {
+              const index = draft.findIndex(
+                (p) => p.codAtivo === (payload.new as any).codAtivo,
+              );
+              if (index !== -1) {
+                draft[index].qtdeAtivo = (payload.new as any).qtdeAtivo;
+              } else {
+                const newPaper = {
+                  codAtivo: (payload.new as any).codAtivo,
+                  nomeAtivo,
+                  qtdeAtivo: (payload.new as any).qtdeAtivo,
+                  valor,
+                  variacao,
+                };
+                draft.push(newPaper);
+              }
+            }),
+          );
+        },
+      )
       .subscribe();
 
-    const allPapersSubscription = supabase
-      .from("investimentos")
-      .on("UPDATE", (payload) => {
-        setAllPapers(
-          produce((draft) => {
-            const index = draft.findIndex(
-              (p) => p.codAtivo === payload.new.codAtivo,
-            );
-            if (index !== -1 && payload.new.qtdeAtivo === 0) {
-              draft.splice(index, 1);
-              return;
-            }
-            if (index !== -1) {
-              draft[index].qtdeAtivo = payload.new.qtdeAtivo;
-            } else {
-              draft.push(payload.new);
-            }
-          }),
-        );
-      })
+    const allPapersChannel = supabase
+      .channel("investimentos-changes")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "investimentos" },
+        (payload) => {
+          setAllPapers(
+            produce((draft) => {
+              const index = draft.findIndex(
+                (p) => p.codAtivo === (payload.new as any).codAtivo,
+              );
+              if (index !== -1 && (payload.new as any).qtdeAtivo === 0) {
+                draft.splice(index, 1);
+                return;
+              }
+              if (index !== -1) {
+                draft[index].qtdeAtivo = (payload.new as any).qtdeAtivo;
+              } else {
+                draft.push(payload.new as any);
+              }
+            }),
+          );
+        },
+      )
       .subscribe();
 
-    const transactionsSubcription = supabase
-      .from("transacoes")
-      .on("INSERT", (payload) => {
-        setTransactions(
-          produce((draft) => {
-            draft.unshift(payload.new);
-          }),
-        );
-      })
+    const transactionsChannel = supabase
+      .channel("transacoes-changes")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "transacoes" },
+        (payload) => {
+          setTransactions(
+            produce((draft) => {
+              draft.unshift(payload.new as any);
+            }),
+          );
+        },
+      )
       .subscribe();
 
     return () => {
-      supabase.removeSubscription(fundsSubscription);
-      supabase.removeSubscription(userPapersSubscription);
-      supabase.removeSubscription(allPapersSubscription);
-      supabase.removeSubscription(transactionsSubcription);
+      supabase.removeChannel(fundsChannel);
+      supabase.removeChannel(userPapersChannel);
+      supabase.removeChannel(allPapersChannel);
+      supabase.removeChannel(transactionsChannel);
     };
   }, []);
 }
