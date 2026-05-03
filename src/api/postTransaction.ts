@@ -5,11 +5,8 @@ export default function postTransaction(
   amount: number,
   ticker: string,
 ) {
-  return supabase.from("transacoes").insert([
-    {
-      codAtivo: ticker,
-      qtdeAtivo: amount,
-      venda: type === "sell",
-    },
-  ]);
+  return supabase
+    .from("transacoes")
+    .insert([{ codAtivo: ticker, qtdeAtivo: amount, venda: type === "sell" }])
+    .select();
 }
