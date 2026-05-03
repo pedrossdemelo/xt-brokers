@@ -3,7 +3,7 @@ import { Paper } from "tests/mocks";
 
 export default async function fetchAllPapers() {
   const { data, error } = await supabase
-    .from<Paper>("investimentos")
+    .from("investimentos")
     .select("*")
     .order("codAtivo", { ascending: true });
   return {

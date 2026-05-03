@@ -1,9 +1,8 @@
 import { supabase } from "api";
-import { Transaction } from "tests/mocks";
 
 export default function fetchTransactions() {
   return supabase
-    .from<Transaction>("transacoes")
+    .from("transacoes")
     .select("*")
     .order("data", { ascending: false });
 }
