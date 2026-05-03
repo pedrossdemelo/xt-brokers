@@ -66,10 +66,10 @@ export default function useRealtime(
           event: "DELETE",
           schema: "public",
           table: "clientesInvestimentos",
-          filter: userFilter,
         },
         (payload) => {
           const row = payload.old as definitions["clientesInvestimentos"];
+          if (row.codCliente !== userId) return;
           setUserPapers(
             produce((draft) => {
               const index = draft.findIndex((p) => p.codAtivo === row.codAtivo);
