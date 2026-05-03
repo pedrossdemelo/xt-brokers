@@ -104,10 +104,6 @@ export function UserProvider({ children }: Props) {
         setUser(null);
         navigate("/login", { replace: true });
         break;
-      case "USER_DELETED":
-        setUser(null);
-        navigate("/login", { replace: true });
-        break;
       }
     });
 
