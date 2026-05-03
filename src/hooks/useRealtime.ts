@@ -3,7 +3,7 @@ import { User } from "@supabase/supabase-js";
 import { supabase } from "api";
 import produce from "immer";
 import React from "react";
-import { UserContextValue } from "types";
+import { definitions, UserContextValue } from "types";
 
 /**
  * Supabase realtime subscriptions (v2 API)
@@ -33,7 +33,7 @@ export default function useRealtime(
           filter: userFilter,
         },
         (payload) => {
-          setFunds((payload.new as { saldo: number }).saldo);
+          setFunds((payload.new as definitions["clientes"]).saldo);
         },
       )
       .subscribe();
@@ -49,13 +49,12 @@ export default function useRealtime(
           filter: userFilter,
         },
         (payload) => {
+          const row = payload.new as definitions["clientesInvestimentos"];
           setUserPapers(
             produce((draft) => {
-              const index = draft.findIndex(
-                (p) => p.codAtivo === (payload.new as any).codAtivo,
-              );
+              const index = draft.findIndex((p) => p.codAtivo === row.codAtivo);
               if (index !== -1) {
-                draft[index].qtdeAtivo = (payload.new as any).qtdeAtivo;
+                draft[index].qtdeAtivo = row.qtdeAtivo;
               }
             }),
           );
@@ -70,11 +69,10 @@ export default function useRealtime(
           filter: userFilter,
         },
         (payload) => {
+          const row = payload.old as definitions["clientesInvestimentos"];
           setUserPapers(
             produce((draft) => {
-              const index = draft.findIndex(
-                (p) => p.codAtivo === (payload.old as any).codAtivo,
-              );
+              const index = draft.findIndex((p) => p.codAtivo === row.codAtivo);
               if (index !== -1) {
                 draft.splice(index, 1);
               }
@@ -91,10 +89,11 @@ export default function useRealtime(
           filter: userFilter,
         },
         async (payload) => {
+          const row = payload.new as definitions["clientesInvestimentos"];
           const { data } = await supabase
             .from("investimentos")
             .select("variacao, valor, nomeAtivo")
-            .eq("codAtivo", (payload.new as any).codAtivo);
+            .eq("codAtivo", row.codAtivo);
           let variacao: number, valor: number, nomeAtivo: string;
           if (data) {
             variacao = data[0].variacao;
@@ -103,20 +102,17 @@ export default function useRealtime(
           }
           setUserPapers(
             produce((draft) => {
-              const index = draft.findIndex(
-                (p) => p.codAtivo === (payload.new as any).codAtivo,
-              );
+              const index = draft.findIndex((p) => p.codAtivo === row.codAtivo);
               if (index !== -1) {
-                draft[index].qtdeAtivo = (payload.new as any).qtdeAtivo;
+                draft[index].qtdeAtivo = row.qtdeAtivo;
               } else {
-                const newPaper = {
-                  codAtivo: (payload.new as any).codAtivo,
+                draft.push({
+                  codAtivo: row.codAtivo,
                   nomeAtivo,
-                  qtdeAtivo: (payload.new as any).qtdeAtivo,
+                  qtdeAtivo: row.qtdeAtivo,
                   valor,
                   variacao,
-                };
-                draft.push(newPaper);
+                });
               }
             }),
           );
@@ -130,19 +126,18 @@ export default function useRealtime(
         "postgres_changes",
         { event: "UPDATE", schema: "public", table: "investimentos" },
         (payload) => {
+          const row = payload.new as definitions["investimentos"];
           setAllPapers(
             produce((draft) => {
-              const index = draft.findIndex(
-                (p) => p.codAtivo === (payload.new as any).codAtivo,
-              );
-              if (index !== -1 && (payload.new as any).qtdeAtivo === 0) {
+              const index = draft.findIndex((p) => p.codAtivo === row.codAtivo);
+              if (index !== -1 && row.qtdeAtivo === 0) {
                 draft.splice(index, 1);
                 return;
               }
               if (index !== -1) {
-                draft[index].qtdeAtivo = (payload.new as any).qtdeAtivo;
+                draft[index].qtdeAtivo = row.qtdeAtivo;
               } else {
-                draft.push(payload.new as any);
+                draft.push(row);
               }
             }),
           );
@@ -156,9 +151,10 @@ export default function useRealtime(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "transacoes" },
         (payload) => {
+          const row = payload.new as definitions["transacoes"];
           setTransactions(
             produce((draft) => {
-              draft.unshift(payload.new as any);
+              draft.unshift(row);
             }),
           );
         },
