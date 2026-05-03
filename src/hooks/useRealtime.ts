@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { User } from "@supabase/supabase-js";
-import { supabase } from "api";
+import { fetchUserPapers, supabase } from "api";
 import produce from "immer";
 import React from "react";
 import { definitions, UserContextValue } from "types";
@@ -100,30 +100,6 @@ export default function useRealtime(
       )
       .subscribe();
 
-    const userPapersDeleteChannel = supabase
-      .channel(`clientesInvestimentos-delete-${userId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "DELETE",
-          schema: "public",
-          table: "clientesInvestimentos",
-        },
-        (payload) => {
-          const row = payload.old as definitions["clientesInvestimentos"];
-          if (row.codCliente !== userId) return;
-          setUserPapers(
-            produce((draft) => {
-              const index = draft.findIndex((p) => p.codAtivo === row.codAtivo);
-              if (index !== -1) {
-                draft.splice(index, 1);
-              }
-            }),
-          );
-        },
-      )
-      .subscribe();
-
     const allPapersChannel = supabase
       .channel("investimentos-changes")
       .on(
@@ -154,13 +130,17 @@ export default function useRealtime(
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "transacoes" },
-        (payload) => {
+        async (payload) => {
           const row = payload.new as definitions["transacoes"];
           setTransactions(
             produce((draft) => {
               draft.unshift(row);
             }),
           );
+          if (row.venda) {
+            const { data } = await fetchUserPapers();
+            if (data) setUserPapers(data);
+          }
         },
       )
       .subscribe();
@@ -168,7 +148,6 @@ export default function useRealtime(
     return () => {
       supabase.removeChannel(fundsChannel);
       supabase.removeChannel(userPapersChannel);
-      supabase.removeChannel(userPapersDeleteChannel);
       supabase.removeChannel(allPapersChannel);
       supabase.removeChannel(transactionsChannel);
     };
