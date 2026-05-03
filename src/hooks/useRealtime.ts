@@ -63,26 +63,6 @@ export default function useRealtime(
       .on(
         "postgres_changes",
         {
-          event: "DELETE",
-          schema: "public",
-          table: "clientesInvestimentos",
-        },
-        (payload) => {
-          const row = payload.old as definitions["clientesInvestimentos"];
-          if (row.codCliente !== userId) return;
-          setUserPapers(
-            produce((draft) => {
-              const index = draft.findIndex((p) => p.codAtivo === row.codAtivo);
-              if (index !== -1) {
-                draft.splice(index, 1);
-              }
-            }),
-          );
-        },
-      )
-      .on(
-        "postgres_changes",
-        {
           event: "INSERT",
           schema: "public",
           table: "clientesInvestimentos",
@@ -113,6 +93,30 @@ export default function useRealtime(
                   valor,
                   variacao,
                 });
+              }
+            }),
+          );
+        },
+      )
+      .subscribe();
+
+    const userPapersDeleteChannel = supabase
+      .channel(`clientesInvestimentos-delete-${userId}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "clientesInvestimentos",
+        },
+        (payload) => {
+          const row = payload.old as definitions["clientesInvestimentos"];
+          if (row.codCliente !== userId) return;
+          setUserPapers(
+            produce((draft) => {
+              const index = draft.findIndex((p) => p.codAtivo === row.codAtivo);
+              if (index !== -1) {
+                draft.splice(index, 1);
               }
             }),
           );
@@ -164,6 +168,7 @@ export default function useRealtime(
     return () => {
       supabase.removeChannel(fundsChannel);
       supabase.removeChannel(userPapersChannel);
+      supabase.removeChannel(userPapersDeleteChannel);
       supabase.removeChannel(allPapersChannel);
       supabase.removeChannel(transactionsChannel);
     };
