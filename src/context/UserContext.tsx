@@ -27,6 +27,7 @@ export function UserProvider({ children }: Props) {
   const navigate = useNavigate();
 
   const [loading, setLoading] = React.useState(true);
+  const [sessionChecked, setSessionChecked] = React.useState(false);
   const [userPapers, setUserPapers] = React.useState<Paper[]>([]);
   const [allPapers, setAllPapers] = React.useState<Paper[]>([]);
   const [user, setUser] = React.useState<null | User>(null);
@@ -44,15 +45,9 @@ export function UserProvider({ children }: Props) {
 
   const loggedIn = React.useMemo(() => !!user, [user]);
 
-  // Hydrate user from session on mount (v2: getSession is async)
-  React.useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
-  }, []);
-
   React.useEffect(() => {
     (async () => {
+      if (!sessionChecked) return; // wait until initial session is known
       if (!loggedIn) {
         setTransactions([]);
         setUserPapers([]);
@@ -87,13 +82,18 @@ export function UserProvider({ children }: Props) {
 
       setLoading(false);
     })();
-  }, [loggedIn]);
+  }, [loggedIn, sessionChecked]);
 
   React.useEffect(() => {
     const {
       data: { subscription: authListener },
     } = supabase.auth.onAuthStateChange((event, session) => {
       switch (event) {
+      case "INITIAL_SESSION":
+        // Fires on page load (including after PKCE OAuth exchange)
+        setUser(session?.user ?? null);
+        setSessionChecked(true);
+        break;
       case "SIGNED_IN":
         setUser(session!.user);
         localStorage.setItem("lastEmail", session!.user?.email!);
