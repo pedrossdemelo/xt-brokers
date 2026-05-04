@@ -6,6 +6,7 @@ export type ResolvedTheme = "light" | "dark";
 interface ThemeContextValue {
   theme: Theme;
   resolvedTheme: ResolvedTheme;
+  // eslint-disable-next-line no-unused-vars
   setTheme: (theme: Theme) => void;
 }
 
@@ -18,11 +19,18 @@ function getSystemTheme(): ResolvedTheme {
 }
 
 function applyTheme(resolved: ResolvedTheme) {
+  const root = document.documentElement;
+  root.classList.add("theme-switching");
+
   if (resolved === "dark") {
-    document.documentElement.classList.add("dark");
+    root.classList.add("dark");
   } else {
-    document.documentElement.classList.remove("dark");
+    root.classList.remove("dark");
   }
+
+  window.requestAnimationFrame(() => {
+    root.classList.remove("theme-switching");
+  });
 }
 
 function resolveTheme(theme: Theme): ResolvedTheme {
