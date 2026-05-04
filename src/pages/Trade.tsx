@@ -107,25 +107,26 @@ export default function Trade() {
           <div>
             <h1>{ticker}</h1>
 
-            <p className="text-sm -mt-1 text-gray-400">{name}</p>
+            <p className="text-sm -mt-1 text-fg-subtle">{name}</p>
           </div>
         </div>
       </Modal.Header>
 
       <Modal.Body>
         <div className="flex flex-col gap-4 -mt-2">
-          <div className="flex flex-col rounded-md border-gray-200 border overflow-hidden">
+          <div className="flex flex-col rounded-md border-border-default border overflow-hidden">
             <div
               className="flex gap-2 items-center justify-between border-b
-            border-gray-200 h-10"
+            border-border-default h-10"
             >
               <div className="flex items-stretch h-full">
                 <button
                   onClick={setBuy}
                   id="buy-tab"
                   disabled={funds < price || amountAvailable === 0}
-                  className={`border-r border-gray-200 px-4 disabled:text-gray-300 disabled:pointer-events-none ${
-                    tab === "buy" && "font-semibold bg-blue-50/50 text-blue-700"
+                  className={`border-r border-border-default px-4 disabled:text-fg-subtle disabled:pointer-events-none ${
+                    tab === "buy" &&
+                    "font-semibold bg-primary-subtle-bg text-primary-subtle-fg"
                   }`}
                 >
                   BUY
@@ -135,8 +136,9 @@ export default function Trade() {
                   onClick={setSell}
                   id="sell-tab"
                   disabled={userAmount === 0}
-                  className={`border-r border-gray-200 px-4 disabled:text-gray-300 disabled:pointer-events-none ${
-                    tab === "sell" && "font-semibold bg-red-50/50 text-red-700"
+                  className={`border-r border-border-default px-4 disabled:text-fg-subtle disabled:pointer-events-none ${
+                    tab === "sell" &&
+                    "font-semibold bg-danger-subtle-bg text-danger-subtle-fg"
                   }`}
                 >
                   SELL
@@ -150,7 +152,9 @@ export default function Trade() {
 
                 <span
                   className={`${
-                    poolPaper.variacao > 0 ? "text-green-600" : "text-red-600"
+                    poolPaper.variacao > 0
+                      ? "text-success-strong"
+                      : "text-danger-strong"
                   }`}
                 >
                   {poolPaper.variacao}%
@@ -158,10 +162,10 @@ export default function Trade() {
               </span>
             </div>
 
-            <div className="relative flex text-center flex-col bg-gray-100">
+            <div className="relative flex text-center flex-col bg-muted">
               <label
                 className="text-xs absolute left-1/2 top-1.5 -translate-x-1/2
-              text-gray-600 font-medium"
+              text-fg-muted font-medium"
                 htmlFor="trade-amount-input"
               >
                 AMOUNT
@@ -195,12 +199,12 @@ export default function Trade() {
                 value={amountInput}
                 id="trade-amount-input"
                 onChange={setAmount}
-                className="bg-transparent focus:ring-gray-200 focus:ring-2 border-none
+                className="bg-transparent focus:ring-border-default focus:ring-2 border-none
                 text-center font-medium h-16 pt-6 text-3xl"
               />
             </div>
 
-            <div className="grid py-2 px-4 text-gray-600 border-t border-gray-200 grid-cols-2 grid-flow-row gap-x-6 gap-y-2 text-xs">
+            <div className="grid py-2 px-4 text-fg-muted border-t border-border-default grid-cols-2 grid-flow-row gap-x-6 gap-y-2 text-xs">
               <span>
                 {"Funds: "}
 
@@ -209,7 +213,7 @@ export default function Trade() {
 
               <span
                 className={`${
-                  tab === "buy" && amount * price > funds && "text-red-700"
+                  tab === "buy" && amount * price > funds && "text-danger"
                 }`}
               >
                 {"Order: "}
@@ -219,11 +223,11 @@ export default function Trade() {
                 </span>
               </span>
 
-              <span className="col-span-2 -mx-4 bg-gray-200 border-b"></span>
+              <span className="col-span-2 -mx-4 bg-muted-strong border-b border-border-default"></span>
 
               <span
                 className={`${
-                  tab === "buy" && amountAvailable < amount && "text-red-700"
+                  tab === "buy" && amountAvailable < amount && "text-danger"
                 }`}
               >
                 {"Available: "}
@@ -233,7 +237,7 @@ export default function Trade() {
 
               <span
                 className={`${
-                  tab === "sell" && amount > userAmount && "text-red-700"
+                  tab === "sell" && amount > userAmount && "text-danger"
                 }`}
               >
                 {"Position: "}
@@ -246,8 +250,9 @@ export default function Trade() {
           <button
             type="button"
             id={`${tab}-btn`}
-            className={`text-white transition h-12 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 focus:outline-none disabled:opacity-25 ${
-              tab === "sell" && "bg-red-700 hover:bg-red-800 focus:ring-red-300"
+            className={`text-fg-on-primary transition h-12 bg-primary hover:bg-primary-hover focus:ring-4 focus:ring-primary-ring font-medium rounded-lg text-lg px-5 py-2.5 focus:outline-none disabled:opacity-25 ${
+              tab === "sell" &&
+              "bg-danger-strong hover:bg-danger-hover focus:ring-danger-ring"
             } `}
             disabled={
               loading ||
