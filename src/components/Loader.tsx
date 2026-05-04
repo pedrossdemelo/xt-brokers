@@ -8,8 +8,8 @@ export default function Loader({ opacity = 80 }: { opacity?: number }) {
     >
       <ViewGridIcon
         className="h-[200px] bg-gradient-to-b animate-enter
-      from-slate-50 p-1 to-slate-100 shadow-2xl animate-bounce border
-      shadow-slate-400/80 border-slate-100 rounded-[30px]"
+      from-app p-1 to-muted shadow-2xl animate-bounce border
+      shadow-fg-muted/40 border-muted rounded-[30px]"
         style={{ opacity: opacity / 100 }}
       />
     </div>

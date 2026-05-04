@@ -19,7 +19,7 @@ export default function Announcements() {
                 Supabase fixed a bug that caused the realtime subscriptions
                 triggers to not work. The<> </>
                 <a
-                  className="text-blue-700 underline"
+                  className="text-primary underline"
                   href="https://github.com/supabase/realtime/issues/268#issuecomment-1193184394"
                 >
                   issue

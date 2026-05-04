@@ -4,7 +4,7 @@ import { LoginInput } from "components";
 export default function Home() {
   return (
     <div className="flex grow">
-      <div className="hidden md:flex w-72 relative items-center justify-between bg-slate-900 flex-col text-white py-8 px-12">
+      <div className="hidden md:flex w-72 relative items-center justify-between bg-inverse flex-col text-fg-on-inverse py-8 px-12">
         <div>
           <h1 className="text-4xl font-medium">XT Brokers</h1>
 
