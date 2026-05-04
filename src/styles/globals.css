@@ -70,8 +70,8 @@
     --color-fg-on-primary: 255 255 255;
 
     /* Borders */
-    --color-border-default: 51 65 85;
-    --color-border-strong: 71 85 105;
+    --color-border-default: 30 41 59;
+    --color-border-strong: 51 65 85;
     --color-border-focus: 96 165 250;
 
     /* Primary (blue) */
@@ -110,7 +110,8 @@
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;
     scrollbar-width: thin !important;
-    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+    transition: background-color 150ms ease, color 150ms ease,
+      border-color 150ms ease;
     @apply m-0 p-0 font-inter;
   }
 
@@ -157,7 +158,6 @@
 }
 
 @layer components {
-
 }
 
 @layer utilities {

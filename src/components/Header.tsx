@@ -96,7 +96,7 @@ export default function Header() {
   if (!loggedIn) return null;
 
   return (
-    <nav className="relative h-14 md:px-6 md:h-16 flex px-4 py-2 z-50 justify-between items-center bg-inverse text-fg-on-inverse">
+    <nav className="relative h-14 md:px-6 md:h-16 flex px-4 py-2 z-50 justify-between items-center bg-slate-900 text-white">
       <Dropdown
         inline
         arrowIcon={false}
