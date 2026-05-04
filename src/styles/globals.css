@@ -5,11 +5,112 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Backgrounds */
+    --color-app: 248 250 252;
+    --color-surface: 255 255 255;
+    --color-surface-hover: 255 255 255;
+    --color-elevated: 255 255 255;
+    --color-muted: 241 245 249;
+    --color-muted-strong: 226 232 240;
+    --color-inverse: 15 23 42;
+    --color-overlay: 15 23 42;
+
+    /* Foregrounds */
+    --color-fg: 15 23 42;
+    --color-fg-muted: 71 85 105;
+    --color-fg-subtle: 148 163 184;
+    --color-fg-on-inverse: 255 255 255;
+    --color-fg-on-primary: 255 255 255;
+
+    /* Borders */
+    --color-border-default: 226 232 240;
+    --color-border-strong: 203 213 225;
+    --color-border-focus: 59 130 246;
+
+    /* Primary (blue) */
+    --color-primary: 29 78 216;
+    --color-primary-hover: 30 64 175;
+    --color-primary-ring: 147 197 253;
+    --color-primary-subtle-bg: 239 246 255;
+    --color-primary-subtle-fg: 29 78 216;
+
+    /* Success (green / gain) */
+    --color-success: 21 128 61;
+    --color-success-strong: 22 163 74;
+    --color-success-bg: 16 185 129;
+    --color-success-bg-hover: 5 150 105;
+
+    /* Danger (red / loss) */
+    --color-danger: 185 28 28;
+    --color-danger-strong: 220 38 38;
+    --color-danger-fg: 239 68 68;
+    --color-danger-hover: 153 27 27;
+    --color-danger-ring: 252 165 165;
+    --color-danger-subtle-bg: 254 242 242;
+    --color-danger-subtle-fg: 185 28 28;
+  }
+
+  .dark {
+    /* Backgrounds */
+    --color-app: 2 6 23;
+    --color-surface: 15 23 42;
+    --color-surface-hover: 30 41 59;
+    --color-elevated: 15 23 42;
+    --color-muted: 30 41 59;
+    --color-muted-strong: 51 65 85;
+    --color-inverse: 241 245 249;
+    --color-overlay: 0 0 0;
+
+    /* Foregrounds */
+    --color-fg: 248 250 252;
+    --color-fg-muted: 148 163 184;
+    --color-fg-subtle: 100 116 139;
+    --color-fg-on-inverse: 15 23 42;
+    --color-fg-on-primary: 255 255 255;
+
+    /* Borders */
+    --color-border-default: 51 65 85;
+    --color-border-strong: 71 85 105;
+    --color-border-focus: 96 165 250;
+
+    /* Primary (blue) */
+    --color-primary: 59 130 246;
+    --color-primary-hover: 96 165 250;
+    --color-primary-ring: 29 78 216;
+    --color-primary-subtle-bg: 23 37 84;
+    --color-primary-subtle-fg: 147 197 253;
+
+    /* Success (green / gain) */
+    --color-success: 74 222 128;
+    --color-success-strong: 134 239 172;
+    --color-success-bg: 5 150 105;
+    --color-success-bg-hover: 16 185 129;
+
+    /* Danger (red / loss) */
+    --color-danger: 248 113 113;
+    --color-danger-strong: 252 165 165;
+    --color-danger-fg: 248 113 113;
+    --color-danger-hover: 252 165 165;
+    --color-danger-ring: 127 29 29;
+    --color-danger-subtle-bg: 69 10 10;
+    --color-danger-subtle-fg: 252 165 165;
+  }
+
+  html {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
   * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;
     scrollbar-width: thin !important;
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
     @apply m-0 p-0 font-inter;
   }
 
@@ -33,24 +134,24 @@
   }
 
   body {
-    @apply overflow-x-hidden bg-slate-50;
+    @apply overflow-x-hidden bg-app text-fg;
   }
 
   @media (pointer: fine) {
     *::-webkit-scrollbar {
-      @apply bg-slate-50 h-2.5 w-2.5;
+      @apply bg-app h-2.5 w-2.5;
     }
 
     body::-webkit-scrollbar-thumb {
-      @apply bg-slate-900 hover:bg-slate-800;
+      @apply bg-inverse hover:bg-fg-muted;
     }
 
     *::-webkit-scrollbar-thumb {
-      @apply bg-slate-200 hover:bg-slate-300;
+      @apply bg-muted-strong hover:bg-border-strong;
     }
 
     *::-webkit-scrollbar-track {
-      @apply border border-slate-100;
+      @apply border border-muted;
     }
   }
 }
