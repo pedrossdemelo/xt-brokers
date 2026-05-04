@@ -14,10 +14,10 @@ export default function Transaction({ data }: Props) {
 
   return (
     <div
-      className="rounded-xl flex gap-3 text-sm border border-gray-200 p-3"
+      className="rounded-xl flex gap-3 text-sm border border-border-default p-3"
       id={`transaction-${data.id}`}
     >
-      <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+      <div className="h-10 w-10 rounded-full bg-muted-strong flex items-center justify-center">
         <GlobeAltIcon className="h-6 opacity-30" />
       </div>
 
@@ -31,9 +31,7 @@ export default function Transaction({ data }: Props) {
         <br />
 
         <span
-          className={`font-medium ${
-            data.venda ? "text-green-700" : "text-red-700"
-          }`}
+          className={`font-medium ${data.venda ? "text-gain" : "text-loss"}`}
         >
           R$ {(data.valor * factor).toFixed(2)}
         </span>

@@ -23,7 +23,7 @@ export default function UserPapers() {
         {!!userPapers.length && (
           <h2
             className={`text-right rounded pl-2 ${
-              hideMoney && "text-slate-100 select-none bg-slate-100"
+              hideMoney && "text-muted bg-muted select-none"
             }`}
           >
             R$ {portfolio.toFixed(2)}
@@ -34,8 +34,8 @@ export default function UserPapers() {
       <div className="relative">
         {!userPapers.length ? (
           <div
-            className="h-36 border text-gray-500/60 mx-4 text-sm font-medium
-            flex border-gray-200 rounded-xl items-center justify-center"
+            className="h-36 border text-fg-muted/60 mx-4 text-sm font-medium
+            flex border-border-default rounded-xl items-center justify-center"
           >
             <PresentationChartBarIcon className="absolute h-20 opacity-10 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
 
@@ -50,7 +50,7 @@ export default function UserPapers() {
             <button
               onClick={slideBy(-500)}
               className="touch:hidden absolute flex justify-center items-center bg-opacity-10
-            h-10 w-10 rounded-full bg-slate-900 left-4 top-1/2 -translate-y-1/2 hover:bg-opacity-30 transition"
+            h-10 w-10 rounded-full bg-inverse left-4 top-1/2 -translate-y-1/2 hover:bg-opacity-30 transition"
             >
               <ArrowLeftIcon className="h-6" />
             </button>
@@ -64,7 +64,7 @@ export default function UserPapers() {
             <button
               onClick={slideBy(500)}
               className="touch:hidden absolute flex justify-center items-center bg-opacity-10
-            h-10 w-10 rounded-full bg-slate-900 right-4 top-1/2 -translate-y-1/2 hover:bg-opacity-30 transition"
+            h-10 w-10 rounded-full bg-inverse right-4 top-1/2 -translate-y-1/2 hover:bg-opacity-30 transition"
             >
               <ArrowRightIcon className="h-6" />
             </button>

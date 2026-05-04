@@ -32,12 +32,12 @@ export default function CarouselPaper({ data }: Props) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0.25, scale: 0.95 }}
       transition={{ duration: 0.75 }}
-      className="border-gray-200 hover:bg-white hover:shadow-md p-3 rounded-xl text-sm border shrink-0 w-52
+      className="border-border-default hover:bg-surface-hover hover:shadow-md p-3 rounded-xl text-sm border shrink-0 w-52
       text-left flex flex-col items-stretch justify-between transition overflow-visible"
     >
       <div className="flex gap-3 items-center overflow-hidden">
         <div
-          className="h-10 w-10 rounded-full shrink-0 bg-gray-200 flex
+          className="h-10 w-10 rounded-full shrink-0 bg-muted-strong flex
           items-center justify-center"
         >
           <GlobeAltIcon className="h-6 opacity-30" />
@@ -49,7 +49,7 @@ export default function CarouselPaper({ data }: Props) {
 
             <span
               className={`text-[11px] h-full relative inline-block bottom-px ml-1 ${
-                data.variacao > 0 ? "text-green-700" : "text-red-700"
+                data.variacao > 0 ? "text-gain" : "text-loss"
               }`}
             >
               {data.variacao > 0 ? (
@@ -71,7 +71,7 @@ export default function CarouselPaper({ data }: Props) {
       <div className="mt-3">
         <div
           className={`font-semibold text-xl ${
-            data.variacao > 0 ? "text-green-700" : "text-red-700"
+            data.variacao > 0 ? "text-gain" : "text-loss"
           }`}
         >
           <span>R$ {data.valor}</span>

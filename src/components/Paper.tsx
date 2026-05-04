@@ -34,11 +34,11 @@ export default function Paper({ data, personal = false }: Props) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0.25, scale: 0.95 }}
       transition={{ duration: 0.75 }}
-      className="border-gray-200 transition-all hocus:shadow-md hocus:bg-white
+      className="border-border-default transition-all hocus:shadow-md hocus:bg-surface-hover
       p-3 rounded-xl text-sm border group flex justify-between items-center"
     >
       <div className="flex gap-3 items-center text-left">
-        <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+        <div className="h-10 w-10 rounded-full bg-muted-strong flex items-center justify-center">
           <GlobeAltIcon className="h-6 opacity-30" />
         </div>
 
@@ -52,7 +52,7 @@ export default function Paper({ data, personal = false }: Props) {
 
             <span
               className={`text-[11px] h-full relative inline-block bottom-px ml-1 ${
-                data.variacao > 0 ? "text-green-700" : "text-red-700"
+                data.variacao > 0 ? "text-gain" : "text-loss"
               }`}
             >
               {data.variacao > 0 ? (
@@ -74,7 +74,7 @@ export default function Paper({ data, personal = false }: Props) {
       <div className="text-right">
         <div
           className={`font-semibold line-clamp-1 ${
-            data.variacao > 0 ? "text-green-700" : "text-red-700"
+            data.variacao > 0 ? "text-gain" : "text-loss"
           }`}
         >
           <span>
