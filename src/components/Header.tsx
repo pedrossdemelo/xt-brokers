@@ -2,21 +2,46 @@ import {
   CashIcon,
   CodeIcon,
   CollectionIcon,
+  DesktopComputerIcon,
   EyeIcon,
   EyeOffIcon,
   LogoutIcon,
   MenuAlt2Icon,
+  MoonIcon,
+  SunIcon,
   UserIcon,
   ViewGridIcon,
 } from "@heroicons/react/solid";
+import { Theme } from "context/ThemeContext";
 import { Dropdown } from "flowbite-react";
-import { useUserData } from "hooks";
+import { useTheme, useUserData } from "hooks";
 import { useNavigate } from "react-router-dom";
+
+const THEME_CYCLE: Theme[] = ["system", "light", "dark"];
+
+const THEME_LABELS: Record<Theme, string> = {
+  system: "System",
+  light: "Light",
+  dark: "Dark",
+};
+
+function ThemeIcon({
+  theme,
+  resolvedTheme,
+}: {
+  theme: Theme;
+  resolvedTheme: "light" | "dark";
+}) {
+  if (theme === "system") return <DesktopComputerIcon className="h-6" />;
+  if (resolvedTheme === "dark") return <MoonIcon className="h-6" />;
+  return <SunIcon className="h-6" />;
+}
 
 function useHeader() {
   const { user, loggedIn, funds, logout, hideMoney, setHideMoney } =
     useUserData();
   const navigate = useNavigate();
+  const { theme, resolvedTheme, setTheme } = useTheme();
 
   function goToFunds() {
     navigate("/funds");
@@ -30,6 +55,12 @@ function useHeader() {
     navigate("/transactions");
   }
 
+  function cycleTheme() {
+    const idx = THEME_CYCLE.indexOf(theme);
+    const next = THEME_CYCLE[(idx + 1) % THEME_CYCLE.length];
+    setTheme(next);
+  }
+
   return {
     loggedIn,
     goToFunds,
@@ -40,6 +71,9 @@ function useHeader() {
     toggleFunds: () => setHideMoney(!hideMoney),
     user,
     logout,
+    theme,
+    resolvedTheme,
+    cycleTheme,
   };
 }
 
@@ -54,12 +88,15 @@ export default function Header() {
     toggleFunds,
     loggedIn,
     user,
+    theme,
+    resolvedTheme,
+    cycleTheme,
   } = useHeader();
 
   if (!loggedIn) return null;
 
   return (
-    <nav className="relative h-14 md:px-6 md:h-16 flex px-4 py-2 z-50 justify-between items-center bg-slate-900 text-white">
+    <nav className="relative h-14 md:px-6 md:h-16 flex px-4 py-2 z-50 justify-between items-center bg-inverse text-fg-on-inverse">
       <Dropdown
         inline
         arrowIcon={false}
@@ -114,12 +151,20 @@ export default function Header() {
           </a>
         </Dropdown.Item>
 
+        <Dropdown.Item onClick={cycleTheme}>
+          <div id="theme-toggle" className="flex gap-2 items-center mr-2">
+            <ThemeIcon theme={theme} resolvedTheme={resolvedTheme} />
+
+            <span className="ml-2">Theme: {THEME_LABELS[theme]}</span>
+          </div>
+        </Dropdown.Item>
+
         <Dropdown.Divider />
 
         <Dropdown.Item onClick={logout}>
           <div
             id="logout-link"
-            className="flex gap-2 items-center text-red-700 mr-2"
+            className="flex gap-2 items-center text-danger mr-2"
           >
             <LogoutIcon className="h-6" />
 
@@ -130,7 +175,7 @@ export default function Header() {
 
       <div
         className={`text-center -mb-0.5 px-2 rounded ${
-          !showFunds && "text-slate-800 bg-slate-800 select-none"
+          !showFunds && "text-muted-strong bg-muted-strong select-none"
         }`}
         aria-hidden={!showFunds}
         id="funds"
