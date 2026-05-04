@@ -82,10 +82,10 @@ export default function Funds() {
             id="fund-amount"
             className={`${
               tab === "withdraw"
-                ? "focus:border-red-600"
-                : "focus:border-blue-600"
+                ? "focus:border-danger-strong"
+                : "focus:border-primary"
             } block rounded-t-lg pr-4 pl-16 pb-3 pt-9 w-full text-3xl
-            font-semibold bg-slate-200 border-0 border-b-2 border-slate-400
+            font-semibold bg-muted-strong border-0 border-b-2 border-border-strong
             appearance-none focus:outline-none focus:ring-0 transition
             peer`}
             value={amount}
@@ -107,8 +107,8 @@ export default function Funds() {
       </div>
 
       <div
-        className="px-4 py-2 flex gap-2 [&>*]:grow [&>*]:bg-slate-200
-        font-medium text-slate-500"
+        className="px-4 py-2 flex gap-2 [&>*]:grow [&>*]:bg-muted-strong
+        font-medium text-fg-muted"
       >
         <button
           onClick={addAmount(50)}
@@ -145,8 +145,9 @@ export default function Funds() {
 
       <button
         type="button"
-        className={`text-white h-12 bg-blue-700 mx-4 transition hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 focus:outline-none disabled:opacity-25 ${
-          tab === "withdraw" && "bg-red-700 hover:bg-red-800 focus:ring-red-300"
+        className={`text-fg-on-primary h-12 bg-primary mx-4 transition hover:bg-primary-hover focus:ring-4 focus:ring-primary-ring font-medium rounded-lg text-lg px-5 py-2.5 focus:outline-none disabled:opacity-25 ${
+          tab === "withdraw" &&
+          "bg-danger-strong hover:bg-danger-hover focus:ring-danger-ring"
         }`}
         disabled={
           loading || (tab === "withdraw" && amount > funds) || amount == 0

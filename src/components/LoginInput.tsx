@@ -122,13 +122,13 @@ export default function LoginInput() {
     <>
       <form
         className="flex flex-col gap-4 p-8 lg:gap-6 lg:p-12 shadow-lg max-w-md
-          md:max-w-xl w-full rounded-lg bg-white"
+          md:max-w-xl w-full rounded-lg bg-surface"
         onSubmit={handleSubmit}
       >
         <div>
           <h1 className="text-2xl">Welcome to XT Brokers.</h1>
 
-          <p className="text-gray-500 text-sm">
+          <p className="text-fg-muted text-sm">
             {loggedDate
               ? `Last login at ${loggedDate.toLocaleDateString()} ${loggedDate.toLocaleTimeString()}`
               : "Log in to continue"}
@@ -137,11 +137,11 @@ export default function LoginInput() {
 
         <div>
           <div className="mb-2 flex justify-between items-end text-sm">
-            <label className="text-gray-500" htmlFor="email-input">
+            <label className="text-fg-muted" htmlFor="email-input">
               Email
             </label>
 
-            <p role="alert" className="text-red-500">
+            <p role="alert" className="text-danger-fg">
               {errorEmail}
             </p>
           </div>
@@ -158,11 +158,11 @@ export default function LoginInput() {
 
         <div>
           <div className="mb-2 flex gap-2 justify-between items-end text-sm">
-            <label className="text-gray-500" htmlFor="password-input">
+            <label className="text-fg-muted" htmlFor="password-input">
               Password
             </label>
 
-            <p role="alert" className="text-red-500 text-right">
+            <p role="alert" className="text-danger-fg text-right">
               {errorPassword}
             </p>
           </div>
@@ -181,8 +181,8 @@ export default function LoginInput() {
             type="submit"
             onClick={() => (isLogin.current = true)}
             id="login-button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4
-            focus:ring-blue-300 font-medium rounded-lg px-5 py-3.5 mr-2 mb-2
+            className="text-fg-on-primary bg-primary hover:bg-primary-hover focus:ring-4
+            focus:ring-primary-ring font-medium rounded-lg px-5 py-3.5 mr-2 mb-2
             focus:outline-none w-full font-poppins transition"
           >
             Login
@@ -192,8 +192,8 @@ export default function LoginInput() {
             type="submit"
             onClick={() => (isLogin.current = false)}
             id="signup-button"
-            className="text-white bg-emerald-500 hover:bg-emerald-600 focus:ring-4
-            focus:ring-blue-300 font-medium rounded-lg px-5 py-3.5 ml-2 mb-2
+            className="text-fg-on-primary bg-success-bg hover:bg-success-bg-hover focus:ring-4
+            focus:ring-primary-ring font-medium rounded-lg px-5 py-3.5 ml-2 mb-2
             focus:outline-none w-full font-poppins transition"
           >
             Sign up
