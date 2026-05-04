@@ -17,7 +17,7 @@
 
   <p>
     <strong>A <em>Realtime</em> Stock Trading simulation app</strong><br>
-    <a href="https://xt-brokers.vercel.app">xt-brokers.vercel.app</a>
+    <a href="https://xtbrokers.pedrosousa.dev">xtbrokers.pedrosousa.dev</a>
   </p>
 
   <br>
